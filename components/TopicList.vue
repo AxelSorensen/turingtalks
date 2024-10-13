@@ -2,9 +2,9 @@
 
     <div class="flex overflow-y-scroll w-full gap-4 flex-col ">
         <div v-for="topic in ordered_topics.slice(0, limit || ordered_topics.length)">
-            <div class="flex rounded-md bg-gray-100 p-2 justify-between">
+            <div class="flex rounded-md bg-orange-200 p-2 justify-between">
                 <h2>{{ topic.name }}</h2>
-                <div class="flex gap-2">
+                <div class="flex gap-2 items-center">
                     <p>{{ topic.votes }}</p>
                     <button @click="addVote(topic.id)">^</button>
                 </div>

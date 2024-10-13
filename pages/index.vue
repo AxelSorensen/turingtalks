@@ -11,30 +11,30 @@
             <PostSuggestion />
         </div>
         <div class="px-4 pt-2">
-            <h2 class="pb-2 text-xl">Featured talks</h2>
-            <Cards :items="featured_episodes" :limit="featured_limit" />
+            <h2 class="pb-2 text-xl text-[#572D29]">Featured talks</h2>
+            <Cards :items="episodes" :limit="featured_limit" />
             <div v-if="featured_limit == 2" @click="showMoreTalks"
-                class="text-center hover:text-purple-700 cursor-pointer pt-2 text-sm text-purple-500">
+                class="text-center hover:text-black cursor-pointer pt-2 text-sm text-[#572D29]">
                 See more
             </div>
             <NuxtLink to="/catalogue" v-else @click="showMoreSuggested">
                 <div
-                    class="text-center hover:text-purple-700 rounded-sm bg-purple-100 p-2 mt-2 cursor-pointer pt-2 text-sm text-purple-500">
+                    class="text-center hover:text-black  rounded-sm  p-2 mt-2 cursor-pointer pt-2 text-sm text-[#572D29]">
                     See all episodes
                 </div>
             </NuxtLink>
         </div>
 
         <div class="flex px-4 p-2 justify-start  flex-col">
-            <h2 class="pb-2 text-xl">Suggested topics</h2>
+            <h2 class="pb-2 text-[#572D29] text-xl">Suggested topics</h2>
             <TopicList :limit="suggested_limit" />
             <div v-if="suggested_limit == 3" @click="showMoreSuggested"
-                class="text-center hover:text-purple-700 cursor-pointer pt-2 text-sm text-purple-500">
+                class="text-center hover:text-black cursor-pointer pt-2 text-sm text-[#572D29]">
                 See more
             </div>
-            <NuxtLink to="/catalogue" v-else @click="showMoreSuggested">
+            <NuxtLink to="/upcoming" v-else @click="showMoreSuggested">
                 <div
-                    class="text-center hover:text-purple-700 rounded-sm bg-purple-100 p-2 mt-2 cursor-pointer pt-2 text-sm text-purple-500">
+                    class="text-center hover:text-black rounded-sm  p-2 mt-2 cursor-pointer pt-2 text-sm text-[#572D29]">
                     See all suggested topics
                 </div>
             </NuxtLink>
@@ -46,31 +46,16 @@
 </template>
 
 <script setup>
+
+import { collection } from 'firebase/firestore';
+
+
+const db = useFirestore()
+const colRef = collection(db, 'episodes')
+const episodes = useCollection(colRef)
 // const topics = ref([{ name: 'About superposition', votes: 10 }])
 // come up with featured episodes 3 of them
-const featured_episodes = ref([
-    {
-        name: 'About superposition',
-        description: 'A talk about superposition. This episode delves into the fascinating concept of superposition in quantum mechanics. We explore how particles can exist in multiple states at once. The discussion includes real-world applications and implications. Experts share their insights on the future of quantum technologies. Tune in to understand the mysteries of the quantum world.',
-        id: 1
-    },
-    {
-        name: 'Quantum Computing',
-        description: 'A talk about quantum computing. This episode covers the basics and advancements in quantum computing. We discuss how quantum computers differ from classical ones. The potential impact on various industries is explored. Experts provide their perspectives on current research and future developments. Learn about the challenges and opportunities in this cutting-edge field.',
-        id: 2
-    },
-    {
-        name: 'Quantum Cryptography',
-        description: 'A talk about quantum cryptography. This episode explains the principles of quantum cryptography. We discuss how it promises unbreakable encryption. The conversation includes potential applications in cybersecurity. Experts weigh in on the current state of research. Discover the future of secure communication in the quantum era.',
-        id: 3
-    },
-    {
-        name: 'Quantum Sensing',
-        description: 'A talk about quantum sensing. This episode explores the field of quantum sensing. We delve into the principles behind quantum sensors. The discussion includes applications in various domains. Experts share their insights on the latest developments and future prospects. Tune in to learn about the cutting-edge technologies in quantum sensing.',
-        id: 4
-    },
 
-])
 
 const showMoreTalks = () => {
     featured_limit.value = 8

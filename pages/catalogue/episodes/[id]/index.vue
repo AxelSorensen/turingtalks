@@ -8,8 +8,15 @@
 
                 </div>
                 <div class="flex flex-col">
-                    <h4 class="font-medium">Summary:</h4>
-                    <p v-html="episode.description" class="text-sm"></p>
+                    <div @click="summary_open = !summary_open"
+                        class="flex text-gray-500 items-center hover:text-black rounded-md cursor-pointer">
+                        <h2 class=" font-medium">Summary</h2>
+                        <div class=" flex mt-[1px]">
+                        </div>
+                        <ChevronLeft :class="[summary_open ? 'rotate-180' : null]" class="text-lg mt-[2px]" />
+                    </div>
+                    <p :class="[summary_open ? null : 'line-clamp-3']" v-html="episode.description" class="text-sm"></p>
+
                 </div>
             </div>
             <div class="flex justify-center pt-4">
@@ -17,7 +24,7 @@
             </div>
             <div class="my-4 mb-24">
                 <div class=" gap-2 flex justify-between items-center">
-                    <div @click="showSources"
+                    <div @click="sources_open = !sources_open"
                         class="flex text-gray-500 items-center hover:text-black rounded-md cursor-pointer">
                         <h2 class=" font-medium">Sources</h2>
                         <div class=" flex mt-[1px]">
@@ -84,11 +91,7 @@ import Link from '~icons/heroicons/link-16-solid'
 import { ref as storageRef } from 'firebase/storage'
 import { doc, addDoc, collection } from 'firebase/firestore';
 const sources_open = ref(false)
-
-const showSources = () => {
-    sources_open.value = !sources_open.value
-}
-
+const summary_open = ref(false)
 const liked = ref(false)
 
 

@@ -1,7 +1,7 @@
 <template>
     <NuxtLayout name="custom">
 
-        <div class="h-full grid mx-auto grid-rows-[auto,auto,auto] max-w-[800px] w-full">
+        <div class="h-full w-full grid mx-auto grid-rows-[auto,auto,auto]">
             <div class="p-8">
                 <h1 class="text-2xl  pb-4 text-center">Next Episode Drops In</h1>
                 <div v-if="!countdown" class="text-center animate-pulse font-bold text-5xl">
@@ -9,11 +9,11 @@
                 </div>
                 <div v-else class="text-center font-bold text-5xl"> {{ countdown }}</div>
             </div>
-            <div class="flex px-2 flex-col  items-center">
+            <div class="flex flex-col  items-center">
                 <h2 class="sm:text-3xl text-2xl font-bold">What should we cover next?</h2>
                 <PostSuggestion />
             </div>
-            <div class="flex px-4 p-2 justify-start  flex-col">
+            <div class="flex justify-start  flex-col">
                 <h2 class="pb-2 text-xl">Suggested topics</h2>
                 <TopicList />
 
