@@ -5,11 +5,11 @@
             <header>The Turing Talks</header>
         </NuxtLink>
         <div class="flex gap-4 items-center">
-            <NuxtLink class="hover:bg-black bg-stone-600 rounded-md px-2 text-white p-1 text-sm" to="/catalogue">
+            <NuxtLink class="hover:bg-stone-900 bg-stone-700 rounded-md px-2 text-white p-1 text-sm" to="/catalogue">
                 Listen
                 now
             </NuxtLink>
-            <Menu class="text-xl sm:hidden text-stone-600" />
+            <Menu class="text-xl sm:hidden text-stone-800" />
             <NuxtLink class="text-sm hidden sm:flex hover:bg-stone-200 rounded-md  p-1 px-2" to="/upcoming">Upcoming
             </NuxtLink>
         </div>

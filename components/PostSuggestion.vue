@@ -6,7 +6,7 @@
         <div class="flex flex-col gap-2 pb-2">
             <!-- <div class="text-center">A podcast about...</div> -->
 
-            <input class="w-full p-2 text-stone-700 placeholder-stone-400 rounded-md bg-stone-200" type="text"
+            <input class="w-full p-2 text-stone-900 placeholder-stone-400 rounded-md bg-stone-200" type="text"
                 placeholder="Write your suggestion (e.g. AI's effect on climate change)" v-model="data.name">
         </div>
         <!-- <div class="relative flex items-center pt-4 pb-2">
@@ -42,7 +42,8 @@
             </div>
         </div> -->
 
-        <button v-if="data.name" class="p-2 bg-stone-600 rounded-md text-white" @click="postSuggestion">Post
+        <button v-if="data.name" class="p-2 bg-stone-700 hover:bg-stone-900 rounded-md text-white"
+            @click="postSuggestion">Post
             suggestion</button>
     </div>
 </template>

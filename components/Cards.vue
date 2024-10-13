@@ -1,18 +1,28 @@
 <template>
-    <div class="grid grid-cols-2 gap-2">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
         <NuxtLink v-if="ordered_items.length > 2" v-for="(item, index) in ordered_items.slice(0, limit || items.length)"
             :key="item.id" :style="{ backgroundColor: colorPalette[index % colorPalette.length] }"
-            class="hover:opacity-80 p-4 rounded-md flex-grow" :to="`catalogue/episodes/${item.id}`">
-            <h2 class="text-lg truncate font-medium leading-6">{{ item.title }}</h2>
-            <p class="text-sm pb-2 text-black text-opacity-40">{{ new Date(item?.date?.seconds *
-                1000).toLocaleDateString('en-GB', {
-                    day: '2-digit', month: 'short', year: 'numeric'
-                }).replace(',', '') }}</p>
-            <p v-html="item.description" class="break-all text-sm line-clamp-4"></p>
+            class="hover:opacity-80 p-4 rounded-md h-[11rem] grid grid-rows-[1fr,auto]"
+            :to="`catalogue/episodes/${item.id}`">
+            <div class="flex items-start gap-4 justify-between">
+                <h2 class="text-lg line-clamp-2 font-medium leading-6">{{ item.title }}</h2>
+
+                <div class="flex text-sm items-center text-stone-900 gap-1">
+                    <!-- <p class="text-sm text-black text-opacity-40">Published {{ new Date(item?.date?.seconds *
+                        1000).toLocaleDateString('en-GB', {
+                            day: '2-digit', month: 'short', year: 'numeric'
+                        }).replace(',', '') }}</p>- -->
+                    <p class="whitespace-nowrap text-right">{{ item.duration }} minutes</p>
+                    <Clock class="text-sm" />
+                </div>
+            </div>
+            <p v-html="item.description" class="break-all text-sm pt-2 line-clamp-4"></p>
+
         </NuxtLink>
+
         <div v-else v-for="(item, index) in [1, 2]"
-            class="h-[164px] flex justify-center items-center animate-pulse bg-stone-200 rounded-md">
+            class="h-[12rem] flex justify-center items-center animate-pulse bg-stone-200 rounded-md">
 
             <Spinner />
         </div>
@@ -21,7 +31,7 @@
 
 <script setup>
 
-
+import Clock from '~icons/heroicons/clock-16-solid'
 // Define and import props
 const props = defineProps({
     items: Array,

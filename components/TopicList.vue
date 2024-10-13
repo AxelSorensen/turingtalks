@@ -2,11 +2,13 @@
 
     <div class="flex overflow-y-scroll w-full gap-4 flex-col ">
         <div v-for="topic in ordered_topics.slice(0, limit || ordered_topics.length)">
-            <div class="flex rounded-md bg-[#f5d8be] p-2 justify-between">
-                <h2>{{ topic.name }}</h2>
+            <div class="flex text-stone-900 rounded-md bg-[#ebd9c6] p-2 justify-between">
+                <h2 class="">{{ topic.name }}</h2>
                 <div class="flex gap-2 items-center">
-                    <p>{{ topic.votes }}</p>
-                    <button @click="addVote(topic.id)">^</button>
+                    <p class="">{{ topic.votes }}</p>
+                    <button @click="addVote(topic.id)">
+                        <ChevronUp class="text-xl" />
+                    </button>
                 </div>
 
             </div>
@@ -19,6 +21,7 @@
 const props = defineProps({
     limit: Number
 })
+import ChevronUp from '~icons/heroicons/chevron-up-16-solid'
 
 import { useTimeAgo } from '@vueuse/core';
 import { collection, onSnapshot, getDoc, setDoc, doc } from 'firebase/firestore';

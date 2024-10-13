@@ -59,10 +59,7 @@
                         </div>
                     </a>
                 </div>
-
             </div>
-
-
             <div class="grid grid-rows-[auto,auto,1fr] h-full grid-cols-1">
                 <div>
                     <h3 class=" text-sm pb-2 font-medium">Join the discussion</h3>
@@ -73,8 +70,6 @@
                     <CommentSection :colRef="colRef" />
                 </div>
             </div>
-
-
         </div>
     </NuxtLayout>
 </template>
