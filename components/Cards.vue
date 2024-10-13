@@ -2,9 +2,9 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
         <NuxtLink v-if="ordered_items.length > 2" v-for="(item, index) in ordered_items.slice(0, limit || items.length)"
-            :key="item.id" :style="{ backgroundColor: colorPalette[index % colorPalette.length] }"
+            :key="item.id" :class="`bg-[${colors[index]}]`"
             class="hover:opacity-80 p-4 rounded-md h-[11rem] grid grid-rows-[1fr,auto]"
-            :to="`catalogue/episodes/${item.id}`">
+            :to="{ path: `catalogue/episodes/${item.id}`, query: { color: colors[index] } }">
             <div class="flex items-start gap-4 justify-between">
                 <h2 class="text-lg line-clamp-2 font-medium leading-6">{{ item.title }}</h2>
 
@@ -17,7 +17,7 @@
                     <Clock class="text-sm" />
                 </div>
             </div>
-            <p v-html="item.description" class="break-all text-sm pt-2 line-clamp-4"></p>
+            <p v-html="item.description" class="break-words text-sm pt-2 line-clamp-4"></p>
 
         </NuxtLink>
 
@@ -35,10 +35,9 @@ import Clock from '~icons/heroicons/clock-16-solid'
 // Define and import props
 const props = defineProps({
     items: Array,
-    limit: Number
+    limit: Number,
+    colors: Array,
 })
-
-const colorPalette = ['#A3A7FC', '#F1B2D8', '#F6D78B', '#C6D0BC']
 
 const { items } = toRefs(props)
 

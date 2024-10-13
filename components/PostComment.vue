@@ -6,8 +6,9 @@
         <div class="flex text-sm gap-2 justify-between">
             <div :class="{ 'text-red-500': new_comment.length == ch_limit }" class="text-xs">{{ new_comment.length }} /
                 {{ ch_limit }} characters</div>
-            <button @click="postComment" :class="[new_comment.length ? 'bg-opacity-100' : 'bg-opacity-50']"
-                class="bg-stone-600 text-white rounded-sm p-2">Post comment</button>
+            <button @click="postComment"
+                :class="[new_comment.length ? 'bg-opacity-100 hover:bg-stone-900' : 'bg-opacity-50 pointer-events-none']"
+                class="bg-stone-700 text-white rounded-sm p-2">Post comment</button>
         </div>
     </div>
 </template>

@@ -1,10 +1,10 @@
 <template>
-    <div class="grid grid-cols-2 auto-rows-fr gap-2">
+    <div class="grid grid-cols-2 sm:grid-cols-4 grid-rows-1 auto-rows-fr gap-2">
 
-        <NuxtLink v-if="ordered_items.length > 2" v-for="(item, index) in ordered_items.slice(0, limit || items.length)"
-            :key="item.id" :style="{ backgroundColor: colorPalette[index % colorPalette.length] }"
+        <NuxtLink v-if="ordered_items.length > 2" v-for="(item, index) in ordered_items.slice(0, 4 || items.length)"
+            :key="item.id" :class="`bg-[${colors[index]}]`"
             class="hover:opacity-80 p-4 flex flex-col text-stone-900 justify-between h-28 relative rounded-md flex-grow"
-            :to="`catalogue/episodes/${item.id}`">
+            :to="{ path: `catalogue/episodes/${item.id}`, query: { color: colors[index] } }">
             <div>
                 <h2 class="text-lg line-clamp-2 font-medium leading-6">{{ item.title }}</h2>
             </div>
@@ -14,7 +14,7 @@
                 <Clock class="text-sm" />
             </div>
         </NuxtLink>
-        <div v-else v-for="(item, index) in [1, 2]"
+        <div v-else v-for="(item, index) in [1, 2, 3, 4]"
             class="h-28 flex justify-center items-center animate-pulse bg-stone-200 rounded-md">
 
             <Spinner />
@@ -28,7 +28,8 @@
 // Define and import props
 const props = defineProps({
     items: Array,
-    limit: Number
+    limit: Number,
+    colors: Array,
 })
 
 import Clock from '~icons/heroicons/clock-16-solid'

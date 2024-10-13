@@ -1,13 +1,13 @@
 <template>
     <NuxtLayout name="custom">
 
-        <div class="h-full w-full grid mx-auto grid-rows-[auto,auto,auto]">
+        <div class="h-full w-full text-stone-900 grid mx-auto grid-rows-[auto,auto,auto]">
             <div class="p-8">
                 <h1 class="text-2xl  pb-4 text-center">Next Episode Drops In</h1>
-                <div v-if="!countdown" class="text-center animate-pulse font-bold text-5xl">
+                <div v-if="!countdown" class="text-center animate-pulse font-bold text-4xl">
                     Loading...
                 </div>
-                <div v-else class="text-center font-bold text-5xl"> {{ countdown }}</div>
+                <div v-else class="text-center font-bold text-4xl"> {{ countdown }}</div>
             </div>
             <div class="flex flex-col  items-center">
                 <h2 class="sm:text-3xl text-2xl font-bold">What should we cover next?</h2>

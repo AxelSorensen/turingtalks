@@ -6,8 +6,10 @@
         <div class="flex flex-col gap-2 pb-2">
             <!-- <div class="text-center">A podcast about...</div> -->
 
-            <input class="w-full p-2 text-stone-900 placeholder-stone-400 rounded-md bg-stone-200" type="text"
-                placeholder="Write your suggestion (e.g. AI's effect on climate change)" v-model="data.name">
+            <input
+                class="w-full outline-stone-700 p-2 max-w-[500px] mx-auto text-stone-900 placeholder-stone-400 rounded-md bg-stone-200"
+                type="text" placeholder="Write your suggestion (e.g. AI's effect on climate change)"
+                v-model="data.name">
         </div>
         <!-- <div class="relative flex items-center pt-4 pb-2">
             <div class="flex-grow border-t border-gray-400"></div>

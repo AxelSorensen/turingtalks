@@ -9,35 +9,50 @@
         </div>
         <Cog />
         <div class="flex px-2 flex-col  items-center">
-            <h2 class="sm:text-3xl text-2xl text-stone-900  font-bold">What should we cover next?</h2>
+            <h2 class="sm:text-3xl text-2xl text-stone-900 pb-2 font-bold">What should we cover next?</h2>
             <PostSuggestion />
 
         </div>
         <div class="px-4 pt-2">
             <h2 class="pb-2 text-xl text-stone-900 ">Featured talks</h2>
-            <SimpleCards :items="episodes" :limit="featured_limit" />
+            <SimpleCards :items="episodes" :colors="colors" :limit="featured_limit" />
             <div v-if="featured_limit == 2" @click="showMoreTalks"
-                class="text-center items-center flex justify-center hover:text-stone-900 cursor-pointer pt-4 text-sm text-stone-500">
+                class="text-center items-center flex justify-center hover:text-stone-900 cursor-pointer pt-4 text-sm text-stone-700">
                 <p>See More</p>
                 <ChevronDown class="text-lg mt-[1px]" />
             </div>
 
             <NuxtLink to="/catalogue" v-else @click="showMoreTalks">
-                <div class="text-center hover:text-stone-900  rounded-sm  cursor-pointer pt-4 text-sm text-stone-500">
+                <div class="text-center hover:text-stone-700  rounded-sm  cursor-pointer pt-4 text-sm text-stone-500">
                     See all episodes
                 </div>
             </NuxtLink>
         </div>
 
-        <div class="flex px-4 p-2 justify-start  flex-col">
+        <div class="flex px-4 p-2 pb-8 justify-start  flex-col">
             <h2 class="pb-2 text-stone-900 text-xl">Suggested topics</h2>
             <TopicList :limit="suggested_limit" />
 
             <NuxtLink to="/upcoming" @click="showMoreSuggested">
-                <div class="text-center hover:text-stone-900 rounded-sm cursor-pointer pt-4 text-sm text-stone-500">
+                <div class="text-center hover:text-stone-900 rounded-sm cursor-pointer pt-4 text-sm text-stone-700">
                     See all suggested topics
                 </div>
             </NuxtLink>
+
+        </div>
+        <div class="flex w-full px-4 max-w-[500px] mx-auto p-2 pb-8 justify-start  flex-col">
+
+            <button
+                class="p-2 w-full flex justify-center gap-2 items-center bg-stone-900 text-white hover:bg-stone-900 rounded-md"
+                @click="subscribe">
+
+                <p>
+                    Listen
+                    to a Random Episode
+                </p>
+                <Dice class="text-white text-lg" />
+            </button>
+
 
         </div>
 
@@ -48,8 +63,8 @@
 <script setup>
 import ChevronDown from '~icons/heroicons/chevron-down-16-solid'
 import { collection } from 'firebase/firestore';
-
-
+import Dice from '~icons/mdi/dice'
+const colors = ['#A3A7FC', '#F1B2D8', '#F6D78B', '#C6D0BC']
 const db = useFirestore()
 const colRef = collection(db, 'episodes')
 const episodes = useCollection(colRef)

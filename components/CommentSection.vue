@@ -1,9 +1,9 @@
 <template>
 
-    <div class="flex h-full flex-col gap-2 text-xs">
-        <div class="p-2 gap-4 flex items-center" v-for="comment in ordered_comments">
+    <div class="flex h-full flex-col gap-4 text-xs">
+        <div class=" gap-4 flex items-center" v-for="comment in ordered_comments">
 
-            <div class="w-8 h-8 aspect-square bg-red-500 text-white justify-center items-center flex rounded-full">
+            <div class="w-8 h-8 aspect-square bg-stone-600 text-white justify-center items-center flex rounded-full">
                 {{
                     comment.user[0] }}</div>
 
