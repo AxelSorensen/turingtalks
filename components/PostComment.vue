@@ -1,12 +1,13 @@
 <template>
     <div>
-        <textarea :maxlength="ch_limit" v-model="new_comment" class="bg-gray-100 text-xs w-full p-2" rows="4"
+        <textarea :maxlength="ch_limit" v-model="new_comment"
+            class="bg-stone-200 rounded-md resize-none text-xs w-full p-2" rows="4"
             placeholder="Type a comment"></textarea>
         <div class="flex text-sm gap-2 justify-between">
             <div :class="{ 'text-red-500': new_comment.length == ch_limit }" class="text-xs">{{ new_comment.length }} /
                 {{ ch_limit }} characters</div>
             <button @click="postComment" :class="[new_comment.length ? 'bg-opacity-100' : 'bg-opacity-50']"
-                class="bg-blue-500 text-white p-2">Post comment</button>
+                class="bg-stone-600 text-white rounded-sm p-2">Post comment</button>
         </div>
     </div>
 </template>

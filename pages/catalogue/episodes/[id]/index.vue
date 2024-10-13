@@ -7,9 +7,8 @@
                     <h1 class="text-2xl  font-bold pb-2">{{ episode.title }}</h1>
 
                 </div>
-                <div class="flex flex-col">
-                    <div @click="summary_open = !summary_open"
-                        class="flex text-gray-500 items-center hover:text-black rounded-md cursor-pointer">
+                <div @click="summary_open = !summary_open" class="flex flex-col">
+                    <div class="flex text-gray-500 items-center hover:text-black rounded-md cursor-pointer">
                         <h2 class=" font-medium">Summary</h2>
                         <div class=" flex mt-[1px]">
                         </div>
