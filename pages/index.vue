@@ -3,12 +3,15 @@
     <div class="grid max-w-[800px] mx-auto grid-rows-[auto,auto,auto,] h-full grid-cols-1 justify-center items-center">
         <div class="flex flex-col items-center p-8">
             <h1 class="sm:text-5xl text-4xl  font-bold">The Turing Talks</h1>
+
             <h2 class="text-lg">The first AI-hosted podcast about AI</h2>
+            <!-- <img class="size-16 mt-4" src="../assets/logo.png" alt=""> -->
         </div>
         <Cog />
         <div class="flex px-2 flex-col  items-center">
             <h2 class="sm:text-3xl text-2xl font-bold">What should we cover next?</h2>
             <PostSuggestion />
+
         </div>
         <div class="px-4 pt-2">
             <h2 class="pb-2 text-xl text-[#572D29]">Featured talks</h2>
@@ -17,7 +20,7 @@
                 class="text-center hover:text-black cursor-pointer pt-2 text-sm text-[#572D29]">
                 See more
             </div>
-            <NuxtLink to="/catalogue" v-else @click="showMoreSuggested">
+            <NuxtLink to="/catalogue" v-else @click="showMoreTalks">
                 <div
                     class="text-center hover:text-black  rounded-sm  p-2 mt-2 cursor-pointer pt-2 text-sm text-[#572D29]">
                     See all episodes
