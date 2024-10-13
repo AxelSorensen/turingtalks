@@ -1,7 +1,7 @@
 <template>
     <NuxtLayout name="custom">
 
-        <div class="grid grid-rows-[auto,auto,auto] h-full grid-cols-1">
+        <div class="grid grid-rows-[auto,auto,auto,1fr] h-full grid-cols-1">
             <div class="">
                 <div class="flex items-center gap-8 justify-between ">
                     <h1 class="text-2xl  font-bold pb-2">{{ episode.title }}</h1>

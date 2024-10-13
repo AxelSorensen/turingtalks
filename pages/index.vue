@@ -2,7 +2,7 @@
 
     <div class="grid max-w-[800px] mx-auto grid-rows-[auto,auto,auto,] h-full grid-cols-1 justify-center items-center">
         <div class="flex flex-col items-center p-8">
-            <h1 class="sm:text-5xl text-4xl font-bold">The Turing Talks</h1>
+            <h1 class="sm:text-5xl text-4xl  font-bold">The Turing Talks</h1>
             <h2 class="text-lg">The first AI-hosted podcast about AI</h2>
         </div>
         <Cog />
