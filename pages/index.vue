@@ -7,23 +7,24 @@
             <h2 class="text-lg text-stone-900 ">The first AI-hosted podcast about AI</h2>
             <img class="size-16 mt-4 mb-2" src="../assets/logo.png" alt="">
         </div>
-        <Cog />
-        <div class="flex px-2 flex-col  items-center">
-            <h2 class="sm:text-3xl text-2xl text-stone-900 pb-2 font-bold">What should we cover next?</h2>
+
+        <div class="flex px-4 pb-2 flex-col  items-center">
+            <h2 class="sm:text-3xl text-2xl text-stone-900 mb-4 font-bold">What should we cover next?</h2>
             <PostSuggestion />
 
         </div>
         <div class="px-4 pt-2">
-            <h2 class="pb-2 text-xl text-stone-900 ">Featured talks</h2>
+            <h2 class="pb-2 text-xl text-stone-900 ">Latest episodes</h2>
             <SimpleCards :items="episodes" :colors="colors" :limit="featured_limit" />
-            <div v-if="featured_limit == 2" @click="showMoreTalks"
+            <!-- <div v-if="featured_limit == 2" @click="showMoreTalks"
                 class="text-center items-center flex justify-center hover:text-stone-900 cursor-pointer pt-4 text-sm text-stone-700">
                 <p>See More</p>
                 <ChevronDown class="text-lg mt-[1px]" />
-            </div>
+            </div> -->
 
-            <NuxtLink to="/catalogue" v-else @click="showMoreTalks">
-                <div class="text-center hover:text-stone-700  rounded-sm  cursor-pointer pt-4 text-sm text-stone-500">
+            <NuxtLink to="/episodes">
+                <div
+                    class="text-center w-fit mx-auto hover:text-stone-700  rounded-sm  cursor-pointer mt-4 text-sm text-stone-500">
                     See all episodes
                 </div>
             </NuxtLink>
@@ -33,17 +34,18 @@
             <h2 class="pb-2 text-stone-900 text-xl">Suggested topics</h2>
             <TopicList :limit="suggested_limit" />
 
-            <NuxtLink to="/upcoming" @click="showMoreSuggested">
-                <div class="text-center hover:text-stone-900 rounded-sm cursor-pointer pt-4 text-sm text-stone-700">
+            <NuxtLink to="/suggestions">
+                <div
+                    class="text-center w-fit mx-auto hover:text-stone-900 rounded-sm cursor-pointer mt-4 text-sm text-stone-700">
                     See all suggested topics
                 </div>
             </NuxtLink>
 
         </div>
-        <div class="flex w-full px-4 max-w-[500px] mx-auto p-2 pb-8 justify-start  flex-col">
-
+        <div class="flex w-full px-4 mx-auto pb-8 justify-start flex-col">
+            <h2 class=" pb-4 text-2xl text-stone-900 font-bold text-center">Feeling lucky?</h2>
             <button
-                class="p-2 w-full flex justify-center gap-2 items-center bg-stone-900 text-white hover:bg-stone-900 rounded-md"
+                class="p-2 max-w-[500px] mx-auto w-full flex justify-center gap-2 items-center bg-stone-900 text-white hover:bg-opacity-90 rounded-md"
                 @click="subscribe">
 
                 <p>
@@ -64,26 +66,44 @@
 import ChevronDown from '~icons/heroicons/chevron-down-16-solid'
 import { collection } from 'firebase/firestore';
 import Dice from '~icons/mdi/dice'
-const colors = ['#A3A7FC', '#F1B2D8', '#F6D78B', '#C6D0BC']
+
+const countdown = ref(null)
+// set interval and call every second the timeuntil function
+
+
+
+
+// 5 fake episodes with name, description, and id and 10
+
+onMounted(() => {
+    let now = new Date();
+    now.setHours(now.getHours() + 1);
+    setInterval(() => {
+
+        countdown.value = timeUntil(now);
+    }, 1000)
+})
+
+
 const db = useFirestore()
 const colRef = collection(db, 'episodes')
 const episodes = useCollection(colRef)
 // const topics = ref([{ name: 'About superposition', votes: 10 }])
 // come up with featured episodes 3 of them
+const colors = [
+    '#A3A7FC', // light cool blue
+    '#F1B2D8', // soft warm pink
+    '#F6D78B', // muted warm yellow
+    '#C6D0BC', // gentle desaturated green
+    '#8CA3F4', // darker, saturated blue
+    '#E3A0C7', // deeper pink
+    '#EEC769', // vibrant yellow-orange
+    '#AABEA1'  // deeper green
+];
 
-
-const showMoreTalks = () => {
-    featured_limit.value = 8
-}
-
-
-const showMoreSuggested = () => {
-    suggested_limit.value = 6
-}
-
+const featured_limit = ref(4)
 const suggested_limit = ref(5)
-const featured_limit = ref(2)
 
 </script>
 
-<style lang="scss" scoped></style>
+<style></style>

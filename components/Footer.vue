@@ -1,5 +1,5 @@
 <template>
-    <div class="flex p-10 relative backdrop-blur-3xl z-100 w-full h-full">
+    <div class="flex pb-20 p-4 relative bg-gradient-to-t to-transparent backdrop-blur-2xl z-100 w-full h-full">
         <Subscribe />
     </div>
     <div class="relative">

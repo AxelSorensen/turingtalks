@@ -1,15 +1,20 @@
 <template>
   <div>
-    <NuxtLayout name="default">
+    <NuxtLayout>
       <template #header>
         <Header />
       </template>
-
-      <NuxtPage />
+      <template #main>
+        <NuxtPage />
+      </template>
       <template #footer>
         <Footer />
       </template>
 
     </NuxtLayout>
   </div>
+
 </template>
+<script>
+
+</script>

@@ -4,11 +4,11 @@
         <TransitionGroup tag="div" name="fade" class="flex flex-col gap-4">
             <div v-for="topic, id in ordered_topics.slice(0, limit || ordered_topics.length)" :key="topic.id"
                 :ref="topic.id === movingItemId ? movingItemRef : null">
-                <div :class="[topic.id == movingItemId ? 'bg-[#d7bb9d]  font-semibold' : 'bg-[#ebd9c6]']" class=" flex text-stone-900 transition-all
+                <div :class="[topic.id == movingItemId ? 'bg-[#d7bb9d] font-bold' : 'bg-[#ebd9c6]']" class=" flex text-stone-900 transition-all
                     rounded-md  p-2 justify-between">
-                    <h2 class=" font-normal">{{ topic.name }}</h2>
+                    <h2 class=" font-medium">{{ topic.name }}</h2>
                     <div class="flex gap-2 items-center">
-                        <p>{{ topic.votes }} votes</p>
+                        <p class="">{{ topic.votes }} votes</p>
                         <button @click="addVote(topic.id, id)">
                             <ChevronUp class="text-xl" />
                         </button>
@@ -20,15 +20,8 @@
 </template>
 
 <script setup>
-const currentNumber = ref(100); // Initial number
 
-onMounted(() => {
-    // Simulate changing the number every 2 seconds
-    setInterval(() => {
-        const newNumber = Math.floor(Math.random() * 1000); // Generate a random number
-        currentNumber.value = newNumber; // Update current number
-    }, 2000);
-});
+
 const props = defineProps({
     limit: Number
 })
@@ -71,7 +64,6 @@ const addVote = async (id, idx) => {
     await setDoc(document, {
         votes: current_votes + 1
     }, { merge: true });
-    scrollToItem();
     pending_id.value = null
 }
 

@@ -10,7 +10,8 @@
 
             <div class="bg-stone-200 p-4 w-full items-center flex justify-between rounded-md">
                 <div>{{ comment.text }}</div>
-                <div class="text-xs whitespace-nowrap text-gray-500">{{ timeAgo(comment.date.seconds) }}</div>
+                <div class="text-xs whitespace-nowrap text-gray-500">{{ timeAgo(comment.date.seconds) }}
+                </div>
             </div>
         </div>
 
@@ -20,6 +21,8 @@
 
 
 <script setup>
+
+
 const props = defineProps({
     colRef: Object
 })

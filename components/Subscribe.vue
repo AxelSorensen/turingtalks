@@ -1,7 +1,7 @@
 <template>
-    <div class="w-full max-w-[500px] mx-auto items-center p-4 flex flex-col gap-2">
+    <div class="w-full max-w-[500px] mx-auto items-center flex flex-col gap-2">
         <div class="flex items-center">
-            <h2 class="text-stone-900 text-xl p-2">Subscribe to stay notified</h2>
+            <h2 class="text-stone-900 text-xl whitespace-nowrap truncate p-2">Subscribe to stay notified</h2>
             <Bell class="text-stone-900 text-lg" />
         </div>
         <input v-model="data.name"
