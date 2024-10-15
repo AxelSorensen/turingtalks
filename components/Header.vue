@@ -1,7 +1,7 @@
 <template>
 
     <nav ref="target"
-        class="flex flex-col select-none sm:flex-row bg-red-200 justify-between whitespace-nowrap bg-[#F8F7F2]/40 z-10 backdrop-blur-xl"
+        class="flex flex-col select-none sm:flex-row justify-between whitespace-nowrap bg-[#F8F7F2]/40 z-10 backdrop-blur-xl"
         :class="{ 'pb-4': nav_open }">
         <div @focusout="nav_open = false" class="flex justify-between items-center  p-4">
             <NuxtLink class="flex items-center gap-2" to="/">
