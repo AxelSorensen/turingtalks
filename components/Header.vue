@@ -31,7 +31,7 @@
                 now
             </NuxtLink>
             <NuxtLink @click="nav_open = false" v-for="route in routes"
-                class="text-sm  hover:text-stone-900 rounded-md  p-1 px-2" :to="route.path">
+                class="text-base sm:text-sm  hover:text-stone-900 rounded-md  p-1 px-2" :to="route.path">
                 {{ route.name }}
             </NuxtLink>
 

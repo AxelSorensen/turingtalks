@@ -4,7 +4,7 @@
 
 
         <h1 class="text-2xl text-stone-900 max-w-[800px] mx-auto font-bold p-4">About</h1>
-        <div ref="support" class="pattern-dots z-[-1] h-[250px] w-full absolute pattern-stone-300 pattern-bg-transparent
+        <div class="pattern-dots z-[-1] h-[250px] w-full absolute pattern-stone-300 pattern-bg-transparent
   pattern-size-2 pattern-opacity-100">
         </div>
         <div class="absolute bg-gradient-to-t z-[-1] from-[#F8F7F2] to-transparent w-full h-[250px]"></div>
@@ -91,7 +91,7 @@
             </NuxtLayout>
 
 
-            <div class="relative bg-[#EBD9C6] bg-opacity-50">
+            <div ref="support" class="relative bg-[#EBD9C6] bg-opacity-50">
                 <!-- <div ref="support" class="pattern-dots z-0 h-[400px] w-full absolute pattern-stone-300 pattern-bg-transparent
   pattern-size-2 pattern-opacity-100">
                 </div>
