@@ -12,7 +12,7 @@
                 <h2 class="text-lg line-clamp-2 font-medium leading-6">{{ item.title }}</h2>
             </div>
             <div class="flex -mr-1 -mb-1 text-xs pt-4 items-center text-stone-900 justify-end gap-1">
-                <p class="text-sm text-right">{{ item.duration }} minutes</p>
+                <p class="text-sm text-right">{{ item.duration.toString().slice(0, 2) }} minutes</p>
                 <Clock class="text-sm" />
             </div>
         </NuxtLink>

@@ -23,9 +23,10 @@
 
         </div>
 
-        <div :class="nav_open ? 'block' : 'hidden'" class=" flex nav-links items-center flex-col text-stone-500 sm:gap-2 gap-4 sm:flex-row justify-center sm:items-center
+        <div :class="nav_open ? 'block' : 'hidden'" class=" flex nav-links items-start flex-col text-stone-500 sm:gap-2 gap-4 sm:flex-row justify-center sm:items-center
             p-4 sm:flex">
-            <NuxtLink class="hover:bg-stone-700 bg-stone-900 rounded-md px-2 text-white p-1 text-sm" to="/listen">
+            <NuxtLink :class="[nav_open ? 'hidden' : 'block']"
+                class="hover:bg-stone-700 bg-stone-900 rounded-md px-2 text-white p-1 text-sm" to="/listen">
                 Listen
                 now
             </NuxtLink>

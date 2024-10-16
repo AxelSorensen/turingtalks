@@ -13,7 +13,7 @@
                         1000).toLocaleDateString('en-GB', {
                             day: '2-digit', month: 'short', year: 'numeric'
                         }).replace(',', '') }}</p>- -->
-                    <p class="whitespace-nowrap text-right">{{ item.duration }} minutes</p>
+                    <p class="whitespace-nowrap text-right">{{ item.duration.toString().slice(0, 2) }} minutes</p>
                     <Clock class="text-sm" />
                 </div>
             </div>
