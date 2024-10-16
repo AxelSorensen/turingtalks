@@ -1,6 +1,6 @@
 <template>
 
-    <div class="grid mx-auto grid-rows-[auto,auto,auto,] h-full grid-cols-1 justify-center items-center">
+    <div class="grid relative mx-auto grid-rows-[auto,auto,auto,] h-full grid-cols-1 justify-center items-center">
         <div class="flex  flex-col items-center p-4">
             <h1 class="sm:text-5xl text-4xl text-stone-900  font-bold">The Turing Talks</h1>
             <!-- <img class="size-28 text-red-50 absolute mt-[-30px] opacity-5" src="../assets/logo.png" alt=""> -->
@@ -42,19 +42,25 @@
             </NuxtLink>
 
         </div>
-        <div class="flex pattern-dots pattern-stone-300 pattern-bg-transparent
-  pattern-size-2 pattern-opacity-100 w-full p-8 mx-auto pb-8 justify-start flex-col">
-            <h2 class=" pb-4 text-2xl text-stone-900 font-bold text-center">Feeling lucky?</h2>
-            <button
-                class="p-2 max-w-[500px] mx-auto w-full flex justify-center gap-2 items-center bg-stone-900 text-white hover:bg-opacity-90 rounded-md"
-                @click="subscribe">
 
-                <p>
-                    Listen
-                    to a Random Episode
-                </p>
-                <Dice class="text-white text-lg" />
-            </button>
+        <div class="flex  w-full mx-auto justify-start flex-col">
+            <div class="pattern-dots z-[-1] h-[250px] w-full absolute pattern-stone-300 pattern-bg-transparent
+  pattern-size-2 pattern-opacity-100">
+            </div>
+            <div class="absolute bg-gradient-to-t z-[-1] from-[#F8F7F2] to-transparent w-full h-[250px]"></div>
+            <div class="p-4 py-8">
+                <h2 class=" pb-4 text-2xl text-stone-900 font-bold text-center">Feeling lucky?</h2>
+                <button
+                    class="p-2 max-w-[500px] mx-auto w-full flex justify-center gap-2 items-center bg-stone-900 text-white hover:bg-opacity-90 rounded-md"
+                    @click="subscribe">
+
+                    <p>
+                        Listen
+                        to a Random Episode
+                    </p>
+                    <Dice class="text-white text-lg" />
+                </button>
+            </div>
 
 
         </div>
