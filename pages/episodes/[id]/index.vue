@@ -3,7 +3,7 @@
 
     <div class="grid grid-rows-[auto,auto,auto,1fr] h-full grid-cols-1">
 
-        <div :style="{ backgroundColor: color }" class=" p-4">
+        <div :style="{ backgroundColor: color }" class=" p-4 -mt-[4rem] pt-20">
             <div class="max-w-[800px] mx-auto">
                 <div class="flex items-center gap-8 justify-between ">
                     <h1 class="text-2xl  font-bold pb-2">{{ episode?.title }}</h1>

@@ -4,7 +4,7 @@
 
         <h1 class="text-2xl text-stone-900 max-w-[800px] mx-auto font-bold p-4">Suggestions</h1>
 
-        <div class="p-8 bg-[#EBD9C6] -mx-4 gap-2 flex flex-col text-center text-stone-900">
+        <div class="p-8 bg-[#EBD9C6] gap-2 flex flex-col text-center text-stone-900">
             <h3 class="sm:text-2xl text-xl mx-auto font-medium max-w-[500px] ">Every week we dive into a <b class="">new
                     topic.</b>
             </h3>

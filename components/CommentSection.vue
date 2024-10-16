@@ -1,7 +1,19 @@
 <template>
 
     <div class="flex h-full flex-col gap-4 text-xs">
-        <div class=" gap-4 flex items-center" v-for="comment in ordered_comments">
+
+        <Spinner v-if="!ordered_comments.length" />
+        <!-- <div class="w-8 h-8 aspect-square bg-stone-200 text-white justify-center items-center flex rounded-full">
+            </div>
+
+
+            <div class="bg-stone-200 p-6 w-full items-center flex justify-between rounded-md">
+                <div></div>
+                <div class="text-xs whitespace-nowrap text-gray-500">
+                </div>
+            </div> -->
+
+        <div v-if="ordered_comments.length > 0" class=" gap-4 flex items-center" v-for="comment in ordered_comments">
 
             <div class="w-8 h-8 aspect-square bg-stone-600 text-white justify-center items-center flex rounded-full">
                 {{
@@ -13,6 +25,11 @@
                 <div class="text-xs whitespace-nowrap text-gray-500">{{ timeAgo(comment.date.seconds) }}
                 </div>
             </div>
+        </div>
+        <div class="flex flex-col gap-2" v-else>
+            <p class="text-center text-stone-400">No comments yet
+            </p>
+
         </div>
 
     </div>

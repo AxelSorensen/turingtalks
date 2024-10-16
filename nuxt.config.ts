@@ -9,6 +9,28 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   },
+  app: {
+    head: {
+      script: [
+        {
+          src: "https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js",
+          "data-name": "BMC-Widget",
+          "data-cfasync": "false",
+          "data-id": "theturingtalks",
+          "data-color": "#5F7FFF",
+          "data-position": "right",
+          "data-x_margin": "18",
+          "data-y_margin": "18",
+        }
+      ],
+    }
+  },
+  router: {
+    options: {
+      scrollBehaviorType: 'smooth'
+    }
+  },
+
   vite: {
 
     plugins: [
@@ -33,7 +55,13 @@ export default defineNuxtConfig({
 
   css: ['~/global.css'],
   compatibilityDate: '2024-04-03',
-  devtools: { enabled: true },
+  devtools: {
+    enabled: true,
+
+    timeline: {
+      enabled: true,
+    },
+  },
   modules: ['nuxt-vuefire'],
 
 })

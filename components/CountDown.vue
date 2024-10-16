@@ -1,6 +1,6 @@
 <template>
-    <div class="p-8">
-        <h1 class="text-2xl  pb-4 text-center">Next Episode Drops In</h1>
+    <div class="">
+        <h1 class="text-xl text-center">New Episode Drops In</h1>
         <div v-if="!countdown" class="text-center animate-pulse font-bold text-4xl">
             Loading...
         </div>
@@ -9,6 +9,17 @@
 </template>
 
 <script setup>
+const countdown = ref(null)
+
+onMounted(() => {
+    let now = new Date();
+    now.setHours(now.getHours() + 1);
+    setInterval(() => {
+
+        countdown.value = timeUntil(now);
+    }, 1000)
+})
+
 
 </script>
 
