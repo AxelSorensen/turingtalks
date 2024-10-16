@@ -128,7 +128,6 @@
 </template>
 
 <script setup>
-import { off } from 'firebase/database';
 
 const route = useRoute()
 const support = ref(null)
