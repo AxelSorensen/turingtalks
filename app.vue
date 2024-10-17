@@ -1,6 +1,7 @@
 <template>
   <div>
     <NuxtLayout>
+
       <template #header>
         <Header />
       </template>
@@ -11,11 +12,13 @@
         <Footer />
       </template>
 
+
     </NuxtLayout>
   </div>
 
 </template>
 <script>
+
 
 
 </script>

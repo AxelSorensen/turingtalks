@@ -6,7 +6,7 @@
         <div class="flex flex-col gap-2 pb-2 ">
             <!-- <div class="text-center">A podcast about...</div> -->
 
-            <input
+            <input maxlength="50"
                 class="w-full outline-stone-700 p-2 mx-auto text-stone-900 placeholder-stone-400 rounded-md bg-stone-200"
                 type="text" placeholder="Write your suggestion (e.g. AI's effect on climate change)"
                 v-model="data.name">
@@ -44,9 +44,10 @@
             </div>
         </div> -->
 
-        <button v-if="data.name" class="p-2 bg-stone-900 hover:bg-stone-700 rounded-md text-white"
-            @click="postSuggestion">Post
-            suggestion</button>
+        <button v-if="data.name"
+            :class="[data.name.length < 50 ? 'bg-stone-900 text-white' : 'text-red-500 border-2 border-red-500 pointer-events-none']"
+            class="p-2 hover:bg-stone-700 rounded-md " @click="postSuggestion">{{ data.name.length < 50
+                ? 'Post suggestion' : 'Keep it short, max 50 characters' }}</button>
     </div>
 </template>
 
@@ -80,7 +81,7 @@ const addSource = () => {
 const removeSource = (id) => {
     data.value.sources.splice(id, 1)
 }
-
+const emit = defineEmits(["posted"])
 const postSuggestion = async () => {
     let data_buffer = data.value
     data.value = {
@@ -90,6 +91,7 @@ const postSuggestion = async () => {
         votes: 0,
     }
     await addDoc(collection(db, "topics"), { ...data_buffer, date: new Date() });
+    emit('posted')
 }
 
 const sources = ref([])

@@ -21,7 +21,8 @@
 
                 </div>
                 <div class="flex justify-center pt-4">
-                    <audio preload class="w-full" controls :src="episode?.audio_url" @loadedmetadata="refresh"></audio>
+                    <audio preload autoplay class="w-full" controls :src="episode?.audio_url"
+                        @loadedmetadata="refresh"></audio>
                 </div>
             </div>
         </div>

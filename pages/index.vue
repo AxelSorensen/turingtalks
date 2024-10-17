@@ -1,7 +1,8 @@
 <template>
 
+
     <div class="grid relative mx-auto grid-rows-[auto,auto,auto,] h-full grid-cols-1 justify-center items-center">
-        <div class="flex  flex-col items-center p-4">
+        <div class="flex pt-8  flex-col items-center p-4">
             <h1 class="sm:text-5xl text-4xl text-stone-900  font-bold">The Turing Talks</h1>
             <!-- <img class="size-28 text-red-50 absolute mt-[-30px] opacity-5" src="../assets/logo.png" alt=""> -->
             <h2 class="text-lg text-stone-900 ">The first AI-hosted podcast about AI</h2>
@@ -10,7 +11,7 @@
 
         <div class="flex  px-4 pb-2 flex-col  items-center">
             <h2 class="sm:text-3xl text-2xl text-stone-900 mb-4 font-bold">What should we cover next?</h2>
-            <PostSuggestion />
+            <PostSuggestion @posted="scrollToSuggestion" />
 
         </div>
         <div class="px-4 max-w-[800px] w-full mx-auto pt-2">
@@ -30,7 +31,7 @@
             </NuxtLink>
         </div>
 
-        <div class="flex max-w-[800px] w-full mx-auto px-4 p-2 pb-8 justify-start  flex-col">
+        <div ref="suggestions" class="flex max-w-[800px] w-full mx-auto px-4 p-2 pb-8 justify-start  flex-col">
             <h2 class="pb-2 text-stone-900 text-xl">Suggested topics</h2>
             <TopicList :limit="suggested_limit" />
 
@@ -52,7 +53,7 @@
                 <h2 class=" pb-4 text-2xl text-stone-900 font-bold text-center">Feeling lucky?</h2>
                 <button
                     class="p-2 max-w-[500px] mx-auto w-full flex justify-center gap-2 items-center bg-stone-900 text-white hover:bg-opacity-90 rounded-md"
-                    @click="subscribe">
+                    @click="randomEpisode">
 
                     <p>
                         Listen
@@ -60,6 +61,7 @@
                     </p>
                     <Dice class="text-white text-lg" />
                 </button>
+                <div></div>
             </div>
 
 
@@ -81,10 +83,39 @@
 
 <script setup>
 import ChevronDown from '~icons/heroicons/chevron-down-16-solid'
-import { collection } from 'firebase/firestore';
+import { collection, } from 'firebase/firestore';
 import Dice from '~icons/mdi/dice'
 
+const suggestions = ref(null)
 
+import {
+    signInWithPopup, GoogleAuthProvider
+} from 'firebase/auth'
+import { useCurrentUser, useFirebaseAuth } from 'vuefire'
+
+
+const auth = useFirebaseAuth()
+const user = useCurrentUser() // only exists on client side
+
+// display errors if any
+function signinPopup() {
+
+    signInWithPopup(auth, new GoogleAuthProvider())
+}
+
+const scrollToSuggestion = () => {
+    setTimeout(() => {
+        suggestions.value.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 100);
+
+}
+
+const randomEpisode = () => {
+    // Fetch all episode ids
+    const all_episodes = useCollection(collection(db, 'episodes'))
+    const random_id = Math.floor(Math.random() * all_episodes.value.length)
+    navigateTo({ path: `/episodes/${all_episodes.value[random_id].id}`, query: { color: colors[Math.floor(Math.random() * colors.length)] } })
+}
 
 const db = useFirestore()
 const colRef = collection(db, 'episodes')
@@ -96,10 +127,7 @@ const colors = [
     '#F1B2D8', // soft warm pink
     '#F6D78B', // muted warm yellow
     '#C6D0BC', // gentle desaturated green
-    '#8CA3F4', // darker, saturated blue
-    '#E3A0C7', // deeper pink
-    '#EEC769', // vibrant yellow-orange
-    '#AABEA1'  // deeper green
+    // deeper green
 ];
 
 const featured_limit = ref(4)

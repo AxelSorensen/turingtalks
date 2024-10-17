@@ -131,15 +131,12 @@
 
 const route = useRoute()
 const support = ref(null)
-const scrollToSection = () => {
 
-    support.value.scrollIntoView({ behavior: 'smooth', block: 'center' });
-}
 
 onMounted(() => {
     if (route.query.section === 'support') {
         setTimeout(() => {
-            scrollToSection();
+            support.value.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }, 100)
     }
 

@@ -1,14 +1,14 @@
 <template>
-    <div class="flex overflow-y-scroll w-full gap-4 flex-col">
+    <div class="flex overflow-y-scroll relative w-full gap-4 flex-col">
 
-        <TransitionGroup tag="div" name="fade" class="flex flex-col gap-4">
+        <TransitionGroup tag="div" name="fade" class="flex flex-col w-full gap-4">
             <div v-for="topic, id in ordered_topics.slice(0, limit || ordered_topics.length)" :key="topic.id"
                 :ref="topic.id === movingItemId ? movingItemRef : null">
                 <div :class="[topic.id == movingItemId ? 'bg-[#d7bb9d] font-bold' : 'bg-[#ebd9c6]']" class=" flex text-stone-900 transition-all
-                    rounded-md  p-2 justify-between">
+                    rounded-md gap-4  p-2 justify-between">
                     <h2 class=" font-medium">{{ topic.name }}</h2>
                     <div class="flex gap-2 items-center">
-                        <p class="">{{ topic.votes }} votes</p>
+                        <p class="whitespace-nowrap">{{ topic.votes }} votes</p>
                         <button @click="addVote(topic.id, id)">
                             <ChevronUp class="text-xl" />
                         </button>
@@ -69,17 +69,7 @@ const addVote = async (id, idx) => {
 
 const movingItemRef = ref(null);  // Create a ref to hold the element
 
-const scrollToItem = async () => {
-    if (movingItemRef.value) {
-        await nextTick();  // Wait for DOM updates (e.g., after reordering)
 
-        // Scroll the element into view with smooth behavior
-        movingItemRef.value.scrollIntoView({
-            behavior: 'smooth',
-            block: 'center',  // Align item to the center of the viewport
-        });
-    }
-};
 
 
 </script>
@@ -89,7 +79,7 @@ const scrollToItem = async () => {
 .fade-move,
 .fade-enter-active,
 .fade-leave-active {
-    transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1);
+    transition: all .5s cubic-bezier(0.55, 0, 0.1, 1);
 
 }
 
@@ -98,11 +88,11 @@ const scrollToItem = async () => {
 .fade-enter-from,
 .fade-leave-to {
     opacity: 0;
-    transform: scaleY(0.01) translate(30px, 0);
+    transform: scaleY(0.01)
 }
 
 /* Fix the leaving item's layout during animation */
 .fade-leave-active {
-    position: absolute;
+    @apply absolute w-full
 }
 </style>

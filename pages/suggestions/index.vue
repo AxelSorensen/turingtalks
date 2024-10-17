@@ -9,22 +9,13 @@
         </div>
         <div class="absolute bg-gradient-to-t z-[-1] from-[#F8F7F2] to-transparent w-full h-[250px]"></div>
         <div class="p-8 gap-4 flex flex-col text-center text-stone-900">
-            <h3 class="sm:text-3xl text-2xl mx-auto font-medium max-w-[28ch] ">Every week we dive into a <b
+            <h3 class="sm:text-3xl text-2xl mx-auto font-medium max-w-[28ch] "><b>Every week</b> we dive into a <b
                     class="text-purple-500">new
                     topic.</b>
             </h3>
             <h4 class="max-w-[38ch] sm:text-xl text-lg mx-auto">
-                From
-                discussing
-                a
-                recent paper to
-                offering an engaging overview of an emerging field.
+                Help us make the show better by suggesting topics you'd like covered. <b>We're all ears!</b>
             </h4>
-
-
-
-
-
         </div>
 
         <div>
@@ -32,10 +23,10 @@
 
                 <div class="flex py-4 pb-8 flex-col  items-center">
                     <h2 class="sm:text-3xl text-2xl pb-4 font-bold">What should we cover next?</h2>
-                    <PostSuggestion />
+                    <PostSuggestion @posted="scrollToSuggestion" />
                 </div>
-                <div class="flex justify-start pt-2  flex-col">
-                    <h2 class="pb-2 text-xl">Suggested topics</h2>
+                <div class="flex justify-start pt-2 flex-col">
+                    <h2 ref="suggestions" class="pb-2 text-xl">Suggested topics</h2>
                     <TopicList />
 
 
@@ -48,8 +39,14 @@
 </template>
 
 <script setup>
+const suggestions = ref(null)
 
-import { collection, count } from 'firebase/firestore';
+const scrollToSuggestion = () => {
+    setTimeout(() => {
+        suggestions.value.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 100);
+
+}
 
 
 </script>

@@ -41,6 +41,10 @@ export default defineNuxtConfig({
     ]
   },
   vuefire: {
+    auth: {
+      enabled: true,
+
+    },
     config: {
       apiKey: "AIzaSyCWXYg1Y8-64XhePLPxbuvY0SkFRJye02Y",
       authDomain: "theturingtalks.firebaseapp.com",
