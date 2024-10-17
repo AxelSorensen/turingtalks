@@ -1,7 +1,7 @@
 <template>
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
-        <NuxtLink v-if="ordered_items.length > 0" v-for="(item, index) in ordered_items.slice(0, limit || items.length)"
+        <NuxtLink v-if="ordered_items.length" v-for="(item, index) in ordered_items.slice(0, limit || items.length)"
             :key="item.id" :style="{ backgroundColor: colors[index % colors.length] }"
             class="hover:brightness-105 p-4 rounded-md h-[11rem] grid grid-rows-[1fr,auto]"
             :to="{ path: `${path || '/episodes'}/${item.id}`, query: { color: colors[index % colors.length] } }">

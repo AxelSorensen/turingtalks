@@ -10,6 +10,7 @@
                 :class="[new_comment.length ? 'bg-opacity-100 bg-stone-900 hover:bg-stone-700' : 'bg-opacity-50 pointer-events-none']"
                 class="bg-stone-700 text-white rounded-sm p-2">Post comment</button>
         </div>
+
     </div>
 </template>
 
@@ -28,11 +29,11 @@ const ch_limit = 300
 const { colRef } = toRefs(props)
 
 
-
+const user = useCurrentUser()
 const postComment = async () => {
     let comment_buffer = new_comment.value
     new_comment.value = ''
-    await addDoc(colRef.value, { user: 'Anonymous', text: comment_buffer, date: new Date() });
+    await addDoc(colRef.value, { user: { id: user.value.uid, img: user.value.photoURL, name: user.value.displayName }, text: comment_buffer, date: new Date() });
 
 }
 </script>
