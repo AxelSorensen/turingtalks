@@ -53,9 +53,9 @@ const colors = [
 const db = useFirestore()
 
 const q = query(collection(db, 'episodes'), orderBy('date'))
-const episodes = useCollection(q)
+const episodes = useCollection(q, { once: true })
 const seasonRef = collection(db, 'seasons')
-const seasons = useCollection(seasonRef)
+const seasons = useCollection(seasonRef, { once: true })
 // 5 fake episodes with name, description, and id and 10
 
 

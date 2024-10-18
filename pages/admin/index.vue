@@ -115,8 +115,8 @@ const db = useFirestore()
 const colRef = collection(db, 'episodes')
 
 const pending = ref(false)
-const episodes = useCollection(collection(db, 'episodes'))
-const seasons = useCollection(collection(db, 'seasons'))
+const episodes = useCollection(collection(db, 'episodes'), { once: true })
+const seasons = useCollection(collection(db, 'seasons'), { once: true })
 const submit = async () => {
     try {
         pending.value = true

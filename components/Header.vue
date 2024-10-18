@@ -1,5 +1,5 @@
 <template>
-    <nav ref="navbar"
+    <!-- <nav ref="navbar"
         class="flex flex-col select-none sm:flex-row justify-between whitespace-nowrap bg-[#F8F7F2]/40 z-10 backdrop-blur-xl"
         :class="{ 'pb-4': nav_open }">
         <div @focusout="nav_open = false" class="flex justify-between items-center p-4">
@@ -34,8 +34,8 @@
 
             <div class="text-2xl  hidden sm:flex pb-1 leading-5 mx-2 font-thin">|</div>
 
-            <div v-if="user" :class="[showProfileModal ? 'bg-black bg-opacity-10 rounded-md' : null]" ref="profileModal"
-                class="relative cursor-pointer flex h-8 -my-2 px-2 items-center gap-2 mr-2"
+            <div v-if="user" :class="[showProfileModal ? 'sm:bg-black sm:bg-opacity-10 rounded-md' : null]"
+                ref="profileModal" class="relative cursor-pointer flex h-8 -my-2 px-2 items-center gap-2 mr-2"
                 @click="showProfileModal = !showProfileModal">
                 <div class="sm:hidden">Logged in as:</div>
                 <img :src="user.photoURL" class="rounded-full w-7 h-7" alt="">
@@ -95,13 +95,13 @@
             <button class="bg-stone-900 hover:bg-stone-700 mt-4 text-sm text-white rounded-md p-1"
                 @click="signUserOut">Sign out</button>
         </div>
-    </div>
+    </div> -->
 </template>
 
 <script setup>
 import { ref } from 'vue';
 import { signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth';
-import { useCurrentUser, useFirebaseAuth } from 'vuefire';
+import { useCurrentUser, useFirebaseAuth } from 'vuefire'
 import { collection, doc, setDoc } from 'firebase/firestore';
 import Menu from '~icons/heroicons/bars-3-bottom-right-16-solid';
 import XMark from '~icons/heroicons/x-mark-16-solid';
@@ -129,7 +129,7 @@ const routes = [
 ];
 
 const options = [
-    { name: 'My Favourites', path: '/episodes', icon: 'Heart' },
+    { name: 'My Favourites', path: `/profile/${user?.value?.uid}`, icon: 'Heart' },
     { name: 'My Suggestions', path: '/suggestions', icon: 'LightBulb' },
     { name: 'My Comments', path: '/about', icon: 'Comment' },
 ];

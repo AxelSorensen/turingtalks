@@ -3,6 +3,12 @@
 import Icons from 'unplugin-icons/vite'
 
 export default defineNuxtConfig({
+  // routeRules: {
+  //   // Homepage pre-rendered at build time
+  //   '/': { prerender: true },
+  //   // Product page generated on-demand, revalidates in background
+  //   '/episodes/**': { swr: 3600 },
+  // },
   postcss: {
     plugins: {
       tailwindcss: {},

@@ -80,11 +80,11 @@
                 <div class="grid grid-rows-[auto,auto,1fr] h-full grid-cols-1">
                     <div>
                         <h3 class=" text-sm pb-2 font-medium">Join the discussion</h3>
-                        <PostComment :colRef="colRef" />
+                        <!-- <PostComment :colRef="colRef" /> -->
                     </div>
                     <h2 class="font-medium pb-2">Comments:</h2>
                     <div class="">
-                        <CommentSection :colRef="colRef" />
+                        <!-- <CommentSection :colRef="colRef" /> -->
                     </div>
                 </div>
             </NuxtLayout>
@@ -98,6 +98,7 @@
 definePageMeta({
     scrollToTop: true
 })
+
 import { useClipboard } from '@vueuse/core'
 const route = useRoute()
 const shareLink = `https://theturingtalks.com/episodes/${route.params.id}`
@@ -118,7 +119,7 @@ const db = useFirestore()
 const colRef = collection(db, 'episodes', route.params.id, 'comments')
 
 const docRef = doc(db, 'episodes', route.params.id)
-const episode = useDocument(docRef)
+const episode = useDocument(docRef, { once: true })
 
 
 </script>

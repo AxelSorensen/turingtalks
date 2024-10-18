@@ -1,5 +1,4 @@
 <template>
-
     <div class="flex h-full flex-col gap-4 text-xs">
 
         <Spinner v-if="!comments.length" />
@@ -62,36 +61,35 @@ const props = defineProps({
 
 const { colRef } = toRefs(props)
 
-const comments = useCollection(colRef)
-
-
-
+const comments = useCollection(colRef, { once: true })
 
 // Execute the query and handle the results with .then()
 
 
 const userImages = ref({})
 
-const fetchImages = () => {
+const fetchImages = async () => {
 
     comments.value?.forEach(comment => {
         if (comment?.user?.id) {
             if (comment.user.id in userImages.value)
                 return
             // get firebase image from users
-            console.log('yo')
-            let buffer = useDocument(doc(db, 'users', comment.user.id))
+            let buffer = useDocument(doc(db, 'users', comment.user.id), { once: true })
             userImages.value[comment.user.id] = buffer.value?.img
         }
     })
 }
 
+watch(comments, () => {
+    fetchImages(); // Fetch images when `comments` change
+});
+
 // computed comments sort by date they are date object both of them
-const ordered_comments = computed(async () => {
-    await fetchImages()
-    return Object.values(comments.value)
-        .filter(comment => comment.user)
-        .sort((a, b) => b.date - a.date)
+const ordered_comments = computed(() => {
+    return Object.values(comments?.value)
+        .filter(comment => comment?.user)
+        .sort((a, b) => b?.date - a?.date)
 })
 
 </script>

@@ -30,12 +30,12 @@ import ChevronUp from '~icons/heroicons/chevron-up-16-solid'
 import { collection, onSnapshot, getDoc, setDoc, doc } from 'firebase/firestore';
 const db = useFirestore()
 const colRef = collection(db, 'topics')
-const topics = useCollection(colRef)
+const topics = useCollection(colRef, { once: true })
 
 const pending_id = ref(null)
 
 const ordered_topics = computed(() => {
-    return Object.values(topics.value).sort((a, b) => {
+    return Object.values(topics?.value)?.sort((a, b) => {
         const now = new Date();
         const aDate = new Date(a.date.seconds * 1000);
         const bDate = new Date(b.date.seconds * 1000);

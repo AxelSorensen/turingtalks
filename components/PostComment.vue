@@ -33,7 +33,7 @@ const user = useCurrentUser()
 const postComment = async () => {
     let comment_buffer = new_comment.value
     new_comment.value = ''
-    await addDoc(colRef.value, { user: { id: user.value.uid, img: user.value.photoURL, name: user.value.displayName }, text: comment_buffer, date: new Date() });
+    await addDoc(colRef.value, { user: { id: user?.value?.uid, img: user.value.photoURL, name: user.value.displayName }, text: comment_buffer, date: new Date() });
 
 }
 </script>
