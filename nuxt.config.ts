@@ -5,7 +5,7 @@ import Icons from 'unplugin-icons/vite'
 export default defineNuxtConfig({
   routeRules: {
     // Homepage pre-rendered at build time
-    '/**': { isr: 3600 },
+    '/': { isr: 3600 },
     // Product page generated on-demand, revalidates in background
 
   },
@@ -36,12 +36,7 @@ export default defineNuxtConfig({
       scrollBehaviorType: 'smooth'
     }
   },
-  nitro: {
-    prerender: {
-      crawlLinks: true,
-      failOnError: false,
-    },
-  },
+
 
   vite: {
 
