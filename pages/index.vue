@@ -1,6 +1,5 @@
 <template>
 
-
     <div class="grid relative mx-auto grid-rows-[auto,auto,auto,] h-full grid-cols-1 justify-center items-center">
         <div class="flex pt-8  flex-col items-center p-4">
             <h1 class="sm:text-5xl text-4xl text-stone-900  font-bold">The Turing Talks</h1>
@@ -11,7 +10,7 @@
 
         <div class="flex  px-4 pb-2 flex-col  items-center">
             <h2 class="sm:text-3xl text-2xl text-stone-900 mb-4 font-bold">What should we cover next?</h2>
-            <PostSuggestion @posted="scrollToSuggestion" />
+            <!-- <PostSuggestion @posted="scrollToSuggestion" /> -->
 
         </div>
         <div class="px-4 max-w-[800px] w-full mx-auto pt-2">
@@ -33,7 +32,7 @@
 
         <div ref="suggestions" class="flex max-w-[800px] w-full mx-auto px-4 p-2 pb-8 justify-start  flex-col">
             <h2 class="pb-2 text-stone-900 text-xl">Suggested topics</h2>
-            <TopicList :limit="suggested_limit" />
+            <!-- <TopicList :limit="suggested_limit" /> -->
 
             <NuxtLink to="/suggestions">
                 <div
@@ -68,7 +67,7 @@
         </div>
         <div class="flex p-8 gap-2 flex-col justify-center items-center">
             <h2 class="text-xl">Support the show 🙏</h2>
-            <Support class="" />
+            <!-- <Support class="" /> -->
             <NuxtLink :to="{ path: '/about', query: { section: 'support' } }"
                 class="text-stone-400 transition-all text-sm cursor-pointer hover:text-stone-900">What
                 am
@@ -83,7 +82,6 @@
 
 <script setup>
 import ChevronDown from '~icons/heroicons/chevron-down-16-solid'
-import { collection, } from 'firebase/firestore';
 import Dice from '~icons/mdi/dice'
 
 const suggestions = ref(null)
@@ -93,9 +91,9 @@ import {
 } from 'firebase/auth'
 import { useCurrentUser, useFirebaseAuth } from 'vuefire'
 
-
-const auth = useFirebaseAuth()
-const user = useCurrentUser() // only exists on client side
+import { getDocs, collection } from 'firebase/firestore';
+// const auth = useFirebaseAuth()
+// const user = useCurrentUser() // only exists on client side
 
 // display errors if any
 function signinPopup() {
@@ -110,16 +108,29 @@ const scrollToSuggestion = () => {
 
 }
 
+
 const randomEpisode = () => {
     // Fetch all episode ids
-    const all_episodes = useCollection(collection(db, 'episodes'), { once: true })
+    const all_episodes = useCollection(collection($db, 'episodes'), { once: true })
     const random_id = Math.floor(Math.random() * all_episodes.value.length)
     navigateTo({ path: `/episodes/${all_episodes.value[random_id].id}`, query: { color: colors[Math.floor(Math.random() * colors.length)] } })
 }
+const { $db } = useNuxtApp()
 
-const db = useFirestore()
-const colRef = collection(db, 'episodes')
-const episodes = useCollection(colRef, { once: true })
+
+const episodes = ref([])
+
+onMounted(async () => {
+
+
+    const colRef = collection($db, 'episodes')
+    getDocs(colRef).then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+            // doc.data() is never undefined for query doc snapshots
+            episodes.value.push(doc.data());
+        });
+    });
+})
 // const topics = ref([{ name: 'About superposition', votes: 10 }])
 // come up with featured episodes 3 of them
 const colors = [
