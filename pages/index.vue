@@ -81,7 +81,6 @@
 </template>
 
 <script setup>
-import ChevronDown from '~icons/heroicons/chevron-down-16-solid'
 import Dice from '~icons/mdi/dice'
 
 const suggestions = ref(null)
@@ -89,9 +88,9 @@ const suggestions = ref(null)
 import {
     signInWithPopup, GoogleAuthProvider
 } from 'firebase/auth'
-import { useCurrentUser, useFirebaseAuth } from 'vuefire'
 
-import { getDocs, collection } from 'firebase/firestore';
+
+import { collection } from 'firebase/firestore';
 // const auth = useFirebaseAuth()
 // const user = useCurrentUser() // only exists on client side
 
@@ -108,29 +107,18 @@ const scrollToSuggestion = () => {
 
 }
 
-
 const randomEpisode = () => {
     // Fetch all episode ids
-    const all_episodes = useCollection(collection($db, 'episodes'), { once: true })
+    const all_episodes = useCollection(collection(db, 'episodes'), { once: true })
     const random_id = Math.floor(Math.random() * all_episodes.value.length)
     navigateTo({ path: `/episodes/${all_episodes.value[random_id].id}`, query: { color: colors[Math.floor(Math.random() * colors.length)] } })
 }
-const { $db } = useNuxtApp()
+
+const db = useFirestore()
+const episodes = useCollection(collection(db, 'episodes'), { once: true })
 
 
-const episodes = ref([])
 
-onMounted(async () => {
-
-
-    const colRef = collection($db, 'episodes')
-    getDocs(colRef).then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-            // doc.data() is never undefined for query doc snapshots
-            episodes.value.push(doc.data());
-        });
-    });
-})
 // const topics = ref([{ name: 'About superposition', votes: 10 }])
 // come up with featured episodes 3 of them
 const colors = [
