@@ -81,6 +81,7 @@ const fetchImages = async () => {
     })
 }
 
+
 watch(comments, () => {
     fetchImages(); // Fetch images when `comments` change
 });

@@ -1,5 +1,5 @@
 <template>
-    <!-- <nav ref="navbar"
+    <nav ref="navbar"
         class="flex flex-col select-none sm:flex-row justify-between whitespace-nowrap bg-[#F8F7F2]/40 z-10 backdrop-blur-xl"
         :class="{ 'pb-4': nav_open }">
         <div @focusout="nav_open = false" class="flex justify-between items-center p-4">
@@ -95,7 +95,7 @@
             <button class="bg-stone-900 hover:bg-stone-700 mt-4 text-sm text-white rounded-md p-1"
                 @click="signUserOut">Sign out</button>
         </div>
-    </div> -->
+    </div>
 </template>
 
 <script setup>

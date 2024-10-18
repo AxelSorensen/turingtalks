@@ -62,8 +62,9 @@
                     </div>
                 </div>
                 <div class="mb-4">
-                    <h2 class="pb-2 text-xl ">Our goal</h2>
-                    <p class="opacity-80">We want to make AI research more accessible to everyone, breaking down
+                    <h2 class="pb-2 text-xl">Our goal</h2>
+                    <p class="opacity-80 text-justify">We want to make AI research more accessible to everyone, breaking
+                        down
                         barriers and sharing
                         knowledge across diverse audiences. By simplifying complex concepts, creating engaging content,
                         and fostering community discussions, we aim to empower individuals—from students to

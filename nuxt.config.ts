@@ -5,7 +5,7 @@ import Icons from 'unplugin-icons/vite'
 export default defineNuxtConfig({
   routeRules: {
     // Homepage pre-rendered at build time
-    '/': { prerender: true },
+    '/**': { isr: 3600 },
     // Product page generated on-demand, revalidates in background
 
   },
