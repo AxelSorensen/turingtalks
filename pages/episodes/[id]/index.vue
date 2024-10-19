@@ -6,7 +6,7 @@
         <div :style="{ backgroundColor: color }" class=" p-4 -mt-[4rem] pt-20">
             <div class="max-w-[800px] mx-auto">
                 <div class="flex items-center gap-8 justify-between ">
-                    <h1 class="text-2xl  font-bold pb-2">{{ episode?.title }}</h1>
+                    <h1 class="text-2xl  font-bold pb-2">{{ episode?.data?.title }}</h1>
 
                 </div>
                 <div @click="summary_open = !summary_open" class="flex flex-col">
@@ -16,12 +16,13 @@
                         </div>
                         <ChevronLeft :class="[summary_open ? 'rotate-180' : null]" class="text-lg mt-[2px]" />
                     </div>
-                    <p :class="[summary_open ? null : 'line-clamp-3']" v-html="episode?.description" class="text-sm">
+                    <p :class="[summary_open ? null : 'line-clamp-3']" v-html="episode?.data?.description"
+                        class="text-sm">
                     </p>
 
                 </div>
                 <div class="flex justify-center pt-4">
-                    <audio preload autoplay class="w-full" controls :src="episode?.audio_url"
+                    <audio preload autoplay class="w-full" controls :src="episode?.data?.audio_url"
                         @loadedmetadata="refresh"></audio>
                 </div>
             </div>
@@ -67,7 +68,7 @@
                     </div>
 
                     <div class="pt-2" v-if="sources_open">
-                        <a :href="source.url" v-for=" source in episode?.sources" class="">
+                        <a :href="source.url" v-for=" source in episode?.data?.sources" class="">
                             <div class="bg-stone-200 hover:bg-stone-300 my-2 p-2 rounded-md">
                                 <h3 class="text-sm font-medium">{{ source.title }}</h3>
                                 <p class=" text-blue-900 truncate text-sm">{{
@@ -101,6 +102,7 @@ definePageMeta({
 
 import { useClipboard } from '@vueuse/core'
 const route = useRoute()
+
 const shareLink = `https://theturingtalks.com/episodes/${route.params.id}`
 const { text, copy, copied, isSupported } = useClipboard({ shareLink })
 import ChevronLeft from '~icons/heroicons/chevron-down-16-solid'
@@ -119,8 +121,39 @@ const db = useFirestore()
 const colRef = collection(db, 'episodes', route.params.id, 'comments')
 
 const docRef = doc(db, 'episodes', route.params.id)
-const episode = useDocument(docRef, { once: true })
+const nuxtApp = useNuxtApp()
+const { data: episode } = await useAsyncData(`episode-${route.params.id}`, async () => {
+    console.log('Fetching episodes')
 
+    // Firestore collection fetch logic
+    const episode = useDocument(docRef, { once: true })
+    return episode.value
+}, {
+    transform: (data) => {
+        return { data: data, fetchedAt: new Date() } // Add timestamp to data
+    },
+    getCachedData(key) {
+        console.log('Getting cached data')
+
+        // Accessing cached data from Nuxt app payload or static data
+        const cachedData = nuxtApp.payload.data[key] || nuxtApp.static.data[key]
+
+        if (!cachedData) {
+            // No cached data found, return undefined so data is refetched
+            return
+        }
+
+        // Check if the cache is older than 1 second
+        const cacheAge = new Date() - new Date(cachedData.fetchedAt)
+        if (cacheAge > 1000 * 10) {
+            // Cache is older than 10 second, invalidate it by returning undefined
+            return
+        }
+
+        // Cache is still valid, return the cached data
+        return cachedData
+    }
+})
 
 </script>
 

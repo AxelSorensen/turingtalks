@@ -14,9 +14,5 @@ export default defineNuxtPlugin(() => {
     // Initialize Firebase
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
-    return {
-        provide: {
-            db,
-        }
-    }
+    return null
 })

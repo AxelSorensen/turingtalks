@@ -3,12 +3,12 @@
 import Icons from 'unplugin-icons/vite'
 
 export default defineNuxtConfig({
-  routeRules: {
-    // Homepage pre-rendered at build time
-    '/': { isr: 20 },
-    // Product page generated on-demand, revalidates in background
+  // routeRules: {
+  //   // Homepage pre-rendered at build time
+  //   '/': { isr: 20 },
+  //   // Product page generated on-demand, revalidates in background
 
-  },
+  // },
   postcss: {
     plugins: {
       tailwindcss: {},
@@ -51,7 +51,10 @@ export default defineNuxtConfig({
     auth: {
       enabled: true,
 
+
     },
+
+
     config: {
       apiKey: "AIzaSyCWXYg1Y8-64XhePLPxbuvY0SkFRJye02Y",
       authDomain: "theturingtalks.firebaseapp.com",
