@@ -124,27 +124,26 @@ const nuxt = useNuxtApp();
 
 const { data: fresh, refresh } = useFetch('/api/test', {
     // Custom cache strategy
-    // transform: (data) => {
-    //     return {
-    //         data,
-    //         fetchedAt: Date.now(),
-    //     };
-    // },
-    // getCachedData: (key) => {
-    //     const cachedData = nuxt.payload.data[key] || nuxt.static.data[key] || null
-    //     if (!cachedData) {
-    //         return
-    //     }
-    //     // Check if data was fetched more than 10 seconds ago
-    //     if (Date.now() - cachedData.fetchedAt > 10000) {
-    //         return
-    //     }
-    //     return cachedData
+    transform: (data) => {
+        return {
+            data,
+            fetchedAt: Date.now(),
+        };
+    },
+    getCachedData: (key) => {
+        const cachedData = nuxt.payload.data[key] || nuxt.static.data[key] || null
+        if (!cachedData) {
+            return
+        }
+        // Check if data was fetched more than 10 seconds ago
+        if (Date.now() - cachedData.fetchedAt > 10000) {
+            return
+        }
+        return cachedData
 
-    // },
+    },
     // Don't block navigation, fetch lazily // Fetch lazily only when requested (this is the key to non-blocking)
-    immediate: false,
-    cache: 'force-cache'  // Don't fetch immediately on first load (SSR) unless triggered on the client
+    immediate: false,  // Don't fetch immediately on first load (SSR) unless triggered on the client
 });
 
 onMounted(() => {
