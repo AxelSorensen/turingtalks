@@ -7,7 +7,7 @@
             <h2 class="text-lg text-stone-900 ">The first AI-hosted podcast about AI</h2>
             <img class="size-16 mt-4 mb-2" src="~/assets/logo.png" alt="">
         </div>
-
+        <div>Fresh {{ fresh }}</div>
         <div class="flex  px-4 pb-2 flex-col  items-center">
             <h2 class="sm:text-3xl text-2xl text-stone-900 mb-4 font-bold">What should we cover next?</h2>
             <!-- <PostSuggestion @posted="scrollToSuggestion" /> -->
@@ -15,7 +15,7 @@
         </div>
         <div class="px-4 max-w-[800px] w-full mx-auto pt-2">
             <h2 class="pb-2 text-xl text-stone-900 ">Latest episodes</h2>
-            <SimpleCards :items="episodes.data" :colors="colors" :limit="featured_limit" />
+            <!-- <SimpleCards :items="episodes" :colors="colors" :limit="featured_limit" /> -->
             <!-- <div v-if="featured_limit == 2" @click="showMoreTalks"
                 class="text-center items-center flex justify-center hover:text-stone-900 cursor-pointer pt-4 text-sm text-stone-700">
                 <p>See More</p>
@@ -81,6 +81,7 @@
 </template>
 
 <script setup>
+const { enabled, state } = usePreviewMode()
 import Dice from '~icons/mdi/dice'
 
 const suggestions = ref(null)
@@ -94,11 +95,6 @@ import { collection } from 'firebase/firestore';
 // const auth = useFirebaseAuth()
 // const user = useCurrentUser() // only exists on client side
 
-// display errors if any
-function signinPopup() {
-
-    signInWithPopup(auth, new GoogleAuthProvider())
-}
 
 const scrollToSuggestion = () => {
     setTimeout(() => {
@@ -113,40 +109,30 @@ const randomEpisode = () => {
     const random_id = Math.floor(Math.random() * all_episodes.value.length)
     navigateTo({ path: `/episodes/${all_episodes.value[random_id].id}`, query: { color: colors[Math.floor(Math.random() * colors.length)] } })
 }
-const nuxtApp = useNuxtApp()
+// const nuxtApp = useNuxtApp()
 const db = useFirestore()
-const { data: episodes } = await useAsyncData('episodesKey', async () => {
-    console.log('Fetching episodes')
+// const { data: episodes } = useAsyncData('episodesKey', async () => {
+//     console.log('Fetching episodes')
 
-    // Firestore collection fetch logic
-    const episodesCollection = useCollection(collection(db, 'episodes'), { once: true })
-    return episodesCollection.value
-}, {
-    transform: (data) => {
-        return { data: data, fetchedAt: new Date() } // Add timestamp to data
-    },
-    getCachedData(key) {
-        console.log('Getting cached data')
+//     // Firestore collection fetch logic
+//     return useCollection(collection(db, 'episodes'), { once: true }).value
 
-        // Accessing cached data from Nuxt app payload or static data
-        const cachedData = nuxtApp.payload.data[key] || nuxtApp.static.data[key]
+// })
 
-        if (!cachedData) {
-            // No cached data found, return undefined so data is refetched
-            return
-        }
+const { data: fresh } = useFetch('/api/test', {
+    key: 'episodes',
+}
+)
 
-        // Check if the cache is older than 1 second
-        const cacheAge = new Date() - new Date(cachedData.fetchedAt)
-        if (cacheAge > 1000 * 10) {
-            // Cache is older than 10 second, invalidate it by returning undefined
-            return
-        }
 
-        // Cache is still valid, return the cached data
-        return cachedData
-    }
-})
+// const { data: cache } = useNuxtData('episodes')
+// const nuxtApp = useNuxtApp()
+
+
+// Lazy fetching with a proper default value
+
+
+// Refresh data only if necessary
 
 
 

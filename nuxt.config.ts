@@ -3,12 +3,9 @@
 import Icons from 'unplugin-icons/vite'
 
 export default defineNuxtConfig({
-  // routeRules: {
-  //   // Homepage pre-rendered at build time
-  //   '/': { isr: 20 },
-  //   // Product page generated on-demand, revalidates in background
-
-  // },
+  routeRules: {
+    '/': { isr: 30 }
+  },
   postcss: {
     plugins: {
       tailwindcss: {},
