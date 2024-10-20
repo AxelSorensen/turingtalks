@@ -143,7 +143,8 @@ const { data: fresh, refresh } = useFetch('/api/test', {
 
     // },
     // Don't block navigation, fetch lazily // Fetch lazily only when requested (this is the key to non-blocking)
-    immediate: false,  // Don't fetch immediately on first load (SSR) unless triggered on the client
+    immediate: false,
+    cache: 'force-cache'  // Don't fetch immediately on first load (SSR) unless triggered on the client
 });
 
 onMounted(() => {
