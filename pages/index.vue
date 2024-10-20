@@ -8,6 +8,7 @@
             <img class="size-16 mt-4 mb-2" src="~/assets/logo.png" alt="">
         </div>
         <div>{{ fresh }}</div>
+
         <div class="flex  px-4 pb-2 flex-col  items-center">
             <h2 class="sm:text-3xl text-2xl text-stone-900 mb-4 font-bold">What should we cover next?</h2>
             <!-- <PostSuggestion @posted="scrollToSuggestion" /> -->
@@ -119,15 +120,36 @@ const db = useFirestore()
 
 // })
 
-const nuxt = useNuxtApp()
+const nuxt = useNuxtApp();
 
-const { data: fresh } = useFetch('/api/test', {
+const { data: fresh, refresh } = useFetch('/api/test', {
+    // Custom cache strategy
+    // transform: (data) => {
+    //     return {
+    //         data,
+    //         fetchedAt: Date.now(),
+    //     };
+    // },
+    // getCachedData: (key) => {
+    //     const cachedData = nuxt.payload.data[key] || nuxt.static.data[key] || null
+    //     if (!cachedData) {
+    //         return
+    //     }
+    //     // Check if data was fetched more than 10 seconds ago
+    //     if (Date.now() - cachedData.fetchedAt > 10000) {
+    //         return
+    //     }
+    //     return cachedData
 
-    getCachedData: key => nuxt.payload.data[key] || nuxt.static.data[key] || null
-}
-)
+    // },
+    // Don't block navigation, fetch lazily // Fetch lazily only when requested (this is the key to non-blocking)
+    immediate: false,  // Don't fetch immediately on first load (SSR) unless triggered on the client
+});
 
-
+onMounted(() => {
+    if (!fresh.value)
+        refresh()
+})
 // const { data: cache } = useNuxtData('episodes')
 // const nuxtApp = useNuxtApp()
 
