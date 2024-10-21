@@ -143,11 +143,15 @@ const { data: episodes, refresh } = useAsyncData('episodes', () => {
     immediate: false,
 });
 
+const isClientSideHydration = computed(() => !nuxt.ssrContext && nuxt.isHydrating);
+
+// Only refresh on the client side if there is no cached data and not hydrating
 onMounted(() => {
-    if (!cache.value) {
-        refresh()
+    // Process server-side data, if already cached, avoid refreshing
+    if (!cache.value && !isClientSideHydration.value) {
+        refresh();
     }
-})
+});
 
 // const { data: cache } = useNuxtData('episodes')
 // const nuxtApp = useNuxtApp()
