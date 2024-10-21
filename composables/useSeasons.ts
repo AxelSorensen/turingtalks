@@ -11,7 +11,7 @@ export function useSeasons(ep_limit: number, order: 'asc' | 'desc', key: string)
     const { data: seasons } = useAsyncData(key, async () => {
         console.log('Fetching seasons')
         const q = query(collection(db, 'seasons'), limit(ep_limit))
-        return useCollection(q, { once: true, ssrKey: key }).value
+        return useCollection(q, { once: true, ssrKey: key })
     }, {
         transform: (data) => {
             return {

@@ -7,10 +7,10 @@ export function useEpisodes(ep_limit: number, order: 'asc' | 'desc', key: string
 
 
 
-    const { data: episodes } = useAsyncData(key, async () => {
+    const { data: episodes } = useAsyncData(key, () => {
         console.log('Fetching episodes')
         const q = query(collection(db, 'episodes'), limit(ep_limit), orderBy('date', order))
-        return useCollection(q, { once: true, ssrKey: key }).value
+        return useCollection(q, { once: true, ssrKey: key })
     }, {
         transform: (data) => {
             return {

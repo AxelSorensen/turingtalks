@@ -4,11 +4,11 @@ import { query, doc, collection, limit, orderBy, where, documentId } from 'fireb
 export function useEpisodesFromSeason(seasonId: string, ep_limit: number, order: 'asc' | 'desc', key: string) {
     const db = useFirestore()
     const nuxt = useNuxtApp()
-    const { data: episodes } = useAsyncData(key, async () => {
+    const { data: episodes } = useAsyncData(key, () => {
 
         const season_episodes: Ref = useDocument(doc(db, 'seasons', seasonId), { once: true })
         const q = query(collection(db, 'episodes'), where(documentId(), 'in', season_episodes.value.episodes), limit(ep_limit), orderBy('date', order))
-        return useCollection(q, { once: true, ssrKey: key }).value
+        return useCollection(q, { once: true, ssrKey: key })
     }, {
         transform: (data) => {
             return {

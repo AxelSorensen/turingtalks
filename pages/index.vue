@@ -80,12 +80,6 @@
 <script setup>
 import Dice from '~icons/mdi/dice'
 
-import {
-    signInWithPopup, GoogleAuthProvider
-} from 'firebase/auth'
-
-
-import { collection, limit, orderBy, query } from 'firebase/firestore';
 // const auth = useFirebaseAuth()
 // const user = useCurrentUser() // only exists on client side
 
@@ -96,9 +90,6 @@ const scrollToSuggestion = () => {
 
 }
 
-const { data: test } = useAsyncData('hello', () => {
-    return $fetch('/api/test')
-})
 
 const randomEpisode = () => {
     // Fetch all episode ids
@@ -107,7 +98,7 @@ const randomEpisode = () => {
     navigateTo({ path: `/episodes/${all_episodes.value[random_id].id}`, query: { color: colors[Math.floor(Math.random() * colors.length)] } })
 }
 // const nuxtApp = useNuxtApp()
-const db = useFirestore()
+
 // const { data: episodes } = useAsyncData('episodesKey', async () => {
 //     console.log('Fetching episodes')
 
