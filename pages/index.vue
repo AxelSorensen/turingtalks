@@ -115,11 +115,10 @@ const db = useFirestore()
 // })
 
 const nuxt = useNuxtApp()
-const cache = useNuxtData('episodes')
 const { data: episodes, refresh } = useAsyncData('episodes', () => {
-    // const q = query(collection(db, 'episodes'), limit(4), orderBy('date', 'desc'))
-    // return useCollection(q, { once: true, ssrKey: 'episodes' })
-    return $fetch('/api/test')
+    const q = query(collection(db, 'episodes'), limit(4), orderBy('date', 'desc'))
+    return useCollection(q, { once: true, ssrKey: 'episodes' })
+
 }, {
 
     key: 'episodes',
@@ -140,18 +139,11 @@ const { data: episodes, refresh } = useAsyncData('episodes', () => {
         }
         return cachedData
     },
-    immediate: false,
+
 });
 
-const isClientSideHydration = computed(() => !nuxt.ssrContext && nuxt.isHydrating);
 
 // Only refresh on the client side if there is no cached data and not hydrating
-onMounted(() => {
-    // Process server-side data, if already cached, avoid refreshing
-    if (!cache.value && !isClientSideHydration.value) {
-        refresh();
-    }
-});
 
 // const { data: cache } = useNuxtData('episodes')
 // const nuxtApp = useNuxtApp()
