@@ -6,15 +6,13 @@
             <h2 class="text-lg text-stone-900 ">The first AI-hosted podcast about AI</h2>
             <img class="size-16 mt-4 mb-2" src="~/assets/logo.png" alt="">
         </div>
-        {{ episodes }}
-        {{ cache }}
         <div class="flex  px-4 pb-2 flex-col  items-center">
             <h2 class="sm:text-3xl text-2xl text-stone-900 mb-4 font-bold">What should we cover next?</h2>
             <!-- <PostSuggestion @posted="scrollToSuggestion" /> -->
         </div>
         <div class="px-4 max-w-[800px] w-full mx-auto pt-2">
             <h2 class="pb-2 text-xl text-stone-900 ">Latest episodes</h2>
-            <!-- <SimpleCards :items="episodes?.data" :colors="colors" :limit="featured_limit" /> -->
+            <SimpleCards :items="episodes?.data" :colors="colors" :limit="featured_limit" />
             <!-- <div v-if="featured_limit == 2" @click="showMoreTalks"
                 class="text-center items-center flex justify-center hover:text-stone-900 cursor-pointer pt-4 text-sm text-stone-700">
                 <p>See More</p>
@@ -98,6 +96,10 @@ const scrollToSuggestion = () => {
 
 }
 
+const { data: test } = useAsyncData('hello', () => {
+    return $fetch('/api/test')
+})
+
 const randomEpisode = () => {
     // Fetch all episode ids
     const all_episodes = useCollection(collection(db, 'episodes'), { once: true })
@@ -114,49 +116,10 @@ const db = useFirestore()
 
 // })
 
-const nuxt = useNuxtApp()
-const { data: episodes, refresh } = useAsyncData('episodes', () => {
-    const q = query(collection(db, 'episodes'), limit(4), orderBy('date', 'desc'))
-    return useCollection(q, { once: true, ssrKey: 'episodes' })
 
-}, {
+import { useEpisodes } from '~/composables/useEpisodes';
 
-    key: 'episodes',
-    // Custom cache strategy
-    transform: (data) => {
-        return {
-            data,
-            fetchedAt: Date.now(),
-        };
-    },
-    getCachedData: (key) => {
-        const cachedData = nuxt.payload.data[key] || nuxt.static.data[key] || null
-        if (!cachedData) {
-            return
-        }
-        if (Date.now() - cachedData.fetchedAt > 1000 * 60) {
-            return
-        }
-        return cachedData
-    },
-
-});
-
-
-// Only refresh on the client side if there is no cached data and not hydrating
-
-// const { data: cache } = useNuxtData('episodes')
-// const nuxtApp = useNuxtApp()
-
-
-// Lazy fetching with a proper default value
-
-
-// Refresh data only if necessary
-
-
-
-
+const { episodes } = useEpisodes(4, 'desc', 'latest_episodes')
 
 // const topics = ref([{ name: 'About superposition', votes: 10 }])
 // come up with featured episodes 3 of them
