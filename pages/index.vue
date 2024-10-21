@@ -137,16 +137,8 @@ const { data: episodes, refresh } = useAsyncData('episodes', () => {
         }
         return cachedData
     },
-    immediate: false,
 });
 
-
-onMounted(() => {
-    if (!episodes.value) {
-        refresh()
-    }
-
-})
 // const { data: cache } = useNuxtData('episodes')
 // const nuxtApp = useNuxtApp()
 
