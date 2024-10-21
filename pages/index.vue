@@ -1,5 +1,4 @@
 <template>
-
     <div class="grid relative mx-auto grid-rows-[auto,auto,auto,] h-full grid-cols-1 justify-center items-center">
         <div class="flex pt-8  flex-col items-center p-4">
             <h1 class="sm:text-5xl text-4xl text-stone-900  font-bold">The Turing Talks</h1>
@@ -7,17 +6,14 @@
             <h2 class="text-lg text-stone-900 ">The first AI-hosted podcast about AI</h2>
             <img class="size-16 mt-4 mb-2" src="~/assets/logo.png" alt="">
         </div>
-        <div>fresh: {{ fresh }}</div>
-        <div>cache: {{ cache }}</div>
 
         <div class="flex  px-4 pb-2 flex-col  items-center">
             <h2 class="sm:text-3xl text-2xl text-stone-900 mb-4 font-bold">What should we cover next?</h2>
             <!-- <PostSuggestion @posted="scrollToSuggestion" /> -->
-
         </div>
         <div class="px-4 max-w-[800px] w-full mx-auto pt-2">
             <h2 class="pb-2 text-xl text-stone-900 ">Latest episodes</h2>
-            <!-- <SimpleCards :items="episodes" :colors="colors" :limit="featured_limit" /> -->
+            <SimpleCards :items="episodes?.data" :colors="colors" :limit="featured_limit" />
             <!-- <div v-if="featured_limit == 2" @click="showMoreTalks"
                 class="text-center items-center flex justify-center hover:text-stone-900 cursor-pointer pt-4 text-sm text-stone-700">
                 <p>See More</p>
@@ -83,7 +79,6 @@
 </template>
 
 <script setup>
-const { enabled, state } = usePreviewMode()
 import Dice from '~icons/mdi/dice'
 
 import {
@@ -91,10 +86,9 @@ import {
 } from 'firebase/auth'
 
 
-import { collection } from 'firebase/firestore';
+import { collection, limit, orderBy, query } from 'firebase/firestore';
 // const auth = useFirebaseAuth()
 // const user = useCurrentUser() // only exists on client side
-
 
 const scrollToSuggestion = () => {
     setTimeout(() => {
@@ -120,9 +114,10 @@ const db = useFirestore()
 // })
 
 const nuxt = useNuxtApp()
-const { data: cache } = useNuxtData('episodes')
-
-const { data: fresh, refresh } = useFetch('/api/test', {
+const { data: episodes, refresh } = await useAsyncData('episodes', () => {
+    const q = query(collection(db, 'episodes'), limit(4), orderBy('date', 'desc'))
+    return useCollection(q, { once: true, ssrKey: 'episodes' })
+}, {
     key: 'episodes',
     // Custom cache strategy
     transform: (data) => {
@@ -136,20 +131,20 @@ const { data: fresh, refresh } = useFetch('/api/test', {
         if (!cachedData) {
             return
         }
-        // Check if data was fetched more than 10 seconds ago
-        if (Date.now() - cachedData.fetchedAt > 10000) {
+        if (Date.now() - cachedData.fetchedAt > 1000 * 60) {
             return
         }
         return cachedData
-
     },
-    immediate: false,  // Don't fetch immediately on first load (SSR) unless triggered on the client
+    immediate: false,
 });
 
+
 onMounted(() => {
-    if (!fresh.value) {
+    if (!episodes.value) {
         refresh()
     }
+
 })
 // const { data: cache } = useNuxtData('episodes')
 // const nuxtApp = useNuxtApp()

@@ -44,7 +44,7 @@ const db = useFirestore()
 const route = useRoute()
 const seasonRef = doc(db, 'seasons', route.params.id)
 const season = useDocument(seasonRef, { once: true })
-const q = query(collection(db, 'episodes'), where(documentId(), 'in', season.value.episodes))
+const q = query(collection(db, 'episodes'), where(documentId(), 'in', season?.value?.episodes))
 const episodes = useCollection(q, { once: true })
 
 // 5 fake episodes with name, description, and id and 10

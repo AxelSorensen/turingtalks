@@ -6,6 +6,7 @@
         <div :style="{ backgroundColor: color }" class=" p-4 -mt-[4rem] pt-20">
             <div class="max-w-[800px] mx-auto">
                 <div class="flex items-center gap-8 justify-between ">
+                    <!-- <Spinner class="bg-red-200" v-if="episode?.data?.title" /> -->
                     <h1 class="text-2xl  font-bold pb-2">{{ episode?.data?.title }}</h1>
 
                 </div>
@@ -122,12 +123,12 @@ const colRef = collection(db, 'episodes', route.params.id, 'comments')
 
 const docRef = doc(db, 'episodes', route.params.id)
 const nuxtApp = useNuxtApp()
-const { data: episode } = await useAsyncData(`episode-${route.params.id}`, async () => {
+const { data: episode } = useAsyncData(`episode-${route.params.id}`, () => {
     console.log('Fetching episodes')
 
     // Firestore collection fetch logic
-    const episode = useDocument(docRef, { once: true })
-    return episode.value
+    return useDocument(docRef, { once: true })
+
 }, {
     transform: (data) => {
         return { data: data, fetchedAt: new Date() } // Add timestamp to data
@@ -144,11 +145,11 @@ const { data: episode } = await useAsyncData(`episode-${route.params.id}`, async
         }
 
         // Check if the cache is older than 1 second
-        const cacheAge = new Date() - new Date(cachedData.fetchedAt)
-        if (cacheAge > 1000 * 10) {
-            // Cache is older than 10 second, invalidate it by returning undefined
-            return
-        }
+        // const cacheAge = new Date() - new Date(cachedData.fetchedAt)
+        // if (cacheAge > 1000 * 60) {
+        //     // Cache is older than 10 second, invalidate it by returning undefined
+        //     return
+        // }
 
         // Cache is still valid, return the cached data
         return cachedData
