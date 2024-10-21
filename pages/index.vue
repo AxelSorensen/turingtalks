@@ -119,6 +119,7 @@ const { data: episodes, refresh } = useAsyncData('episodes', () => {
     // return useCollection(q, { once: true, ssrKey: 'episodes' })
     return $fetch('/api/test')
 }, {
+    server: false,
     key: 'episodes',
     // Custom cache strategy
     transform: (data) => {
@@ -137,6 +138,7 @@ const { data: episodes, refresh } = useAsyncData('episodes', () => {
         }
         return cachedData
     },
+
 });
 
 // const { data: cache } = useNuxtData('episodes')
