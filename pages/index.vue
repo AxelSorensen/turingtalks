@@ -6,6 +6,8 @@
             <h2 class="text-lg text-stone-900 ">The first AI-hosted podcast about AI</h2>
             <img class="size-16 mt-4 mb-2" src="~/assets/logo.png" alt="">
         </div>
+        {{ episodes }}
+        {{ cache }}
         <div class="flex  px-4 pb-2 flex-col  items-center">
             <h2 class="sm:text-3xl text-2xl text-stone-900 mb-4 font-bold">What should we cover next?</h2>
             <!-- <PostSuggestion @posted="scrollToSuggestion" /> -->
