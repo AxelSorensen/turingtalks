@@ -114,11 +114,10 @@ const db = useFirestore()
 // })
 
 const nuxt = useNuxtApp()
-const { data: episodes, refresh } = await useAsyncData('episodes', () => {
+const { data: episodes, refresh } = useAsyncData('episodes', () => {
     // const q = query(collection(db, 'episodes'), limit(4), orderBy('date', 'desc'))
     // return useCollection(q, { once: true, ssrKey: 'episodes' })
-    console.log('Fetching episodes')
-    $fetch('/api/test')
+    return $fetch('/api/test')
 }, {
     key: 'episodes',
     // Custom cache strategy
