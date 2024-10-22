@@ -21,7 +21,7 @@
                 <div class="w-full grid grid-rows-[1fr,1fr] gap-4">
                     <div class="">
                         <h2 class="text-xl pb-2 text-stone-900">Popular</h2>
-                        <Cards :items="episodes?.data" :colors="colors" />
+                        <Cards :items="episodes?.data" :title="true" :colors="colors" />
                     </div>
                     <div class="">
                         <h2 class="text-xl text-stone-900 pb-2">Seasons</h2>

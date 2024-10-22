@@ -7,17 +7,21 @@
             <div class="max-w-[800px] mx-auto">
                 <div class="flex items-center gap-8 justify-between ">
                     <!-- <Spinner class="bg-red-200" v-if="episode?.data?.title" /> -->
-                    <h1 class="text-2xl  font-bold pb-2">{{ episode?.data?.title }}</h1>
+                    <h1 class="text-2xl  font-bold pb-2">{{ route.query.title }}</h1>
 
                 </div>
-                <div @click="summary_open = !summary_open" class="flex flex-col">
+                <div class="h-[5.5rem] pt-2 overflow-hidden" v-if="!episode?.data?.description">
+                    <Spinner />
+                </div>
+                <div v-else @click="summary_open = !summary_open" :class="[summary_open ? 'h-full' : 'h-[5.5rem]']"
+                    class="flex flex-col">
                     <div class="flex text-stone-900 items-center hover:text-black rounded-md cursor-pointer">
                         <h2 class=" font-medium">Summary</h2>
                         <div class=" flex mt-[1px]">
                         </div>
                         <ChevronLeft :class="[summary_open ? 'rotate-180' : null]" class="text-lg mt-[2px]" />
                     </div>
-                    <p :class="[summary_open ? null : 'line-clamp-3']" v-html="episode?.data?.description"
+                    <p :class="[summary_open ? 'null' : 'line-clamp-3']" v-html="episode?.data?.description"
                         class="text-sm">
                     </p>
 
@@ -110,51 +114,13 @@ import ChevronLeft from '~icons/heroicons/chevron-down-16-solid'
 import Heart from '~icons/fa/heart'
 import Link from '~icons/heroicons/link-16-solid'
 import ClipBoard from '~icons/heroicons/clipboard-document-16-solid'
-import { doc, addDoc, collection } from 'firebase/firestore';
 const sources_open = ref(false)
 const summary_open = ref(false)
 const liked = ref(false)
 const color = route.query.color
 
+const { episode } = useEpisode(route.params.id, `episode-${route.params.id}`)
 
-const db = useFirestore()
-
-const colRef = collection(db, 'episodes', route.params.id, 'comments')
-
-const docRef = doc(db, 'episodes', route.params.id)
-const nuxtApp = useNuxtApp()
-const { data: episode } = useAsyncData(`episode-${route.params.id}`, () => {
-    console.log('Fetching episodes')
-
-    // Firestore collection fetch logic
-    return useDocument(docRef, { once: true })
-
-}, {
-    transform: (data) => {
-        return { data: data, fetchedAt: new Date() } // Add timestamp to data
-    },
-    getCachedData(key) {
-        console.log('Getting cached data')
-
-        // Accessing cached data from Nuxt app payload or static data
-        const cachedData = nuxtApp.payload.data[key] || nuxtApp.static.data[key]
-
-        if (!cachedData) {
-            // No cached data found, return undefined so data is refetched
-            return
-        }
-
-        // Check if the cache is older than 1 second
-        // const cacheAge = new Date() - new Date(cachedData.fetchedAt)
-        // if (cacheAge > 1000 * 60) {
-        //     // Cache is older than 10 second, invalidate it by returning undefined
-        //     return
-        // }
-
-        // Cache is still valid, return the cached data
-        return cachedData
-    }
-})
 
 </script>
 

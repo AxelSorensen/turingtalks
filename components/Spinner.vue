@@ -1,6 +1,5 @@
 <template>
-    <div
-        class="grid opacity-40 min-h-[140px] w-full place-items-center overflow-x-scroll rounded-lg p-6 lg:overflow-visible">
+    <div class="grid opacity-40 w-full h-fit place-items-center overflow-x-scroll rounded-lg p-4 lg:overflow-visible">
         <svg class="text-gray-300 animate-spin" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"
             width="42" height="42">
             <path
