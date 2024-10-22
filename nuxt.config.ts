@@ -4,9 +4,7 @@ import Icons from 'unplugin-icons/vite'
 
 export default defineNuxtConfig({
   routeRules: {
-    '/': { swr: true },
-    '/episodes': { swr: true },
-    '/episodes/**': { swr: true },
+    '/': { prerender: true },
   },
   postcss: {
     plugins: {
