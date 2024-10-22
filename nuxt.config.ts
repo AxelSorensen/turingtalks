@@ -6,7 +6,7 @@ export default defineNuxtConfig({
   routeRules: {
     '/': { swr: true },
     '/episodes': { swr: true },
-    '/episodes/**/**': { swr: true },
+    '/episodes/**': { swr: true },
   },
   postcss: {
     plugins: {
