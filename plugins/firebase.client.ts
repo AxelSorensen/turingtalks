@@ -1,6 +1,10 @@
-import { initializeApp } from "firebase/app"
-import { getFirestore } from "firebase/firestore"
+import { initializeApp } from 'firebase/app'
+import { getAuth } from "firebase/auth"
+import { getFirestore } from 'firebase/firestore'
+
+
 export default defineNuxtPlugin(() => {
+
     const firebaseConfig = {
         apiKey: "AIzaSyCWXYg1Y8-64XhePLPxbuvY0SkFRJye02Y",
         authDomain: "theturingtalks.firebaseapp.com",
@@ -11,8 +15,14 @@ export default defineNuxtPlugin(() => {
         measurementId: "G-P9FPDM46KR"
     };
 
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-    return null
+    const app = initializeApp(firebaseConfig)
+
+    const auth = getAuth(app)
+    const db = getFirestore(app)
+    return {
+        provide: {
+            auth,
+            db
+        }
+    }
 })

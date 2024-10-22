@@ -113,6 +113,7 @@ import { useEpisodes } from '~/composables/useEpisodes';
 
 const { episodes } = useEpisodes(4, 'desc', 'latest_episodes')
 
+
 // const topics = ref([{ name: 'About superposition', votes: 10 }])
 // come up with featured episodes 3 of them
 const colors = [

@@ -10,7 +10,7 @@
 
                 <div class="">
                     <h2 class="text-xl pb-2 text-stone-900">Episodes</h2>
-                    <Cards :items="episodes?.data" :colors="colors" />
+                    <Cards :title="true" :items="episodes?.data" :colors="colors" />
 
                 </div>
                 <!-- <div class="">
@@ -32,13 +32,10 @@
 
 <script setup>
 import { colors } from '~/utils/colors';
-import { doc } from 'firebase/firestore';
-const db = useFirestore()
-const route = useRoute()
-const seasonRef = doc(db, 'seasons', route.params.id)
-const season_episodes = useDocument(seasonRef, { once: true })
-const { episodes } = useEpisodesFromSeason(season_episodes.value.episodes, undefined, 'desc', `all_episodes_from_season-${route.params.id}`)
 
+const route = useRoute()
+
+const { episodes } = await useEpisodesFromSeason(route.params.id, undefined, 'desc', `all_episodes_from_season-${route.params.id}`)
 
 // 5 fake episodes with name, description, and id and 10
 
