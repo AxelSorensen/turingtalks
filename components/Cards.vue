@@ -4,7 +4,7 @@
         <NuxtLink v-if="ordered_items?.length" v-for="(item, index) in ordered_items.slice(0, limit || items?.length)"
             :key="item.id" :style="{ backgroundColor: colors[index % colors?.length] }"
             class="hover:brightness-105 p-4 rounded-md h-[11rem] grid grid-rows-[1fr,auto]"
-            :to="{ path: `${path || '/episodes'}/${item.id}`, query: { color: colors[index % colors?.length] } }">
+            :to="{ path: `${path || '/episodes'}/${item.id}`, query: { color: colors[index % colors?.length], title: title ? item.title : null } }">
             <div :class="[item.duration ? 'justify-between text-lg leading-6' : 'justify-center text-center items-center opacity-60 text-2xl']"
                 class="flex items-start gap-4">
                 <h2 class=" line-clamp-2 font-medium">{{ item.title }}</h2>
@@ -39,7 +39,8 @@ const props = defineProps({
     items: Array,
     limit: Number,
     colors: Array,
-    path: String
+    path: String,
+    title: Boolean,
 })
 
 const { items } = toRefs(props)

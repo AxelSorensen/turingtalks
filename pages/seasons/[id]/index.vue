@@ -2,7 +2,7 @@
     <div>
         <h1 class="text-2xl text-stone-900 max-w-[800px] mx-auto font-bold p-4"><span
                 class="text-stone-400">Seasons</span>
-            / {{ season?.data?.title
+            / {{ route.query.title
             }}</h1>
 
         <NuxtLayout name="custom">
@@ -32,7 +32,7 @@
 
 <script setup>
 const route = useRoute()
-const { episodes } = useEpisodesFromSeason(route.params.id, undefined, 'desc', 'all_episodes_from_season')
+const { episodes } = useEpisodesFromSeason(route.params.id, undefined, 'desc', `all_episodes_from_season-${route.params.id}`)
 
 const colors = [
     '#A3A7FC', // light cool blue

@@ -25,7 +25,7 @@
                     </div>
                     <div class="">
                         <h2 class="text-xl text-stone-900 pb-2">Seasons</h2>
-                        <Cards path="/seasons" :items="seasons?.data" :colors="colors" />
+                        <Cards path="/seasons" :items="seasons?.data" :title="true" :colors="colors" />
                     </div>
                     <div class="">
                         <h2 class="text-xl text-stone-900 pb-2">All episodes</h2>

@@ -5,9 +5,7 @@ import { query, collection, limit, orderBy } from 'firebase/firestore' // adjust
 export function useSeasons(ep_limit: number, order: 'asc' | 'desc', key: string) {
     const db = useFirestore()
     const nuxt = useNuxtApp()
-
-
-
+    
     const { data: seasons } = useAsyncData(key, async () => {
         console.log('Fetching seasons')
         const q = query(collection(db, 'seasons'), limit(ep_limit))
