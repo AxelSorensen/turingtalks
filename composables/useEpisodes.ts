@@ -9,12 +9,9 @@ export function useEpisodes(ep_limit: number, order: 'asc' | 'desc', key: string
 
     const { data: episodes } = useAsyncData(key, async () => {
         console.log('Fetching episodes')
-        // wait 3 seconds
-        await new Promise((resolve) => setTimeout(resolve, 3000))
 
-        return $fetch('/api/test')
-        // const q = query(collection(db, 'episodes'), limit(ep_limit), orderBy('date', order))
-        // return useCollection(q, { once: true, ssrKey: key })
+        const q = query(collection(db, 'episodes'), limit(ep_limit), orderBy('date', order))
+        return useCollection(q, { once: true, ssrKey: key })
     }, {
         transform: (data) => {
             return {

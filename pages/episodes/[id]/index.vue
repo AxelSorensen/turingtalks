@@ -7,14 +7,14 @@
             <div class="max-w-[800px] mx-auto">
                 <div class="flex items-center gap-8 justify-between ">
                     <!-- <Spinner class="bg-red-200" v-if="episode?.data?.title" /> -->
-                    <h1 class="text-2xl  font-bold pb-2">{{ route.query.title }}</h1>
-                    <div>{{ episode }}</div>
+                    <h1 class="text-2xl  font-bold pb-2">{{ route.query.title || episode?.data?.title }}</h1>
+
                 </div>
                 <div class="h-[5.5rem] pt-2 overflow-hidden" v-if="!episode?.data?.description">
                     <Spinner />
                 </div>
                 <div v-else @click="summary_open = !summary_open" :class="[summary_open ? 'h-full' : 'h-[5.5rem]']"
-                    class="flex flex-col">
+                    class="flex h-[5.5rem] flex-col">
                     <div class="flex text-stone-900 items-center hover:text-black rounded-md cursor-pointer">
                         <h2 class=" font-medium">Summary</h2>
                         <div class=" flex mt-[1px]">
@@ -117,7 +117,10 @@ import ClipBoard from '~icons/heroicons/clipboard-document-16-solid'
 const sources_open = ref(false)
 const summary_open = ref(false)
 const liked = ref(false)
-const color = route.query.color
+let color = route.query.color
+if (!route.query.color) {
+    color = getRandomColor()
+}
 
 const { episode } = useEpisode(route.params.id, `episode-${route.params.id}`)
 

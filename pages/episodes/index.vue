@@ -17,9 +17,8 @@
         <NuxtLayout name="custom">
 
             <div class="h-full w-full relative">
-                <div>{{ episodes }}</div>
-                <div>{{ seasons }}</div>
-                <!-- <div class="w-full grid grid-rows-[1fr,1fr] gap-4">
+
+                <div class="w-full grid grid-rows-[1fr,1fr] gap-4">
                     <div class="">
                         <h2 class="text-xl pb-2 text-stone-900">Popular</h2>
                         <Cards :items="episodes?.data" :title="true" :colors="colors" />
@@ -32,7 +31,7 @@
                         <h2 class="text-xl text-stone-900 pb-2">All episodes</h2>
                         <Cards :items="episodes?.data" :colors="colors" />
                     </div>
-                </div> -->
+                </div>
             </div>
 
         </NuxtLayout>
@@ -48,7 +47,7 @@ const colors = [
     '#A3A7FC', // light cool blue
     '#F1B2D8', // soft warm pink
     '#F6D78B', // muted warm yellow
-    '#C6D0BC', // gentle desaturated greenn
+    '#C6D0BC', // gentle desaturated green
 ];
 
 

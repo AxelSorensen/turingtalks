@@ -5,11 +5,8 @@ export function useEpisodesFromSeason(season_episodes: any, ep_limit: number, or
     const db = useFirestore()
     const nuxt = useNuxtApp()
     const { data: episodes } = useAsyncData(key, async () => {
-        await new Promise((resolve) => setTimeout(resolve, 3000))
-
-        return $fetch('/api/test')
-        // const q = query(collection(db, 'episodes'), where(documentId(), 'in', season_episodes), limit(ep_limit), orderBy('date', order))
-        // return useCollection(q, { once: true, ssrKey: key })
+        const q = query(collection(db, 'episodes'), where(documentId(), 'in', season_episodes), limit(ep_limit), orderBy('date', order))
+        return useCollection(q, { once: true, ssrKey: key })
     }, {
         transform: (data) => {
             return {

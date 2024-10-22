@@ -2,7 +2,7 @@
     <div>
         <h1 class="text-2xl text-stone-900 max-w-[800px] mx-auto font-bold p-4"><span
                 class="text-stone-400">Seasons</span>
-            / {{ route.query.title
+            / {{ route.query.title || episodes?.data?.title
             }}</h1>
         <NuxtLayout name="custom">
 
@@ -10,8 +10,8 @@
 
                 <div class="">
                     <h2 class="text-xl pb-2 text-stone-900">Episodes</h2>
-                    <!-- <Cards :items="episodes?.data" :colors="colors" /> -->
-                    <div>{{ episodes }}</div>
+                    <Cards :items="episodes?.data" :colors="colors" />
+
                 </div>
                 <!-- <div class="">
                         <h2 class="text-xl text-stone-900 pb-2">Seasons</h2>
@@ -31,22 +31,13 @@
 
 
 <script setup>
-
+import { colors } from '~/utils/colors';
 import { doc } from 'firebase/firestore';
 const db = useFirestore()
 const route = useRoute()
 const seasonRef = doc(db, 'seasons', route.params.id)
 const season_episodes = useDocument(seasonRef, { once: true })
 const { episodes } = useEpisodesFromSeason(season_episodes.value.episodes, undefined, 'desc', `all_episodes_from_season-${route.params.id}`)
-
-const colors = [
-    '#A3A7FC', // light cool blue
-    '#F1B2D8', // soft warm pink
-    '#F6D78B', // muted warm yellow
-    '#C6D0BC', // gentle desaturated green
-
-];
-
 
 
 // 5 fake episodes with name, description, and id and 10

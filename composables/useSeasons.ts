@@ -7,13 +7,11 @@ export function useSeasons(ep_limit: number, order: 'asc' | 'desc', key: string)
     const nuxt = useNuxtApp()
 
     const { data: seasons } = useAsyncData(key, async () => {
-        // wait 3 seconds
-        await new Promise((resolve) => setTimeout(resolve, 3000))
 
-        return $fetch('/api/test')
-        // console.log('Fetching seasons')
-        // const q = query(collection(db, 'seasons'), limit(ep_limit))
-        // return useCollection(q, { once: true, ssrKey: key })
+
+        console.log('Fetching seasons')
+        const q = query(collection(db, 'seasons'), limit(ep_limit))
+        return useCollection(q, { once: true, ssrKey: key })
     }, {
         transform: (data) => {
             return {
