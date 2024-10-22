@@ -1,6 +1,7 @@
 <template>
     <div class="grid relative mx-auto grid-rows-[auto,auto,auto,] h-full grid-cols-1 justify-center items-center">
         <div class="flex pt-8  flex-col items-center p-4">
+            <div>{{ episodes }}</div>
             <h1 class="sm:text-5xl text-4xl text-stone-900  font-bold">The Turing Talks</h1>
             <!-- <img class="size-28 text-red-50 absolute mt-[-30px] opacity-5" src="../assets/logo.png" alt=""> -->
             <h2 class="text-lg text-stone-900 ">The first AI-hosted podcast about AI</h2>
@@ -12,7 +13,7 @@
         </div>
         <div class="px-4 max-w-[800px] w-full mx-auto pt-2">
             <h2 class="pb-2 text-xl text-stone-900 ">Latest episodes</h2>
-            <SimpleCards :title="true" :items="episodes?.data" :colors="colors" :limit="featured_limit" />
+            <!-- <SimpleCards :title="true" :items="episodes?.data" :colors="colors" :limit="featured_limit" /> -->
             <!-- <div v-if="featured_limit == 2" @click="showMoreTalks"
                 class="text-center items-center flex justify-center hover:text-stone-900 cursor-pointer pt-4 text-sm text-stone-700">
                 <p>See More</p>

@@ -10,7 +10,8 @@
 
                 <div class="">
                     <h2 class="text-xl pb-2 text-stone-900">Episodes</h2>
-                    <Cards :items="episodes?.data" :colors="colors" />
+                    <!-- <Cards :items="episodes?.data" :colors="colors" /> -->
+                    <div>{{ episodes }}</div>
                 </div>
                 <!-- <div class="">
                         <h2 class="text-xl text-stone-900 pb-2">Seasons</h2>

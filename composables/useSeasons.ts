@@ -3,13 +3,17 @@ import { query, collection, limit, orderBy } from 'firebase/firestore' // adjust
 
 
 export function useSeasons(ep_limit: number, order: 'asc' | 'desc', key: string) {
-    const db = useFirestore()
-    const nuxt = useNuxtApp()
-    
+    // const db = useFirestore()
+    // const nuxt = useNuxtApp()
+
     const { data: seasons } = useAsyncData(key, async () => {
-        console.log('Fetching seasons')
-        const q = query(collection(db, 'seasons'), limit(ep_limit))
-        return useCollection(q, { once: true, ssrKey: key })
+        // wait 3 seconds
+        await new Promise((resolve) => setTimeout(resolve, 3000))
+
+        return $fetch('/api/test')
+        // console.log('Fetching seasons')
+        // const q = query(collection(db, 'seasons'), limit(ep_limit))
+        // return useCollection(q, { once: true, ssrKey: key })
     }, {
         transform: (data) => {
             return {

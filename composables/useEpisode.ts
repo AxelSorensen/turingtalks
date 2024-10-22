@@ -6,9 +6,12 @@ export function useEpisode(doc_id: string, key: string) {
     const nuxt = useNuxtApp()
 
     const { data: episode } = useAsyncData(key, async () => {
-        console.log('Fetching episode')
-        // wait 3 seconds
-        return useDocument(doc(db, 'episodes', doc_id), { once: true, ssrKey: key })
+        await new Promise((resolve) => setTimeout(resolve, 3000))
+
+        return $fetch('/api/test')
+        // console.log('Fetching episode')
+        // // wait 3 seconds
+        // return useDocument(doc(db, 'episodes', doc_id), { once: true, ssrKey: key })
     }, {
         transform: (data) => {
             return {

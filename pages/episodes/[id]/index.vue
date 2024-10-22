@@ -8,7 +8,7 @@
                 <div class="flex items-center gap-8 justify-between ">
                     <!-- <Spinner class="bg-red-200" v-if="episode?.data?.title" /> -->
                     <h1 class="text-2xl  font-bold pb-2">{{ route.query.title }}</h1>
-
+                    <div>{{ episode }}</div>
                 </div>
                 <div class="h-[5.5rem] pt-2 overflow-hidden" v-if="!episode?.data?.description">
                     <Spinner />
