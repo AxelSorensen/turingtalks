@@ -3,8 +3,8 @@ import { query, collection, limit, orderBy } from 'firebase/firestore' // adjust
 
 
 export function useSeasons(ep_limit: number, order: 'asc' | 'desc', key: string) {
-    // const db = useFirestore()
-    // const nuxt = useNuxtApp()
+    const db = useFirestore()
+    const nuxt = useNuxtApp()
 
     const { data: seasons } = useAsyncData(key, async () => {
         // wait 3 seconds
