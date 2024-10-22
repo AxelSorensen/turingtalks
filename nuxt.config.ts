@@ -6,7 +6,7 @@ export default defineNuxtConfig({
   routeRules: {
     '/': { isr: true },
     '/episodes': { isr: true },
-    '/episodes/:id': { isr: true },
+    '/episodes/**': { isr: true },
   },
   postcss: {
     plugins: {
