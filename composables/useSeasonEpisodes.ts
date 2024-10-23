@@ -1,7 +1,7 @@
 // composables/useEpisodes.js
 import { query, doc, collection, limit, orderBy, where, documentId } from 'firebase/firestore' // adjust the imports based on your setup
 
-export async function useEpisodesFromSeason(season_episodes: any, ep_limit: number, order: 'asc' | 'desc', key: string) {
+export async function useSeasonEpisodes(season_episodes: any, ep_limit: number, order: 'asc' | 'desc', key: string) {
     const db = useFirestore()
     const nuxt = useNuxtApp()
     const { data: episodes } = await useAsyncData(key, async () => {
@@ -9,7 +9,7 @@ export async function useEpisodesFromSeason(season_episodes: any, ep_limit: numb
         // season_episodes is undefined on the first page load and therefore the query below doesn't work
 
         const q = query(collection(db, 'episodes'), where(documentId(), 'in', season_episodes.value.data.episodes), limit(ep_limit), orderBy('date', order))
-        return useCollection(q, { once: true, ssrKey: key })
+        return useDocument(q, { once: true, ssrKey: key })
 
     }, {
 

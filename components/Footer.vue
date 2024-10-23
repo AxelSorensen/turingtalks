@@ -1,7 +1,7 @@
 <template>
     <div
         class="flex flex-col pb-20 gap-2 p-4 relative bg-gradient-to-t to-transparent backdrop-blur-2xl z-100 w-full h-full">
-        <!-- <CountDown /> -->
+        <CountDown />
         <Subscribe />
     </div>
     <div class="relative">

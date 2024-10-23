@@ -46,7 +46,7 @@ const props = defineProps({
 const { items } = toRefs(props)
 
 const ordered_items = computed(() => {
-    return items?.value?.sort((a, b) => b?.date?.seconds - a?.date?.seconds)
+    return Array.isArray(items.value) ? items.value.sort((a, b) => b?.date?.seconds - a?.date?.seconds) : []
 })
 
 </script>
