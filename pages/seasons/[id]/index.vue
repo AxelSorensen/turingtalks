@@ -71,7 +71,7 @@ return eps.docs.map(doc => ({ id: doc.id, ...doc.data() }))
 
 // You can use onMounted if you want to perform any actions specific to the client
 onMounted(() => {
-    if(!episodes.value) {
+    if(!nuxt.payload.data[`episodes-from-season-${route.params.id}`] || !nuxt.static.data[`episodes-from-season-${route.params.id}`]) {
         refresh()
     }
   // Any additional client-side logic can go here, if needed
