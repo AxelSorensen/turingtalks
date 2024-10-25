@@ -90,7 +90,9 @@ const postSuggestion = async () => {
         sources: [],
         votes: 0,
     }
-    await addDoc(collection(db, "topics"), { ...data_buffer, date: new Date() });
+    await addDoc(collection(db, "suggestions"), { ...data_buffer, date: new Date() });
+    
+    refreshNuxtData('suggestions')
     emit('posted')
 }
 

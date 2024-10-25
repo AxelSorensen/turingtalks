@@ -27,7 +27,7 @@
                 </div>
                 <div class="flex justify-start pt-2 flex-col">
                     <h2 ref="suggestions" class="pb-2 text-xl">Suggested topics</h2>
-                    <TopicList />
+                    <Suggestions />
 
 
                 </div>
@@ -41,12 +41,12 @@
 <script setup>
 const suggestions = ref(null)
 
-const scrollToSuggestion = () => {
-    setTimeout(() => {
-        suggestions.value.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }, 100);
+// const scrollToSuggestion = () => {
+//     setTimeout(() => {
+//         suggestions.value.scrollIntoView({ behavior: 'smooth', block: 'center' });
+//     }, 100);
 
-}
+// }
 
 
 </script>

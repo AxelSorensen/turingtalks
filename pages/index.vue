@@ -9,7 +9,7 @@
         </div>
         <div class="flex  px-4 pb-2 flex-col  items-center">
             <h2 class="sm:text-3xl text-2xl text-stone-900 mb-4 font-bold">What should we cover next?</h2>
-            <!-- <PostSuggestion @posted="scrollToSuggestion" /> -->
+            <PostSuggestion @posted="scrollToSuggestion" />
         </div>
         <div class="px-4 max-w-[800px] w-full mx-auto pt-2">
             <h2 class="pb-2 text-xl text-stone-900 ">Latest episodes</h2>
@@ -30,7 +30,7 @@
 
         <div ref="suggestions" class="flex max-w-[800px] w-full mx-auto px-4 p-2 pb-8 justify-start  flex-col">
             <h2 class="pb-2 text-stone-900 text-xl">Suggested topics</h2>
-            <!-- <TopicList :limit="suggested_limit" /> -->
+            <Suggestions :limit="suggested_limit" />
 
             <NuxtLink to="/suggestions">
                 <div
@@ -65,7 +65,7 @@
         </div>
         <div class="flex p-8 gap-2 flex-col justify-center items-center">
             <h2 class="text-xl">Support the show 🙏</h2>
-            <!-- <Support class="" /> -->
+            <Support class="" />
             <NuxtLink :to="{ path: '/about', query: { section: 'support' } }"
                 class="text-stone-400 transition-all text-sm cursor-pointer hover:text-stone-900">What
                 am
@@ -83,11 +83,11 @@ import Dice from '~icons/mdi/dice'
 
 // const auth = useFirebaseAuth()
 // const user = useCurrentUser() // only exists on client side
-
+const suggestions = ref(null)
 const scrollToSuggestion = () => {
     setTimeout(() => {
         suggestions.value.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }, 100);
+    }, 50);
 
 }
 

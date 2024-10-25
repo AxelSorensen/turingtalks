@@ -128,7 +128,7 @@ const routes = [
 ];
 
 const options = [
-    { name: 'My Favourites', path: `/profile/${user?.value?.uid}`, icon: 'Heart' },
+    { name: 'My Favourites', path: `/profile`, icon: 'Heart' },
     { name: 'My Suggestions', path: '/suggestions', icon: 'LightBulb' },
     { name: 'My Comments', path: '/about', icon: 'Comment' },
 ];

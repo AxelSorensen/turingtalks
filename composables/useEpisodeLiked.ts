@@ -25,12 +25,13 @@ export async function useEpisodeLiked(ep_id: string, user_id: string, key: strin
     const { data: isLiked, } = await useAsyncData(key, async () => {
         // Fetch season document to get the episode IDs
         // Query the episodes based on the episode IDs
-
+        let ep_liked;
         const ep = await getDoc(docRef)
         if (ep.exists()) {
+            ep_liked = ep.data()
 
-            return ep.data().likes.includes(ep_id)
         }
+        return ep_liked.likes.includes(ep_id)
 
 
     }, {// Fetch data immediately

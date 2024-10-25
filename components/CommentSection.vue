@@ -12,6 +12,7 @@
         </div>
 
     </div>
+
     <div class="flex h-full flex-col gap-4 text-xs">
         <Spinner v-if="!comments" />
         <!-- <div class="w-8 h-8 aspect-square bg-stone-200 text-white justify-center items-center flex rounded-full">
@@ -51,10 +52,12 @@
 
                 </div>
             </div>
-            <button v-if="more_comments" class="text-stone-700 hover:text-stone-900" @click="viewMoreEpisodes">Show
+
+            <button v-if="more_comments && comments.data.length >= 5" class="text-stone-700 hover:text-stone-900"
+                @click="viewMoreEpisodes">Show
                 more</button>
         </div>
-        <div class="flex flex-col gap-2" v-else>
+        <div class="flex flex-col mt-8 gap-2" v-else>
             <p class="text-center mb-32 text-stone-700">No comments yet
             </p>
 

@@ -7,6 +7,7 @@
             : 'Loading...' }}</h1>
 
         <div class="relative">
+
             <NuxtLayout name="custom">
                 <div>
 
@@ -25,6 +26,10 @@
                     <LightBulb class="text-xl" />
                     <h2 class=" text-xl">Your suggestions</h2>
                 </div>
+                <div class="flex gap-2 flex-col mb-8">
+                    <Cards :items="favorites?.data" :colors="colors" />
+                </div>
+
                 <div class="mb-4 flex gap-2 items-center">
                     <Comment class="text-xl" />
                     <h2 class=" text-xl">Your comments</h2>
@@ -82,9 +87,10 @@ import { colors } from '~/utils/colors'
 onMounted(async () => {
     user.value = await getCurrentUser()
     // Destructure the values from useEpisodeLiked and assign them to isLiked and likeEpisode
+    console.log(user.value.uid)
     const { favorites: favorites_data } = await useFavorites(user.value.uid, `favorites-for-user-${user.value.uid}`)
     // Set the ref values to the data retrieved in onMounted
-    favorites.value = favorites_data.value
+    favorites.value = favorites_data.value.data
 
 })
 
