@@ -101,7 +101,6 @@
 <script setup>
 import { ref } from 'vue';
 import { signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth';
-import { useCurrentUser, useFirebaseAuth } from 'vuefire'
 import { collection, doc, setDoc } from 'firebase/firestore';
 import Menu from '~icons/heroicons/bars-3-bottom-right-16-solid';
 import XMark from '~icons/heroicons/x-mark-16-solid';

@@ -3,7 +3,8 @@
     <div class="h-full  w-full text-stone-900 mx-auto ">
 
 
-        <h1 class="text-2xl text-stone-900 max-w-[800px] mx-auto font-bold p-4">{{ user.displayName }}'s Page</h1>
+        <h1 class="text-2xl text-stone-900 max-w-[800px] mx-auto font-bold p-4">{{ user ? user?.displayName + "'s Page"
+            : 'Loading...' }}</h1>
 
         <div class="relative">
             <NuxtLayout name="custom">
@@ -12,6 +13,11 @@
                     <div class="flex gap-2 items-center mb-4">
                         <Heart class="text-xl" />
                         <h2 class=" text-xl">Your Favorites</h2>
+
+
+                    </div>
+                    <div class="flex gap-2 flex-col mb-8">
+                        <Cards :items="favorites?.data" :colors="colors" />
                     </div>
 
                 </div>
@@ -67,10 +73,20 @@
 import Heart from '~icons/heroicons/heart-16-solid';
 import Comment from '~icons/heroicons/chat-bubble-oval-left-ellipsis-16-solid';
 import LightBulb from '~icons/heroicons/light-bulb-16-solid';
-const route = useRoute()
-const support = ref(null)
 
-const user = useCurrentUser()
+const support = ref(null)
+const user = ref(null)
+const favorites = ref([])
+import { colors } from '~/utils/colors'
+
+onMounted(async () => {
+    user.value = await getCurrentUser()
+    // Destructure the values from useEpisodeLiked and assign them to isLiked and likeEpisode
+    const { favorites: favorites_data } = await useFavorites(user.value.uid, `favorites-for-user-${user.value.uid}`)
+    // Set the ref values to the data retrieved in onMounted
+    favorites.value = favorites_data.value
+
+})
 
 
 

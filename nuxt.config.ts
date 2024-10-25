@@ -7,7 +7,8 @@ export default defineNuxtConfig({
     '/': { isr: true },
     '/about': { isr: true },
     '/episodes': { isr: true },
-    '/seasons/4RRFiafWskpcwLGte8eA': { isr: true },
+    '/episodes/**': { isr: true },
+    '/seasons/**': { isr: true },
   },
   postcss: {
     plugins: {
@@ -50,6 +51,8 @@ export default defineNuxtConfig({
   vuefire: {
     auth: {
       enabled: true,
+      persistence: ['indexedDBLocal']
+
 
 
     },

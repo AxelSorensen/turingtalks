@@ -22,7 +22,7 @@
 
             <NuxtLink to="/episodes">
                 <div
-                    class="text-center transition-all w-fit mx-auto hover:text-stone-900  rounded-sm  cursor-pointer mt-4 text-sm text-stone-400">
+                    class="text-center transition-all w-fit mx-auto hover:text-stone-900  rounded-sm  cursor-pointer mt-4 text-sm text-stone-700">
                     See all episodes
                 </div>
             </NuxtLink>
@@ -34,7 +34,7 @@
 
             <NuxtLink to="/suggestions">
                 <div
-                    class="text-center transition-all w-fit mx-auto hover:text-stone-900 rounded-sm cursor-pointer mt-4 text-sm text-stone-400">
+                    class="text-center transition-all w-fit mx-auto hover:text-stone-900 rounded-sm cursor-pointer mt-4 text-sm text-stone-700">
                     See all suggested topics
                 </div>
             </NuxtLink>
@@ -109,20 +109,13 @@ const randomEpisode = () => {
 // })
 
 
-import { useEpisodes } from '~/composables/useEpisodes';
 
-const { episodes } = useEpisodes(4, 'desc', 'latest_episodes')
+const { episodes } = await useEpisodes('all', 4, 'desc', 'latest_episodes')
 
 
 // const topics = ref([{ name: 'About superposition', votes: 10 }])
 // come up with featured episodes 3 of them
-const colors = [
-    '#A3A7FC', // light cool blue
-    '#F1B2D8', // soft warm pink
-    '#F6D78B', // muted warm yellow
-    '#C6D0BC', // gentle desaturated green
-    // deeper green
-];
+
 
 const featured_limit = ref(4)
 const suggested_limit = ref(5)

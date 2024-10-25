@@ -1,21 +1,18 @@
-import { query, getDoc, doc, collection, limit, orderBy } from 'firebase/firestore' // adjust the imports based on your setup
+import { query, getDocs, where, limit, collection } from 'firebase/firestore' // adjust the imports based on your setup
 
-export async function useEpisode(ep_id: string, key: string) {
+export function useSimilarEpisodes(ep_limit: number, order: 'asc' | 'desc', key: string, ep_id: string, tags_array: string[]) {
     const db = useFirestore()
     const nuxt = useNuxtApp()
     // Use useAsyncData to fetch and cache episodes
-    const { data: episode } = await useAsyncData(key, async () => {
-
+    const { data: similar_episodes } = useAsyncData(key, async () => {
         // Fetch season document to get the episode IDs
         console.log('Fetching episodes')
-        const docRef = doc(db, 'episodes', ep_id)
         // Query the episodes based on the episode IDs
-        const ep = await getDoc(docRef)
-        if (ep.exists()) {
-            console.log('returning episode')
-            return { id: ep.id, ...ep.data() }
-        }
-        // Return the episodes data
+        const eps = await getDocs(query(collection(db, 'episodes'), where('tags', 'array-contains-any', tags_array), limit(ep_limit)))
+
+        return eps.docs
+            .map(doc => ({ id: doc.id, ...doc.data() }))
+            .filter(ep => ep.id !== ep_id)
 
     }, {// Fetch data immediately
         transform: (data) => {
@@ -32,10 +29,11 @@ export async function useEpisode(ep_id: string, key: string) {
             if (Date.now() - cachedData.fetchedAt > 1000 * 60) { // 1 minute cache
                 return
             }
-            console.log('returning episode from cache')
+            console.log('returning similar eps from cache')
             return cachedData
-        }
+        },
+
     })
 
-    return { episode }
+    return { similar_episodes }
 }

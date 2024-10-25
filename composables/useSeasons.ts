@@ -1,5 +1,5 @@
 // composables/useEpisodes.js
-import { query, collection, limit, orderBy } from 'firebase/firestore' // adjust the imports based on your setup
+import { query, collection, getDocs, limit, orderBy } from 'firebase/firestore' // adjust the imports based on your setup
 
 
 export function useSeasons(ep_limit: number, order: 'asc' | 'desc', key: string) {
@@ -7,11 +7,9 @@ export function useSeasons(ep_limit: number, order: 'asc' | 'desc', key: string)
     const nuxt = useNuxtApp()
 
     const { data: seasons } = useAsyncData(key, async () => {
-
-
-        console.log('Fetching seasons')
         const q = query(collection(db, 'seasons'), limit(ep_limit))
-        return useCollection(q, { once: true, ssrKey: key })
+        const seasons = await getDocs(q)
+        return seasons.docs.map(doc => ({ id: doc.id, ...doc.data() }))
     }, {
         transform: (data) => {
             return {
@@ -20,7 +18,7 @@ export function useSeasons(ep_limit: number, order: 'asc' | 'desc', key: string)
             }
         },
         getCachedData: (key) => {
-            const cachedData = nuxt.payload.data[key] || nuxt.static.data[key] || null
+            const cachedData = nuxt.payload.data[key] || nuxt.static.data[key]
             if (!cachedData) {
                 return
             }

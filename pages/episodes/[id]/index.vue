@@ -1,14 +1,11 @@
 <template>
-
-
     <div class="grid grid-rows-[auto,auto,auto,1fr] h-full grid-cols-1">
-
-        <div :style="{ backgroundColor: color }" class=" p-4 -mt-[4rem] pt-20">
-            <div class="max-w-[800px] mx-auto">
+        <div :style="{ backgroundColor: color }" class=" -mt-[4rem] pt-20">
+            <div class="max-w-[800px] px-4 pb-4 mx-auto">
                 <div class="flex items-center gap-8 justify-between ">
                     <!-- <Spinner class="bg-red-200" v-if="episode?.data?.title" /> -->
                     <h1 class="text-2xl  font-bold pb-2">{{ route.query.title || episode?.data?.title }}</h1>
-
+        
                 </div>
                 <div class="h-[5.5rem] pt-2 overflow-hidden" v-if="!episode?.data?.description">
                     <Spinner />
@@ -18,6 +15,7 @@
                     <div class="flex text-stone-900 items-center hover:text-black rounded-md cursor-pointer">
                         <h2 class=" font-medium">Summary</h2>
                         <div class=" flex mt-[1px]">
+             
                         </div>
                         <ChevronLeft :class="[summary_open ? 'rotate-180' : null]" class="text-lg mt-[2px]" />
                     </div>
@@ -27,20 +25,19 @@
 
                 </div>
                 <div class="flex justify-center pt-4">
-                    <audio preload autoplay class="w-full" controls :src="episode?.data?.audio_url"
-                        @loadedmetadata="refresh"></audio>
+                    <audio preload class="w-full" controls :src="episode?.data?.audio_url"
+                        ></audio>
                 </div>
+           
             </div>
         </div>
+            
         <div>
             <NuxtLayout name="custom">
-
-
-                <div class=" mb-24">
-                    <div class=" gap-2 flex justify-between items-center">
+                <div class=" text-sm flex text-stone-900 justify-between items-center">
                         <div @click="sources_open = !sources_open"
-                            class="flex text-gray-500 items-center hover:text-black rounded-md cursor-pointer">
-                            <h2 class=" font-medium">Sources</h2>
+                            class="flex  items-center hover:text-black rounded-md cursor-pointer">
+                            <h2 class="font-medium">Sources</h2>
                             <div class=" flex mt-[1px]">
                             </div>
                             <ChevronLeft :class="[sources_open ? 'rotate-180' : null]" class="text-lg mt-[2px]" />
@@ -54,25 +51,25 @@
                                     copied
                                 </p>
                             </div>
-
+                            
                             <div v-else @click=" copy(shareLink)"
-                                class="flex items-center cursor-pointer  text-gray-500 hover:text-black gap-1">
+                                class="flex items-center cursor-pointer  hover:text-black gap-1">
 
                                 <button>Share</button>
                                 <Link class="text-[18px]" />
                             </div>
-                            <div class="flex items-center text-gray-500 gap-1">
+                            <div @click="likeEpisode" class="flex group cursor-pointer items-center gap-1">
                                 <button>Like</button>
                                 <Heart
-                                    :class="[liked ? 'text-red-500 hover:text-red-600' : 'text-gray-300 hover:text-red-500']"
-                                    @click="liked = !liked" class="mr-4  text-gray-500  cursor-pointer" />
+                                    :class="[isLiked ? 'text-red-500 group-hover:text-red-600' : 'text-stone-300 group-hover:text-stone-400']"
+                                     class="" />
                             </div>
 
                         </div>
+                        
 
                     </div>
-
-                    <div class="pt-2" v-if="sources_open">
+                    <div class="pt-4" v-if="sources_open">
                         <a :href="source.url" v-for=" source in episode?.data?.sources" class="">
                             <div class="bg-stone-200 hover:bg-stone-300 my-2 p-2 rounded-md">
                                 <h3 class="text-sm font-medium">{{ source.title }}</h3>
@@ -81,18 +78,19 @@
                             </div>
                         </a>
                     </div>
+                    
+                
+                <div class="mb-20">
+               
+                    <h2 class="font-medium pb-2 mt-4 text-stone-900">You might also like</h2>
+                    <SimilarCards :items="similar_episodes?.data" :title="true" :colors="colors" />
+                    
                 </div>
 
-                <div class="grid grid-rows-[auto,auto,1fr] h-full grid-cols-1">
-                    <div>
-                        <h3 class=" text-sm pb-2 font-medium">Join the discussion</h3>
-                        <!-- <PostComment :colRef="colRef" /> -->
-                    </div>
-                    <h2 class="font-medium pb-2">Comments:</h2>
-                    <div class="">
-                        <!-- <CommentSection :colRef="colRef" /> -->
-                    </div>
-                </div>
+             
+                        <CommentSection :ep_id="route.params.id" />
+              
+     
             </NuxtLayout>
         </div>
 
@@ -107,22 +105,53 @@ definePageMeta({
 
 import { useClipboard } from '@vueuse/core'
 const route = useRoute()
-
 const shareLink = `https://theturingtalks.com/episodes/${route.params.id}`
 const { text, copy, copied, isSupported } = useClipboard({ shareLink })
 import ChevronLeft from '~icons/heroicons/chevron-down-16-solid'
 import Heart from '~icons/fa/heart'
 import Link from '~icons/heroicons/link-16-solid'
 import ClipBoard from '~icons/heroicons/clipboard-document-16-solid'
+import SimilarCards from '~/components/SimilarCards.vue';
 const sources_open = ref(false)
 const summary_open = ref(false)
-const liked = ref(false)
+
 let color = route.query.color
 if (!route.query.color) {
     color = getRandomColor()
 }
+const isLiked = ref(false)
+let addLikeToDatabase;
+let removeLikeFromDatabase;
 
-const { episode } = useEpisode(route.params.id, `episode-${route.params.id}`)
+const likeEpisode = async () => {
+    if(isLiked.value) {
+        removeLikeFromDatabase()
+    } else {
+        addLikeToDatabase()
+    }
+    isLiked.value = !isLiked.value
+}
+
+const { episode } = await useEpisode(route.params.id, `episode-${route.params.id}`)
+const { similar_episodes } = useSimilarEpisodes(3, 'desc', `eps_sdimilar_to-${route.params.id}`, route.params.id, episode?.value?.data?.tags)
+
+onMounted(async () => {
+    const user = await getCurrentUser()
+
+    // Destructure the values from useEpisodeLiked and assign them to isLiked and likeEpisode
+    const { isLiked: likedFromHook, likeEpisode: addLikeFunction, unlikeEpisode: removeLikeFunction } = await useEpisodeLiked(route.params.id, user.uid, `liked-episode-${route.params.id}`)
+    // Set the ref values to the data retrieved in onMounted
+    isLiked.value = likedFromHook.value.data
+    
+    addLikeToDatabase = addLikeFunction
+    removeLikeFromDatabase = removeLikeFunction
+})
+
+
+
+
+
+
 
 
 </script>

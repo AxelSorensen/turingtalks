@@ -18,19 +18,19 @@
 
             <div class="h-full w-full relative">
 
-                <div class="w-full grid grid-rows-[1fr,1fr] gap-4">
+                <div class="w-full grid grid-rows-[1fr,auto] gap-4">
                     <div class="">
                         <h2 class="text-xl pb-2 text-stone-900">Popular</h2>
                         <Cards :items="episodes?.data" :title="true" :colors="colors" />
                     </div>
-                    <div class="">
+                    <div class="mb-24">
                         <h2 class="text-xl text-stone-900 pb-2">Seasons</h2>
                         <Cards path="/seasons" :items="seasons?.data" :title="true" :colors="colors" />
                     </div>
-                    <div class="">
+                    <!-- <div class="">
                         <h2 class="text-xl text-stone-900 pb-2">All episodes</h2>
                         <Cards :items="episodes?.data" :colors="colors" />
-                    </div>
+                    </div> -->
                 </div>
             </div>
 
@@ -43,15 +43,10 @@
 <script setup>
 
 
-const colors = [
-    '#A3A7FC', // light cool blue
-    '#F1B2D8', // soft warm pink
-    '#F6D78B', // muted warm yellow
-    '#C6D0BC', // gentle desaturated green
-];
+import { colors } from '~/utils/colors'
 
 
-const { episodes } = useEpisodes(undefined, 'desc', 'all_episodes')
+const { episodes } = await useEpisodes('all', undefined, 'desc', 'all_episodes')
 
 const { seasons } = useSeasons(undefined, 'desc', 'all_seasons')
 

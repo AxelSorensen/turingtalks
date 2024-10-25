@@ -1,18 +1,23 @@
-// composables/useEpisodes.js
-import { query, doc, collection, limit, orderBy, where, documentId } from 'firebase/firestore' // adjust the imports based on your setup
+import { query, doc, getDoc, getDocs, collection, where, documentId, orderBy } from 'firebase/firestore' // adjust the imports based on your setup
 
-export async function useEpisodesFromSeason(season_episodes: any, ep_limit: number, order: 'asc' | 'desc', key: string) {
+export function useEpisodesFromSeason(season_id: string, order: 'asc' | 'desc', key: string) {
     const db = useFirestore()
     const nuxt = useNuxtApp()
-    const { data: episodes } = await useAsyncData(key, async () => {
+    // Use useAsyncData to fetch and cache episodes
+    const { data: episodes } = useAsyncData(`episodes-from-season-${season_id}`, async () => {
 
-        // season_episodes is undefined on the first page load and therefore the query below doesn't work
+        // Fetch season document to get the episode IDs
+        const epDocRef = doc(db, 'seasons', season_id)
+        const ep_ids = await getDoc(epDocRef)
+        const ep_ids_ = ep_ids.data()?.episodes
+        // Query the episodes based on the episode IDs
+        const eps = await getDocs(query(collection(db, 'episodes'), where(documentId(), 'in', ep_ids_), orderBy('date', order)))
 
-        const q = query(collection(db, 'episodes'), where(documentId(), 'in', season_episodes.value.data.episodes), limit(ep_limit), orderBy('date', order))
-        return useCollection(q, { once: true, ssrKey: key })
+        // Return the episodes data
 
-    }, {
+        return eps.docs.map(doc => ({ id: doc.id, ...doc.data() }))
 
+    }, {// Fetch data immediately
         transform: (data) => {
             return {
                 data,
@@ -24,13 +29,12 @@ export async function useEpisodesFromSeason(season_episodes: any, ep_limit: numb
             if (!cachedData) {
                 return
             }
-            // if (Date.now() - cachedData.fetchedAt > 1000 * ) { // 1 minute cache
-            //     return
-            // }
+            if (Date.now() - cachedData.fetchedAt > 1000 * 60) { // 1 minute cache
+                return
+            }
+            console.log('returning cache')
             return cachedData
-        },
-        watch: [season_episodes]
-
+        }
     })
 
     return { episodes }

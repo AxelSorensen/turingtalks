@@ -43,6 +43,7 @@ const props = defineProps({
     title: Boolean,
 })
 
+
 const { items } = toRefs(props)
 
 const ordered_items = computed(() => {
