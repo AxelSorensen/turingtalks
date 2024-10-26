@@ -23,13 +23,14 @@
 
                 <div class="flex py-4 pb-8 flex-col  items-center">
                     <h2 class="sm:text-3xl text-2xl pb-4 font-bold">What should we cover next?</h2>
-                    <PostSuggestion @posted="scrollToSuggestion" />
+                    <PostSuggestion :items="suggestions?.data" :post-suggestion="postSuggestion" key="suggestions" />
                 </div>
                 <div class="flex justify-start pt-2 flex-col">
-                    <h2 ref="suggestions" class="pb-2 text-xl">Suggested topics</h2>
-                    <Suggestions />
-
-
+                    <h2 ref="suggestions_ref" class="pb-2 text-xl">Suggested topics</h2>
+                    <Suggestions :items="suggestions?.data" :more_sugs="more_sugs" :sug_limit="sug_limit" />
+                    <button v-if="more_sugs && suggestions?.data?.length >= 10"
+                        class="text-stone-700 hover:text-stone-900 text-xs mt-4" @click="viewMoreEpisodes">Show
+                        more</button>
                 </div>
             </NuxtLayout>
         </div>
@@ -39,7 +40,12 @@
 </template>
 
 <script setup>
-const suggestions = ref(null)
+const suggestions_ref = ref(null)
+const { suggestions, more_sugs, sug_limit, postSuggestion } = await useSuggestions('suggestions')
+
+const viewMoreEpisodes = () => {
+    sug_limit.value += 10
+}
 
 // const scrollToSuggestion = () => {
 //     setTimeout(() => {

@@ -100,7 +100,7 @@
 
 <script setup>
 import { ref } from 'vue';
-import { signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth';
+import { signInWithPopup, getAuth, GoogleAuthProvider, browserLocalPersistence, signOut, setPersistence } from 'firebase/auth';
 import { collection, doc, setDoc } from 'firebase/firestore';
 import Menu from '~icons/heroicons/bars-3-bottom-right-16-solid';
 import XMark from '~icons/heroicons/x-mark-16-solid';
@@ -109,7 +109,7 @@ import Heart from '~icons/heroicons/heart-16-solid';
 import Comment from '~icons/heroicons/chat-bubble-oval-left-ellipsis-16-solid';
 import LightBulb from '~icons/heroicons/light-bulb-16-solid';
 
-const auth = useFirebaseAuth();
+const auth = getAuth()
 const user = useCurrentUser(); // only exists on client side
 const db = useFirestore();
 const nav_open = ref(false);
@@ -142,11 +142,15 @@ const iconComponents = {
 function signinPopup() {
     signInWithPopup(auth, new GoogleAuthProvider())
         .then(cred => {
-            return setDoc(doc(collection(db, 'users'), cred.user.uid), {
-                username: cred.user.displayName,
-                email: cred.user.email,
-                img: cred.user.photoURL
-            });
+            if (cred.user.metadata.creationTime === cred.user.metadata.lastSignInTime) {
+                return setDoc(doc(collection(db, 'users'), cred.user.uid), {
+                    username: cred.user.displayName,
+                    email: cred.user.email,
+                    img: cred.user.photoURL,
+                    likes: [],
+                    upvoted: [],
+                });
+            }
         })
         .catch(error => {
             console.error("Error signing in: ", error);

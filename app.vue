@@ -6,7 +6,7 @@
         <Header />
       </template>
       <template #main>
-        <NuxtLoadingIndicator/>
+        <NuxtLoadingIndicator />
         <NuxtPage />
       </template>
       <template #footer>

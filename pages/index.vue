@@ -9,10 +9,11 @@
         </div>
         <div class="flex  px-4 pb-2 flex-col  items-center">
             <h2 class="sm:text-3xl text-2xl text-stone-900 mb-4 font-bold">What should we cover next?</h2>
-            <PostSuggestion @posted="scrollToSuggestion" />
+            <PostSuggestion :items="suggestions?.data" :post-suggestion="postSuggestion" key="suggestions-front-page" />
         </div>
         <div class="px-4 max-w-[800px] w-full mx-auto pt-2">
             <h2 class="pb-2 text-xl text-stone-900 ">Latest episodes</h2>
+
             <SimpleCards :title="true" :items="episodes?.data" :colors="colors" :limit="featured_limit" />
             <!-- <div v-if="featured_limit == 2" @click="showMoreTalks"
                 class="text-center items-center flex justify-center hover:text-stone-900 cursor-pointer pt-4 text-sm text-stone-700">
@@ -20,24 +21,25 @@
                 <ChevronDown class="text-lg mt-[1px]" />
             </div> -->
 
-            <NuxtLink to="/episodes">
-                <div
-                    class="text-center transition-all w-fit mx-auto hover:text-stone-900  rounded-sm  cursor-pointer mt-4 text-sm text-stone-700">
+            <div
+                class="text-center w-fit mx-auto hover:text-stone-900  rounded-sm  cursor-pointer mt-4 text-sm text-stone-700">
+                <NuxtLink class="" to="/episodes">
                     See all episodes
-                </div>
-            </NuxtLink>
+                </NuxtLink>
+            </div>
+
         </div>
 
-        <div ref="suggestions" class="flex max-w-[800px] w-full mx-auto px-4 p-2 pb-8 justify-start  flex-col">
+        <div ref="suggestions_ref" class="flex max-w-[800px] w-full mx-auto px-4 p-2 pb-8 justify-start  flex-col">
             <h2 class="pb-2 text-stone-900 text-xl">Suggested topics</h2>
-            <Suggestions :limit="suggested_limit" />
-
-            <NuxtLink to="/suggestions">
-                <div
-                    class="text-center transition-all w-fit mx-auto hover:text-stone-900 rounded-sm cursor-pointer mt-4 text-sm text-stone-700">
+            <Suggestions :items="suggestions?.data" />
+            <div
+                class="text-center w-fit mx-auto hover:text-stone-900 rounded-sm cursor-pointer mt-4 text-sm text-stone-700">
+                <NuxtLink to="/suggestions">
                     See all suggested topics
-                </div>
-            </NuxtLink>
+                </NuxtLink>
+            </div>
+
 
         </div>
 
@@ -83,13 +85,9 @@ import Dice from '~icons/mdi/dice'
 
 // const auth = useFirebaseAuth()
 // const user = useCurrentUser() // only exists on client side
-const suggestions = ref(null)
-const scrollToSuggestion = () => {
-    setTimeout(() => {
-        suggestions.value.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }, 50);
+const suggestions_ref = ref(null)
+const { suggestions, more_sugs, sug_limit, postSuggestion } = await useSuggestions('suggestions-front-page', 5)
 
-}
 
 
 const randomEpisode = () => {

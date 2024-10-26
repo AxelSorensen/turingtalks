@@ -3,24 +3,16 @@ import { arrayUnion, updateDoc, doc, getDoc } from 'firebase/firestore' // adjus
 export async function useFavorites(user_id: string, key: string) {
     const db = useFirestore()
     const nuxt = useNuxtApp()
-
     const docRef = doc(db, 'users', user_id)
-    console.log('user', user_id)
     // }
     // Use useAsyncData to fetch and cache episodes
     const { data: favorites, } = await useAsyncData(key, async () => {
         // Fetch season document to get the episode IDs
         // Query the episodes based on the episode IDs
-
-        const user = await getDoc(docRef)
-
-        let ep_ids;
-        if (user.exists()) {
-            const data = user.data()
-            ep_ids = data.likes
-
-        }
-        const { episodes } = await useEpisodes(ep_ids, 4, 'desc', 'latest_episodes')
+        console.log('Fetching favorites')
+        const user = (await getDoc(docRef)).data()
+        const liked_episodes = user?.likes
+        const { episodes } = await useEpisodes(liked_episodes, 4, 'desc', `fav`)
         console.log(episodes)
         return episodes
 

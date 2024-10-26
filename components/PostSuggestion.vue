@@ -9,7 +9,7 @@
             <input maxlength="50"
                 class="w-full outline-stone-700 p-2 mx-auto text-stone-900 placeholder-stone-400 rounded-md bg-stone-200"
                 type="text" placeholder="Write your suggestion (e.g. AI's effect on climate change)"
-                v-model="data.name">
+                v-model="data.title">
         </div>
         <!-- <div class="relative flex items-center pt-4 pb-2">
             <div class="flex-grow border-t border-gray-400"></div>
@@ -44,28 +44,31 @@
             </div>
         </div> -->
 
-        <button v-if="data.name"
-            :class="[data.name.length < 50 ? 'bg-stone-900 text-white' : 'text-red-500 border-2 border-red-500 pointer-events-none']"
-            class="p-2 hover:bg-stone-700 rounded-md " @click="postSuggestion">{{ data.name.length < 50
-                ? 'Post suggestion' : 'Keep it short, max 50 characters' }}</button>
+        <button v-if="data.title"
+            :class="[data.title.length < 50 ? 'bg-stone-900 text-white' : 'text-red-500 border-2 border-red-500 pointer-events-none']"
+            class="p-2 hover:bg-stone-700 rounded-md " @click="post">{{ data.title.length < 50 ? 'Post suggestion'
+                : 'Keep it short, max 50 characters' }}</button>
     </div>
 </template>
 
 <script setup>
 
-import { doc, addDoc, collection } from "firebase/firestore";
-const db = useFirestore()
-
 const data = ref({
-    name: '',
-    description: '',
-    sources: [],
+    title: '',
     votes: 0,
 })
 
 const error = ref({
     source: null
 })
+
+const props = defineProps({
+    items: Array,
+    postSuggestion: Function,
+    key: String
+})
+
+const { items, key } = toRefs(props)
 
 const new_source = ref('')
 
@@ -78,22 +81,18 @@ const addSource = () => {
     data.value.sources.push(new_source.value)
 }
 
+const post = async () => {
+    const data_with_date = { ...data.value, date: { seconds: new Date().getTime() } }
+    data.value = { title: '', votes: 0 }
+    items?.value?.splice(0, 0, { just_added: true, ...data_with_date })
+    await props.postSuggestion(data_with_date)
+    setTimeout(() => {
+        refreshNuxtData(key)
+    }, 5000)
+}
+
 const removeSource = (id) => {
     data.value.sources.splice(id, 1)
-}
-const emit = defineEmits(["posted"])
-const postSuggestion = async () => {
-    let data_buffer = data.value
-    data.value = {
-        name: '',
-        description: '',
-        sources: [],
-        votes: 0,
-    }
-    await addDoc(collection(db, "suggestions"), { ...data_buffer, date: new Date() });
-    
-    refreshNuxtData('suggestions')
-    emit('posted')
 }
 
 const sources = ref([])
