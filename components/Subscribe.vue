@@ -10,7 +10,7 @@
         <input v-model="data.email"
             class="w-full outline-stone-700 p-2 max-w-[500px] mx-auto text-stone-900 placeholder-stone-400 rounded-md bg-white"
             type="text" placeholder="Your email">
-        <button class="p-2 w-full bg-stone-900 text-white hover:bg-stone-900 rounded-md"
+        <button class="p-2 w-full bg-stone-900 text-white hover:bg-opacity-90 rounded-md"
             @click="subscribe">Subscribe</button>
     </div>
 </template>

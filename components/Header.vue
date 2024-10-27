@@ -23,17 +23,18 @@
 
 
         <div :class="nav_open ? 'block' : 'hidden'"
-            class="flex items-start flex-col text-stone-500 sm:gap-2 gap-4 sm:flex-row justify-center sm:items-center p-4 sm:flex">
+            class="flex items-start flex-col text-stone-500 sm:gap-2 gap-4 sm:flex-row justify-center sm:items-center px-4 py-2 sm:flex">
 
             <NuxtLink @click="nav_open = false" v-for="route in routes"
                 class="text-base sm:text-sm nav-links text-stone-600 rounded-md hover:text-stone-900 p-1 px-2"
                 :to="route.path" :key="route.name">
                 {{ route.name }}
             </NuxtLink>
-            <hr class="border-stone-400 sm:hidden mb-2 w-full ">
+            <hr v-if="user" class="border-stone-400 sm:hidden mb-2 w-full ">
             </hr>
 
-            <div class="text-2xl  hidden sm:flex pb-1 leading-5 mx-2 font-thin">|</div>
+            <div class="text-2xl hidden sm:flex pb-1 leading-5 mx-2 font-thin">|</div>
+
 
             <div v-if="user" :class="[showProfileModal ? 'sm:bg-black sm:bg-opacity-10 rounded-md' : null]"
                 ref="profileModal" class="relative cursor-pointer flex h-8 -my-2 px-2 items-center gap-2 mr-2"
@@ -50,8 +51,8 @@
                     Login
                 </button>
             </div>
-            <div class="flex sm:hidden w-full justify-end px-2 pt-2">
-                <div class="flex w-full gap-1 flex-col">
+            <div class="flex flex-col sm:hidden w-full justify-end px-2 pt-2">
+                <div v-if="user" class="flex w-full gap-1 flex-col">
                     <NuxtLink @click="showProfileModal = false; nav_open = false" v-for="option, id in options"
                         class="text-base bg-black/10 rounded-md py-1 sm:text-sm hover:bg-black hover:bg-opacity-20 text-stone-600 hover:text-stone-900"
                         :to="option.path" :key="option.name">
@@ -62,16 +63,13 @@
                             <div>{{ option.name }}</div>
                         </div>
                     </NuxtLink>
-
-                    <div></div>
-                    <button v-if="user" class="bg-stone-900 hover:bg-stone-700 mt-4 text-white rounded-md p-2"
-                        @click="signUserOut">Sign out</button>
-                    <button v-else @click="signinPopup"
-                        class=" p-2 bg-black text-white mt-4 cursor-pointer rounded-md hover:bg-black hover:bg-opacity-20">
-                        Login
-                    </button>
-
                 </div>
+                <button v-if="user" class="bg-stone-900 mt-4 hover:bg-opacity-90 text-white rounded-md p-2"
+                    @click="signUserOut">Sign out</button>
+                <button v-else @click="show_modal = true"
+                    class=" p-2 bg-black text-white cursor-pointer rounded-md hover:bg-black hover:bg-opacity-90">
+                    Login
+                </button>
             </div>
         </div>
 
