@@ -1,6 +1,6 @@
 <template>
-
     <div class="flex overflow-y-scroll relative w-full gap-4 flex-col">
+
         <TransitionGroup tag="div" name="fade" class="flex flex-col w-full gap-4">
             <div v-for="topic, id in ordered_topics" :key="topic?.id" :ref="topic?.id">
                 <div class="bg-[#ebd9c6] flex text-stone-900 transition-all
@@ -10,7 +10,7 @@
 
                         <p class="whitespace-nowrap">{{ topic?.votes }} votes</p>
                         <button class="text-[#9d7448]"
-                            :class="[upvoted?.data?.includes(topic?.id) ? 'opacity-100 pointer-events-none ' : 'opacity-50 hover:opacity-100']"
+                            :class="[upvoted?.data?.includes(topic?.id) || topic.just_added ? 'opacity-100 pointer-events-none ' : 'opacity-50 hover:opacity-100']"
                             @click="() => voteUp(id, topic.id)">
                             <ChevronSolid class="text-xl mt-[4px] -rotate-90" />
                         </button>
@@ -27,14 +27,22 @@
 </template>
 
 <script setup>
-
+const user = useCookie('user')
+const show_modal = useState('show_modal')
 const voteUp = async (idx, id) => {
+    if (!user.value) {
+        show_modal.value = true
+        return
+    }
     if (!upvoted.value) {
         return
     }
     ordered_topics.value[idx].votes += 1;
-    upvoted.value.push(id)
+    upvoted.value.data.push(id)
+    console.log(id)
     await addVote(id)
+    refresh()
+
 }
 
 
@@ -65,8 +73,7 @@ const ordered_topics = computed(() => {
 });
 
 
-const user = useCookie()
-const { upvoted } = await useUpvoted(user?.value?.uid, 'upvoted-by-user')
+const { upvoted, refresh } = await useUpvoted('upvoted-by-user')
 
 
 

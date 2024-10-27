@@ -1,5 +1,6 @@
 <template>
     <div class="grid relative mx-auto grid-rows-[auto,auto,auto,] h-full grid-cols-1 justify-center items-center">
+
         <div class="flex pt-8  flex-col items-center p-4">
 
             <h1 class="sm:text-5xl text-4xl text-stone-900  font-bold">The Turing Talks</h1>
@@ -74,6 +75,7 @@
                 I supporting?
             </NuxtLink>
         </div>
+
 
 
 

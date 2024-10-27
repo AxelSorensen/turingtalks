@@ -5,6 +5,7 @@ export async function useSuggestions(key: string, manual_limit: number | undefin
     const nuxt = useNuxtApp()
     const sug_limit = ref(10)
     const more_sugs = ref(true)
+    const user = useCookie('user')
 
     const upvoted_by_user = computed(() => async (id: string) => {
         const userRef = doc(db, "users", user?.value?.uid)
@@ -32,8 +33,7 @@ export async function useSuggestions(key: string, manual_limit: number | undefin
     }
 
     // Use useAsyncData to fetch and cache episodes
-    const { data: suggestions, status } = await useAsyncData(key, async () => {
-
+    const { data: suggestions, status, refresh } = await useAsyncData(key, async () => {
         // Fetch season document to get the episode IDs
         console.log('Fetching suggestions')
 
@@ -70,5 +70,5 @@ export async function useSuggestions(key: string, manual_limit: number | undefin
         watch: [sug_limit],
     })
 
-    return { suggestions, sug_limit, more_sugs, addVote, postSuggestion, status, upvoted_by_user }
+    return { suggestions, sug_limit, more_sugs, addVote, postSuggestion, status, upvoted_by_user, refresh }
 }

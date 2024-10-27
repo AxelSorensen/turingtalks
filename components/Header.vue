@@ -45,14 +45,14 @@
             </div>
 
             <div v-else-if="!nav_open" class="h-8 -my-2 items-center  flex">
-                <button @click="signinPopup"
+                <button @click="show_modal = true"
                     class="text-sm ml-2 mr-2 px-4 bg-stone-900 bg-opacity-100 text-white cursor-pointer p-1 rounded-md  hover:bg-stone-700">
                     Login
                 </button>
             </div>
             <div class="flex sm:hidden w-full justify-end px-2 pt-2">
                 <div class="flex w-full gap-1 flex-col">
-                    <NuxtLink @click="showProfileModal = false" v-for="option, id in options"
+                    <NuxtLink @click="showProfileModal = false; nav_open = false" v-for="option, id in options"
                         class="text-base bg-black/10 rounded-md py-1 sm:text-sm hover:bg-black hover:bg-opacity-20 text-stone-600 hover:text-stone-900"
                         :to="option.path" :key="option.name">
 
@@ -82,7 +82,7 @@
 
         <div ref="profileModal" v-if="showProfileModal"
             class="flex shadow-xl mr-1 p-4 divide-y divide-stone-400 flex-col rounded-md bg-[#F8F7F2]/40 z-10 backdrop-blur-xl w-[14rem]">
-            <NuxtLink @click="showProfileModal = false" v-for="option in options"
+            <NuxtLink @click="showProfileModal = false;" v-for="option in options"
                 class="text-base py-1 sm:text-sm   text-stone-600 hover:text-stone-900" :to="option.path"
                 :key="option.name">
 
@@ -110,7 +110,7 @@ import { onClickOutside } from '@vueuse/core';
 import Heart from '~icons/heroicons/heart-16-solid';
 import Comment from '~icons/heroicons/chat-bubble-oval-left-ellipsis-16-solid';
 import LightBulb from '~icons/heroicons/light-bulb-16-solid';
-
+const show_modal = useState('show_modal')
 const auth = getAuth()// only exists on client side
 const db = useFirestore();
 const nav_open = ref(false);
@@ -140,42 +140,54 @@ const iconComponents = {
     Comment,
 };
 
+const route = useRoute()
+
 // onAuthStateChanged(auth, (user) => {
 //     if (user) {
 //         reloadNuxtApp()
 //     }
 // });
 const user = useCookie('user');
+// function signinPopup() {
+//     signInWithPopup(auth, new GoogleAuthProvider())
+//         .then(cred => {
+//             const user_data = {
+//                 username: cred.user.displayName,
+//                 email: cred.user.email,
+//                 img: cred.user.photoURL,
+//                 likes: [],
+//                 upvoted: [],
+//                 uid: cred?.user?.uid,
+//             }
+//             user.value = user_data;
+//             if (cred.user.metadata.creationTime === cred.user.metadata.lastSignInTime) {
+//                 return setDoc(doc(collection(db, 'users'), cred?.user?.uid), user_data);
+//             }
 
-function signinPopup() {
-    signInWithPopup(auth, new GoogleAuthProvider())
-        .then(cred => {
-            const user_data = {
-                username: cred.user.displayName,
-                email: cred.user.email,
-                img: cred.user.photoURL,
-                likes: [],
-                upvoted: [],
-                uid: cred?.user?.uid,
-            }
-            user.value = user_data;
-            if (cred.user.metadata.creationTime === cred.user.metadata.lastSignInTime) {
-                return setDoc(doc(collection(db, 'users'), cred?.user?.uid), user_data);
-            }
-            refreshNuxtData()
+//             console.log('refreshed')
 
 
-        })
-        .catch(error => {
-            console.error("Error signing in: ", error);
-        });
-}
+
+//         })
+//         .catch(error => {
+//             console.error("Error signing in: ", error);
+//         });
+
+// }
 
 function signUserOut() {
     showProfileModal.value = false;
+    nav_open.value = false;
     user.value = null
-    refreshNuxtData()
+    console.log(route.path)
     signOut(auth).then(() => {
+
+        //if route is /profile then navigate to /
+        if (route.path === '/profile') {
+            navigateTo('/')
+        }
+
+        // navigateTo('/')
         // Sign-out successful.
     }).catch((error) => {
         // An error happened.

@@ -55,7 +55,7 @@
 
 const data = ref({
     title: '',
-    votes: 0,
+    votes: 1,
 })
 
 const error = ref({
@@ -81,9 +81,15 @@ const addSource = () => {
     data.value.sources.push(new_source.value)
 }
 
+const show_modal = useState('show_modal')
+const user = useCookie('user')
 const post = async () => {
+    if (!user.value) {
+        show_modal.value = true
+        return
+    }
     const data_with_date = { ...data?.value, date: { seconds: new Date().getTime() } }
-    data.value = { title: '', votes: 0 }
+    data.value = { title: '', votes: 1 }
     items?.value?.splice(0, 0, { just_added: true, ...data_with_date })
     await props.postSuggestion(data_with_date)
     setTimeout(() => {

@@ -15,7 +15,7 @@
                             day: '2-digit', month: 'short', year: 'numeric'
                         }).replace(',', '') }}</p>- -->
                     <p class="whitespace-nowrap text-right">{{ item?.duration?.split(':')[0] }}
-                        minutes</p>
+                        min</p>
                     <Clock class="text-sm" />
                 </div>
             </div>

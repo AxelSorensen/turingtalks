@@ -120,9 +120,13 @@ if (!route.query.c) {
     color.value = getRandomColor()
 }
 
-
+const show_modal = useState('show_modal')
 
 const likeEpisode = async () => {
+    if (!user.value) {
+        show_modal.value = true
+        return
+    }
     if (isLiked.value.data) {
         isLiked.value.data = false
         await removeLikeFromDatabase()

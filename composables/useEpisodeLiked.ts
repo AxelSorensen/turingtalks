@@ -4,15 +4,12 @@ export async function useEpisodeLiked(ep_id: string, key: string) {
     const db = useFirestore()
     const nuxt = useNuxtApp()
     const user = useCookie('user')
-    if (!user.value) {
-        return {
-            isLiked: false, likeEpisode: () => { }, unlikeEpisode: () => { }, refresh: () => { }
-        }
-    }
 
-    const docRef = doc(db, 'users', user?.value?.uid)
+
 
     const likeEpisode = async () => {
+
+        const docRef = doc(db, 'users', user?.value?.uid)
         await updateDoc(docRef, {
             likes: arrayUnion(ep_id)
         }, { merge: true })
@@ -20,6 +17,8 @@ export async function useEpisodeLiked(ep_id: string, key: string) {
     }
 
     const unlikeEpisode = async () => {
+
+        const docRef = doc(db, 'users', user?.value?.uid)
         await updateDoc(docRef, {
             likes: arrayRemove(ep_id)
         }, { merge: true })
@@ -29,6 +28,11 @@ export async function useEpisodeLiked(ep_id: string, key: string) {
     // }
     // Use useAsyncData to fetch and cache episodes
     const { data: isLiked, refresh } = await useAsyncData(key, async () => {
+        if (!user.value) {
+            return
+        }
+
+        const docRef = doc(db, 'users', user?.value?.uid)
         // Fetch season document to get the episode IDs
         // Query the episodes based on the episode IDs
         let ep_liked;
@@ -62,11 +66,9 @@ export async function useEpisodeLiked(ep_id: string, key: string) {
     })
 
     watch(user, (newVal, oldVal) => {
-        if (newVal !== oldVal) {
-            console.log('User cookie changed, refetching data')
-            refresh()  // This will trigger the useAsyncData to refetch data
-        }
-    })
+        console.log('User cookie changed, refetching data')
+        refresh()  // This will trigger the useAsyncData to refetch data
+    }, { immediate: true })
 
     return { isLiked, likeEpisode, unlikeEpisode, refresh }
 }
