@@ -162,6 +162,8 @@ function signinPopup() {
             if (cred.user.metadata.creationTime === cred.user.metadata.lastSignInTime) {
                 return setDoc(doc(collection(db, 'users'), cred?.user?.uid), user_data);
             }
+            refreshNuxtData()
+
 
         })
         .catch(error => {
@@ -172,6 +174,7 @@ function signinPopup() {
 function signUserOut() {
     showProfileModal.value = false;
     user.value = null
+    refreshNuxtData()
     signOut(auth).then(() => {
         // Sign-out successful.
     }).catch((error) => {

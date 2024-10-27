@@ -60,7 +60,7 @@
                         <div @click="likeEpisode" class="flex group cursor-pointer items-center gap-1">
                             <button>Like</button>
                             <Heart
-                                :class="[isLiked.data ? 'text-red-500 group-hover:text-red-600' : 'text-stone-300 group-hover:text-stone-400']"
+                                :class="[isLiked?.data ? 'text-red-500 group-hover:text-red-600' : 'text-stone-300 group-hover:text-stone-400']"
                                 class="" />
                         </div>
 
@@ -139,15 +139,13 @@ const likeEpisode = async () => {
 
 }
 
-let ref_liked;
-let ref_fav;
 
 const { episode } = await useEpisode(route.params.id, `episode-${route.params.id}`)
 const { similar_episodes } = useSimilarEpisodes(3, 'desc', `eps_similar_to-${route.params.id}`, route.params.id, episode?.value?.data?.tags)
 const user = useCookie('user')
-const { refresh: refreshFavorites } = await useFavorites(`favorites`)
+const { refresh: refreshFavorites } = useFavorites(`favorites`)
 // Destructure the values from useEpisodeLiked and assign them to isLiked and likeEpisode
-const { isLiked, likeEpisode: addLikeToDatabase, unlikeEpisode: removeLikeFromDatabase } = await useEpisodeLiked(route.params.id, user?.value?.uid, `liked-episode-${route.params.id}`)
+const { isLiked, likeEpisode: addLikeToDatabase, unlikeEpisode: removeLikeFromDatabase } = await useEpisodeLiked(route.params.id, `liked-episode-${route.params.id}`)
 // Set the ref values to the data retrieved in onMounted
 
 

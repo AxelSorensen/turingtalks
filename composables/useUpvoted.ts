@@ -4,6 +4,11 @@ export async function useUpvoted(user_id: string, key: string) {
     const db = useFirestore()
     const nuxt = useNuxtApp()
     const user = useCookie('user')
+    if (!user.value) {
+        return {
+            upvoted: undefined, refresh: () => { }
+        }
+    }
     // Use useAsyncData to fetch and cache episodes
     const { data: upvoted, refresh } = await useAsyncData(key, async () => {
 

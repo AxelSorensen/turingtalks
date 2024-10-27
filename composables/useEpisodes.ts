@@ -3,7 +3,6 @@ import { query, getDocs, collection, limit, documentId, where, orderBy } from 'f
 export async function useEpisodes(ep_ids: 'all' | string[], ep_limit: number, order: 'asc' | 'desc', key: string) {
     const db = useFirestore()
     const nuxt = useNuxtApp()
-    const user = useCookie('user')
     // Use useAsyncData to fetch and cache episodes
     const { data: episodes, refresh } = await useAsyncData(key, async () => {
 

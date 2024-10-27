@@ -1,10 +1,16 @@
 import { arrayUnion, arrayRemove, updateDoc, doc, getDoc } from 'firebase/firestore' // adjust the imports based on your setup
 
-export async function useEpisodeLiked(ep_id: string, user_id: string, key: string) {
+export async function useEpisodeLiked(ep_id: string, key: string) {
     const db = useFirestore()
     const nuxt = useNuxtApp()
+    const user = useCookie('user')
+    if (!user.value) {
+        return {
+            isLiked: false, likeEpisode: () => { }, unlikeEpisode: () => { }, refresh: () => { }
+        }
+    }
 
-    const docRef = doc(db, 'users', user_id)
+    const docRef = doc(db, 'users', user?.value?.uid)
 
     const likeEpisode = async () => {
         await updateDoc(docRef, {
@@ -52,6 +58,13 @@ export async function useEpisodeLiked(ep_id: string, user_id: string, key: strin
             }
             console.log('returning cache')
             return cachedData
+        }
+    })
+
+    watch(user, (newVal, oldVal) => {
+        if (newVal !== oldVal) {
+            console.log('User cookie changed, refetching data')
+            refresh()  // This will trigger the useAsyncData to refetch data
         }
     })
 

@@ -82,6 +82,6 @@ import LightBulb from '~icons/heroicons/light-bulb-16-solid';
 const support = ref(null)
 import { colors } from '~/utils/colors'
 const user = useCookie('user')
-const { favorites } = await useFavorites(`favorites`)
+const { favorites } = useFavorites(`favorites`)
 
 </script>

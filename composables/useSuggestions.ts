@@ -7,6 +7,18 @@ export async function useSuggestions(key: string, manual_limit: number | undefin
     const more_sugs = ref(true)
     const user = useCookie('user')
 
+    if (!user.value) {
+        return {
+            suggestions: undefined,
+            sug_limit,
+            more_sugs,
+            addVote: () => { },
+            postSuggestion: () => { },
+            status: 'loading',
+            upvoted_by_user: () => { }
+        }
+    }
+
     const upvoted_by_user = computed(() => async (id: string) => {
         const userRef = doc(db, "users", user?.value?.uid)
         const userDoc = await getDoc(userRef);
