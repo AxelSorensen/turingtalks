@@ -2,15 +2,15 @@
 
     <div class="flex overflow-y-scroll relative w-full gap-4 flex-col">
         <TransitionGroup tag="div" name="fade" class="flex flex-col w-full gap-4">
-            <div v-for="topic, id in ordered_topics" :key="topic.id" :ref="topic.id">
+            <div v-for="topic, id in ordered_topics" :key="topic?.id" :ref="topic?.id">
                 <div class="bg-[#ebd9c6] flex text-stone-900 transition-all
                     rounded-md gap-4  p-2 justify-between">
-                    <h2 class=" font-medium">{{ topic.title }}</h2>
+                    <h2 class=" font-medium">{{ topic?.title }}</h2>
                     <div class="flex gap-2 items-center">
 
-                        <p class="whitespace-nowrap">{{ topic.votes }} votes</p>
+                        <p class="whitespace-nowrap">{{ topic?.votes }} votes</p>
                         <button class="text-[#9d7448]"
-                            :class="[upvoted?.data?.includes(topic.id) ? 'opacity-100 pointer-events-none ' : 'opacity-50 hover:opacity-100']"
+                            :class="[upvoted?.data?.includes(topic?.id) ? 'opacity-100 pointer-events-none ' : 'opacity-50 hover:opacity-100']"
                             @click="() => voteUp(id, topic.id)">
                             <ChevronSolid class="text-xl mt-[4px] -rotate-90" />
                         </button>
@@ -50,7 +50,9 @@ const { addVote } = await useSuggestions('suggestion-function')
 import ChevronSolid from '~icons/typcn/chevron-right'
 
 const ordered_topics = computed(() => {
-
+    if (!items?.value) {
+        return []
+    }
     return Object.values(items?.value)?.sort((a, b) => {
         if (b.just_added) {
             return 1
