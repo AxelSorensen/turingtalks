@@ -82,7 +82,7 @@ const addSource = () => {
 }
 
 const post = async () => {
-    const data_with_date = { ...data.value, date: { seconds: new Date().getTime() } }
+    const data_with_date = { ...data?.value, date: { seconds: new Date().getTime() } }
     data.value = { title: '', votes: 0 }
     items?.value?.splice(0, 0, { just_added: true, ...data_with_date })
     await props.postSuggestion(data_with_date)

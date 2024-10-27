@@ -5,16 +5,16 @@ export async function useEpisodeLiked(ep_id: string, user_id: string, key: strin
     const nuxt = useNuxtApp()
 
     const docRef = doc(db, 'users', user_id)
-    console.log('user', user_id)
-    const likeEpisode = () => {
-        updateDoc(docRef, {
+
+    const likeEpisode = async () => {
+        await updateDoc(docRef, {
             likes: arrayUnion(ep_id)
         }, { merge: true })
         console.log('liking episode')
     }
 
-    const unlikeEpisode = () => {
-        updateDoc(docRef, {
+    const unlikeEpisode = async () => {
+        await updateDoc(docRef, {
             likes: arrayRemove(ep_id)
         }, { merge: true })
         console.log('unliking episode')
@@ -22,7 +22,7 @@ export async function useEpisodeLiked(ep_id: string, user_id: string, key: strin
 
     // }
     // Use useAsyncData to fetch and cache episodes
-    const { data: isLiked, } = await useAsyncData(key, async () => {
+    const { data: isLiked, refresh } = await useAsyncData(key, async () => {
         // Fetch season document to get the episode IDs
         // Query the episodes based on the episode IDs
         let ep_liked;
@@ -32,6 +32,7 @@ export async function useEpisodeLiked(ep_id: string, user_id: string, key: strin
 
         }
         return ep_liked.likes.includes(ep_id)
+
 
 
     }, {// Fetch data immediately
@@ -54,5 +55,5 @@ export async function useEpisodeLiked(ep_id: string, user_id: string, key: strin
         }
     })
 
-    return { isLiked, likeEpisode, unlikeEpisode }
+    return { isLiked, likeEpisode, unlikeEpisode, refresh }
 }

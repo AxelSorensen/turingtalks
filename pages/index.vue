@@ -82,13 +82,11 @@
 
 <script setup>
 import Dice from '~icons/mdi/dice'
-
+import { collection, } from 'firebase/firestore/lite';
 // const auth = useFirebaseAuth()
 // const user = useCurrentUser() // only exists on client side
 const suggestions_ref = ref(null)
 const { suggestions, more_sugs, sug_limit, postSuggestion } = await useSuggestions('suggestions-front-page', 5)
-
-
 
 const randomEpisode = () => {
     // Fetch all episode ids

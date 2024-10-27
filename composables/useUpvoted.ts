@@ -1,14 +1,14 @@
 import { query, getDocs, updateDoc, arrayUnion, doc, getDoc, setDoc, addDoc, collection, limit, documentId, where, orderBy } from 'firebase/firestore' // adjust the imports based on your setup
 
-export async function useUpvoted(key: string) {
+export async function useUpvoted(user_id: string, key: string) {
     const db = useFirestore()
     const nuxt = useNuxtApp()
-    const user = await getCurrentUser()
+    const user = useCookie('user')
     // Use useAsyncData to fetch and cache episodes
-    const { data: upvoted } = await useAsyncData(key, async () => {
+    const { data: upvoted, refresh } = await useAsyncData(key, async () => {
 
         // Fetch season document to get the episode IDs
-        const userRef = doc(db, "users", user.uid)
+        const userRef = doc(db, "users", user.value.uid)
         const voted = (await getDoc(userRef)).data().upvoted;
         return voted
         // Return the episodes data
@@ -31,6 +31,13 @@ export async function useUpvoted(key: string) {
             console.log('returning cache')
             return cachedData
         },
+    })
+
+    watch(user, (newVal, oldVal) => {
+        if (newVal !== oldVal) {
+            console.log('User cookie changed, refetching data')
+            refresh()  // This will trigger the useAsyncData to refetch data
+        }
     })
 
     return { upvoted }

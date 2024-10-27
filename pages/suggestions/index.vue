@@ -29,7 +29,7 @@
                     <h2 ref="suggestions_ref" class="pb-2 text-xl">Suggested topics</h2>
                     <Suggestions :items="suggestions?.data" :more_sugs="more_sugs" :sug_limit="sug_limit" />
                     <button v-if="more_sugs && suggestions?.data?.length >= 10"
-                        class="text-stone-700 hover:text-stone-900 text-xs mt-4" @click="viewMoreEpisodes">Show
+                        class="text-stone-700 hover:text-stone-900 text-sm mt-4" @click="viewMoreEpisodes">Show
                         more</button>
                 </div>
             </NuxtLayout>

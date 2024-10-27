@@ -10,7 +10,7 @@
 
                         <p class="whitespace-nowrap">{{ topic.votes }} votes</p>
                         <button class="text-[#9d7448]"
-                            :class="[upvoted?.includes(topic.id) ? 'opacity-100 pointer-events-none ' : 'opacity-50 hover:opacity-100']"
+                            :class="[upvoted?.data?.includes(topic.id) ? 'opacity-100 pointer-events-none ' : 'opacity-50 hover:opacity-100']"
                             @click="() => voteUp(id, topic.id)">
                             <ChevronSolid class="text-xl mt-[4px] -rotate-90" />
                         </button>
@@ -63,14 +63,10 @@ const ordered_topics = computed(() => {
 });
 
 
-const upvoted = ref(null)
+const user = useCookie()
+const { upvoted } = await useUpvoted(user?.value?.uid, 'upvoted-by-user')
 
 
-onMounted(async () => {
-
-    const { upvoted: upvotedFromHook } = await useUpvoted('upvoted-by-user')
-    upvoted.value = upvotedFromHook.value.data
-})
 
 
 // const addVote = async (id, idx) => {

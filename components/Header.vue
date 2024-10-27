@@ -21,6 +21,7 @@
             </div>
         </div>
 
+
         <div :class="nav_open ? 'block' : 'hidden'"
             class="flex items-start flex-col text-stone-500 sm:gap-2 gap-4 sm:flex-row justify-center sm:items-center p-4 sm:flex">
 
@@ -38,8 +39,8 @@
                 ref="profileModal" class="relative cursor-pointer flex h-8 -my-2 px-2 items-center gap-2 mr-2"
                 @click="showProfileModal = !showProfileModal">
                 <div class="sm:hidden">Logged in as:</div>
-                <img :src="user.photoURL" class="rounded-full w-7 h-7" alt="">
-                <div class="sm:text-sm sm:font-medium truncate text-stone-900">{{ user?.displayName }}</div>
+                <img :src="user.img" class="rounded-full w-7 h-7" alt="">
+                <div class="sm:text-sm sm:font-medium truncate text-stone-900">{{ user?.username }}</div>
 
             </div>
 
@@ -74,6 +75,7 @@
             </div>
         </div>
 
+
     </nav>
 
     <div class="sm:flex justify-end px-4 pt-2 hidden ">
@@ -100,7 +102,7 @@
 
 <script setup>
 import { ref } from 'vue';
-import { signInWithPopup, getAuth, GoogleAuthProvider, browserLocalPersistence, signOut, setPersistence } from 'firebase/auth';
+import { signInWithPopup, getAuth, GoogleAuthProvider, browserLocalPersistence, signOut, setPersistence, onAuthStateChanged } from 'firebase/auth';
 import { collection, doc, setDoc } from 'firebase/firestore';
 import Menu from '~icons/heroicons/bars-3-bottom-right-16-solid';
 import XMark from '~icons/heroicons/x-mark-16-solid';
@@ -109,8 +111,7 @@ import Heart from '~icons/heroicons/heart-16-solid';
 import Comment from '~icons/heroicons/chat-bubble-oval-left-ellipsis-16-solid';
 import LightBulb from '~icons/heroicons/light-bulb-16-solid';
 
-const auth = getAuth()
-const user = useCurrentUser(); // only exists on client side
+const auth = getAuth()// only exists on client side
 const db = useFirestore();
 const nav_open = ref(false);
 const showProfileModal = ref(false);
@@ -139,18 +140,29 @@ const iconComponents = {
     Comment,
 };
 
+// onAuthStateChanged(auth, (user) => {
+//     if (user) {
+//         reloadNuxtApp()
+//     }
+// });
+const user = useCookie('user');
+
 function signinPopup() {
     signInWithPopup(auth, new GoogleAuthProvider())
         .then(cred => {
-            if (cred.user.metadata.creationTime === cred.user.metadata.lastSignInTime) {
-                return setDoc(doc(collection(db, 'users'), cred.user.uid), {
-                    username: cred.user.displayName,
-                    email: cred.user.email,
-                    img: cred.user.photoURL,
-                    likes: [],
-                    upvoted: [],
-                });
+            const user_data = {
+                username: cred.user.displayName,
+                email: cred.user.email,
+                img: cred.user.photoURL,
+                likes: [],
+                upvoted: [],
+                uid: cred?.user?.uid,
             }
+            user.value = user_data;
+            if (cred.user.metadata.creationTime === cred.user.metadata.lastSignInTime) {
+                return setDoc(doc(collection(db, 'users'), cred?.user?.uid), user_data);
+            }
+
         })
         .catch(error => {
             console.error("Error signing in: ", error);
@@ -159,11 +171,13 @@ function signinPopup() {
 
 function signUserOut() {
     showProfileModal.value = false;
+    user.value = null
     signOut(auth).then(() => {
         // Sign-out successful.
     }).catch((error) => {
         // An error happened.
     });
+    reloadNuxtApp()
 }
 </script>
 

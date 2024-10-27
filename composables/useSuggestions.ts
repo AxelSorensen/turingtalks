@@ -5,10 +5,10 @@ export async function useSuggestions(key: string, manual_limit: number | undefin
     const nuxt = useNuxtApp()
     const sug_limit = ref(10)
     const more_sugs = ref(true)
-    const user = useCurrentUser()
+    const user = useCookie('user')
 
     const upvoted_by_user = computed(() => async (id: string) => {
-        const userRef = doc(db, "users", user.value.uid)
+        const userRef = doc(db, "users", user?.value?.uid)
         const userDoc = await getDoc(userRef);
         const user_data = userDoc.data();
         return user_data.suggestions.includes(id);
@@ -21,7 +21,7 @@ export async function useSuggestions(key: string, manual_limit: number | undefin
     }
 
     const addVote = async (id) => {
-        const userRef = doc(db, "users", user.value.uid)
+        const userRef = doc(db, "users", user?.value?.uid)
         updateDoc(userRef, {
             upvoted: arrayUnion(id)
         }, { merge: true })

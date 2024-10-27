@@ -60,11 +60,12 @@
                         <div @click="likeEpisode" class="flex group cursor-pointer items-center gap-1">
                             <button>Like</button>
                             <Heart
-                                :class="[isLiked ? 'text-red-500 group-hover:text-red-600' : 'text-stone-300 group-hover:text-stone-400']"
+                                :class="[isLiked.data ? 'text-red-500 group-hover:text-red-600' : 'text-stone-300 group-hover:text-stone-400']"
                                 class="" />
                         </div>
 
                     </div>
+
 
 
                 </div>
@@ -118,34 +119,34 @@ let color = route.query.color
 if (!route.query.color) {
     color = getRandomColor()
 }
-const isLiked = ref(false)
-let addLikeToDatabase;
-let removeLikeFromDatabase;
 
 const likeEpisode = async () => {
-    if (isLiked.value) {
-        removeLikeFromDatabase()
+    if (isLiked.value.data) {
+        isLiked.value.data = false
+        await removeLikeFromDatabase()
+        user.value.likes = user.value.likes.filter(like => like !== route.params.id)
     } else {
-        addLikeToDatabase()
+        isLiked.value.data = true
+        await addLikeToDatabase()
+        user.value.likes.push(route.params.id)
+
+
     }
-    isLiked.value = !isLiked.value
-    refreshNuxtData(`liked-episode-${route.params.id}`)
+    // await ref_liked()
+    // await ref_fav()
+
 }
 
+let ref_liked;
+let ref_fav;
+
 const { episode } = await useEpisode(route.params.id, `episode-${route.params.id}`)
-const { similar_episodes } = useSimilarEpisodes(3, 'desc', `eps_sdimilar_to-${route.params.id}`, route.params.id, episode?.value?.data?.tags)
-
-onMounted(async () => {
-    const user = await getCurrentUser()
-
-    // Destructure the values from useEpisodeLiked and assign them to isLiked and likeEpisode
-    const { isLiked: likedFromHook, likeEpisode: addLikeFunction, unlikeEpisode: removeLikeFunction } = await useEpisodeLiked(route.params.id, user.uid, `liked-episode-${route.params.id}`)
-    // Set the ref values to the data retrieved in onMounted
-    isLiked.value = likedFromHook.value.data
-
-    addLikeToDatabase = addLikeFunction
-    removeLikeFromDatabase = removeLikeFunction
-})
+const { similar_episodes } = useSimilarEpisodes(3, 'desc', `eps_similar_to-${route.params.id}`, route.params.id, episode?.value?.data?.tags)
+const user = useCookie('user')
+// const { refresh: refreshFavorites } = await useFavorites(user.uid, `favorites`)
+// Destructure the values from useEpisodeLiked and assign them to isLiked and likeEpisode
+const { isLiked, likeEpisode: addLikeToDatabase, unlikeEpisode: removeLikeFromDatabase } = await useEpisodeLiked(route.params.id, user?.value?.uid, `liked-episode-${route.params.id}`)
+// Set the ref values to the data retrieved in onMounted
 
 
 

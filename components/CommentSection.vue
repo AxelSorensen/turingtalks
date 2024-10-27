@@ -53,8 +53,8 @@
                 </div>
             </div>
 
-            <button v-if="more_comments && comments.data.length >= 5" class="text-stone-700 hover:text-stone-900"
-                @click="viewMoreEpisodes">Show
+            <button v-if="more_comments && comments?.data?.length >= 5"
+                class="text-stone-700 text-sm hover:text-stone-900" @click="viewMoreEpisodes">Show
                 more</button>
         </div>
         <div class="flex flex-col mt-8 gap-2" v-else>
@@ -75,7 +75,7 @@ const props = defineProps({
     ep_id: String,
 })
 
-const user = useCurrentUser()
+const user = useCookie('user')
 
 const { ep_id } = toRefs(props)
 const new_comment = ref('')
@@ -99,7 +99,7 @@ const postComment = async () => {
     const optimistic_comment = new_comment_data
     optimistic_comment.date = { seconds: optimistic_comment.date.getTime() / 1000, nanoseconds: 0 }
     // new_comment_data.date = { seconds: new_comment_data.date.getTime() / 1000, nanoseconds: 0 }
-    comments.value.data.splice(0, 0, new_comment_data)
+    comments.value?.data?.splice(0, 0, new_comment_data)
     await addDoc(colRef, optimistic_comment);
 }
 
