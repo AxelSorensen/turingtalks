@@ -2,7 +2,6 @@
 
     <div class="h-full  w-full text-stone-900 mx-auto ">
 
-
         <h1 class="text-2xl text-stone-900 max-w-[800px] mx-auto font-bold p-4">{{ user ? user?.username + "'s Page"
             : 'Loading...' }}</h1>
 
@@ -71,7 +70,6 @@
             </div>
         </div>
 
-        {{ favorites }}
 
     </div>
 </template>
@@ -84,7 +82,6 @@ import LightBulb from '~icons/heroicons/light-bulb-16-solid';
 const support = ref(null)
 import { colors } from '~/utils/colors'
 const user = useCookie('user')
-const { favorites, refresh } = await useFavorites(`favorites`)
-refresh()
+const { favorites } = await useFavorites(`favorites`)
 
 </script>

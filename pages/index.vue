@@ -92,7 +92,7 @@ const randomEpisode = () => {
     // Fetch all episode ids
     const all_episodes = useCollection(collection(db, 'episodes'), { once: true })
     const random_id = Math.floor(Math.random() * all_episodes.value.length)
-    navigateTo({ path: `/episodes/${all_episodes.value[random_id].id}`, query: { color: colors[Math.floor(Math.random() * colors.length)] } })
+    navigateTo({ path: `/episodes/${all_episodes.value[random_id].id}`, query: { c: colors[Math.floor(Math.random() * colors.length)] } })
 }
 // const nuxtApp = useNuxtApp()
 

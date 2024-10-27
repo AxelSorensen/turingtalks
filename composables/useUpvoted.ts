@@ -8,7 +8,7 @@ export async function useUpvoted(user_id: string, key: string) {
     const { data: upvoted, refresh } = await useAsyncData(key, async () => {
 
         // Fetch season document to get the episode IDs
-        const userRef = doc(db, "users", user.value.uid)
+        const userRef = doc(db, "users", user?.value?.uid)
         const voted = (await getDoc(userRef)).data().upvoted;
         return voted
         // Return the episodes data

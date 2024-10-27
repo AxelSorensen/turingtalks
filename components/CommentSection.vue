@@ -95,7 +95,7 @@ const viewMoreEpisodes = () => {
 const postComment = async () => {
     const comment_buffer = new_comment.value
     new_comment.value = ''
-    const new_comment_data = { user: { id: user?.value?.uid, img: user?.value?.photoURL || null, name: user.value.displayName }, text: comment_buffer, date: new Date() }
+    const new_comment_data = { user: { id: user?.value?.uid, img: user?.value?.img || null, name: user.value.username }, text: comment_buffer, date: new Date() }
     const optimistic_comment = new_comment_data
     optimistic_comment.date = { seconds: optimistic_comment.date.getTime() / 1000, nanoseconds: 0 }
     // new_comment_data.date = { seconds: new_comment_data.date.getTime() / 1000, nanoseconds: 0 }

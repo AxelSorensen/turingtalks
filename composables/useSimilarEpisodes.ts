@@ -7,8 +7,8 @@ export function useSimilarEpisodes(ep_limit: number, order: 'asc' | 'desc', key:
     const { data: similar_episodes } = useAsyncData(key, async () => {
         // Fetch season document to get the episode IDs
         console.log('Fetching episodes')
-        // Query the episodes based on the episode IDs
-        const eps = await getDocs(query(collection(db, 'episodes'), where('tags', 'array-contains-any', tags_array), limit(ep_limit)))
+        // Query the episodes based on the episode IDs + 1 so we can filter out the current episode
+        const eps = await getDocs(query(collection(db, 'episodes'), where('tags', 'array-contains-any', tags_array), limit(ep_limit + 1)))
 
         return eps.docs
             .map(doc => ({ id: doc.id, ...doc.data() }))

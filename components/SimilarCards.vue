@@ -1,10 +1,10 @@
 <template>
     <div class="grid w-full grid-cols-3 sm:grid-cols-3 grid-rows-1 auto-rows-fr gap-2">
-
-        <NuxtLink v-if="ordered_items?.length" v-for="(item, index) in ordered_items.slice(0, limit || items?.length)"
-            :key="item.id" :style="{ backgroundColor: other_colors[index % other_colors.length ] }"
+        {{ limit }}
+        <NuxtLink v-if="ordered_items?.length" v-for="(item, index) in ordered_items.slice(0, 3)" :key="item.id"
+            :style="{ backgroundColor: other_colors[index % other_colors.length] }"
             class="hover:brightness-105 p-4 flex flex-col text-stone-900 justify-between h-28 relative rounded-md flex-grow"
-            :to="{ path: `/episodes/${item.id}`, query: { color: other_colors[index], title: title ? item.title : null } }">
+            :to="{ path: `/episodes/${item.id}`, query: { c: other_colors[index] } }">
             <div v-cloak>
                 <h2 class="text-base line-clamp-2 font-medium leading-6">{{ item.title }}</h2>
             </div>
@@ -36,10 +36,10 @@ const props = defineProps({
 
 import Clock from '~icons/heroicons/clock-16-solid'
 
-const { items,colors } = toRefs(props)
+const { items, colors } = toRefs(props)
 const route = useRoute()
 const other_colors = computed(() => {
-    return colors.value.filter(color => color !== route.query.color)
+    return colors.value.filter(color => color !== route.query.c)
 })
 
 const ordered_items = computed(() => {

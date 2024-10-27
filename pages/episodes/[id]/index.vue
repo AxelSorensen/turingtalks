@@ -4,7 +4,7 @@
             <div class="max-w-[800px] px-4 pb-4 mx-auto">
                 <div class="flex items-center gap-8 justify-between ">
                     <!-- <Spinner class="bg-red-200" v-if="episode?.data?.title" /> -->
-                    <h1 class="text-2xl  font-bold pb-2">{{ route.query.title || episode?.data?.title }}</h1>
+                    <h1 class="text-2xl  font-bold pb-2">{{ episode?.data?.title }}</h1>
 
                 </div>
                 <div class="h-[5.5rem] pt-2 overflow-hidden" v-if="!episode?.data?.description">
@@ -83,7 +83,7 @@
                 <div class="mb-20">
 
                     <h2 class="font-medium pb-2 mt-4 text-stone-900">You might also like</h2>
-                    <SimilarCards :items="similar_episodes?.data" :title="true" :colors="colors" />
+                    <SimilarCards :items="similar_episodes?.data" :title="true" :colors="colors" :color="color" />
 
                 </div>
 
@@ -102,7 +102,6 @@
 definePageMeta({
     scrollToTop: true
 })
-
 import { useClipboard } from '@vueuse/core'
 const route = useRoute()
 const shareLink = `https://theturingtalks.com/episodes/${route.params.id}`
@@ -112,23 +111,26 @@ import Heart from '~icons/fa/heart'
 import Link from '~icons/heroicons/link-16-solid'
 import ClipBoard from '~icons/heroicons/clipboard-document-16-solid'
 import SimilarCards from '~/components/SimilarCards.vue';
+import { colors } from '~/utils/colors'
 const sources_open = ref(false)
 const summary_open = ref(false)
-
-let color = route.query.color
-if (!route.query.color) {
-    color = getRandomColor()
+const color = ref('')
+color.value = route.query.c
+if (!route.query.c) {
+    color.value = getRandomColor()
 }
+
+
 
 const likeEpisode = async () => {
     if (isLiked.value.data) {
         isLiked.value.data = false
         await removeLikeFromDatabase()
-        user.value.likes = user.value.likes.filter(like => like !== route.params.id)
+        refreshFavorites()
     } else {
         isLiked.value.data = true
         await addLikeToDatabase()
-        user.value.likes.push(route.params.id)
+        refreshFavorites()
 
 
     }
@@ -143,7 +145,7 @@ let ref_fav;
 const { episode } = await useEpisode(route.params.id, `episode-${route.params.id}`)
 const { similar_episodes } = useSimilarEpisodes(3, 'desc', `eps_similar_to-${route.params.id}`, route.params.id, episode?.value?.data?.tags)
 const user = useCookie('user')
-// const { refresh: refreshFavorites } = await useFavorites(user.uid, `favorites`)
+const { refresh: refreshFavorites } = await useFavorites(`favorites`)
 // Destructure the values from useEpisodeLiked and assign them to isLiked and likeEpisode
 const { isLiked, likeEpisode: addLikeToDatabase, unlikeEpisode: removeLikeFromDatabase } = await useEpisodeLiked(route.params.id, user?.value?.uid, `liked-episode-${route.params.id}`)
 // Set the ref values to the data retrieved in onMounted

@@ -6,7 +6,7 @@
         <Header />
       </template>
       <template #main>
-        <NuxtLoadingIndicator />
+        <NuxtLoadingIndicator color="black" />
         <NuxtPage />
       </template>
       <template #footer>
@@ -19,8 +19,6 @@
 
 </template>
 <script setup>
-
-
 
 
 </script>

@@ -177,7 +177,6 @@ function signUserOut() {
     }).catch((error) => {
         // An error happened.
     });
-    reloadNuxtApp()
 }
 </script>
 
