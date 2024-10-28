@@ -1,7 +1,7 @@
 <template>
 
 
-    <div class="relative max-w-[600px] w-[80%] bg-white rounded-lg shadow">
+    <div class="relative max-w-[600px] h-fit mt-20 w-[80%] bg-white rounded-lg shadow">
         <button type="button" @click="show_modal = false"
             class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-stone-100 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center popup-close"><svg
                 aria-hidden="true" class="w-5 h-5" fill="#c6c7c7" viewBox="0 0 20 20"
@@ -43,12 +43,12 @@
                 </button>
 
 
-                <button
+                <!-- <button
                     class="inline-flex hover:bg-stone-100 h-10 w-full items-center justify-center gap-2 rounded border border-slate-300 bg-white p-2 text-sm font-medium text-black outline-none focus:ring-2 focus:ring-[#333] focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-60"><img
                         src="https://www.svgrepo.com/show/448234/linkedin.svg" alt="Google"
                         class="h-[18px] w-[18px] ">Continue with
                     LinkedIn
-                </button>
+                </button> -->
             </div>
 
             <div class="flex w-full items-center gap-2 py-6 text-sm text-slate-600">

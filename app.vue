@@ -1,7 +1,6 @@
 <template>
   <div>
-    <div v-show="show_modal"
-      class="bg-black flex justify-center items-center bg-opacity-20 z-[200] fixed h-screen w-full">
+    <div v-show="show_modal" class="bg-black flex justify-center bg-opacity-20 z-[200] fixed h-dvh w-full">
       <LoginModal ref="modal" />
 
     </div>
