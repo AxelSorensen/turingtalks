@@ -1,6 +1,6 @@
 <template>
     <div v-if="toast_data"
-        class=" bg-stone-100 overflow-hidden text-stone-700  backdrop-blur-xl p-4 relative border-purple-500 rounded-md shadow-lg w-full">
+        class=" bg-stone-100 overflow-hidden text-stone-900  backdrop-blur-xl p-4 relative border-purple-500 rounded-md shadow-lg w-full">
         <div class="flex mb-2 gap-2 items-center">
             <XMark @click="closeToast" class="absolute right-2 cursor-pointer" />
             <ExclamationCircle />

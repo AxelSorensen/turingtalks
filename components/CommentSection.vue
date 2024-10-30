@@ -7,7 +7,7 @@
             <div :class="{ 'text-red-500': new_comment.length == ch_limit }" class="text-xs">{{ new_comment.length }} /
                 {{ ch_limit }} characters</div>
             <button @click="postComment"
-                :class="[new_comment.length ? 'bg-opacity-100 bg-stone-900 hover:bg-stone-700' : 'bg-opacity-50 pointer-events-none']"
+                :class="[new_comment.length ? 'bg-opacity-100 bg-stone-900 hover:bg-stone-700' : 'bg-opacity-50 pointer-events-none', post_error ? 'animate-shake' : '']"
                 class="bg-stone-700 text-white rounded-sm p-2">Post comment</button>
         </div>
 
@@ -73,7 +73,7 @@
 
 <script setup>
 import { useTimeAgo } from '@vueuse/core';
-import { addDoc, collection } from 'firebase/firestore';
+import { addDoc, collection, doc, increment, setDoc, updateDoc } from 'firebase/firestore';
 const props = defineProps({
     ep_id: String,
 })
@@ -93,21 +93,48 @@ const viewMoreEpisodes = () => {
     comment_limit.value += 5
 }
 
-const show_modal = useState('show_modal')
+const { $setToast } = useNuxtApp()
 
+const show_modal = useState('show_modal')
+const post_error = ref(false)
 const postComment = async () => {
     if (!user.value) {
         show_modal.value = true
         return
     }
+    const docRef = doc(db, 'users', user?.value?.uid)
+    const last_commented = new Date().getTime() - new Date(user.value.last_commented).getTime()
+
+    const expiration = 60 * 60 * 1000
+    // Check if user has commented in the last 1 minute
+    if (last_commented < expiration && user.value.comments_today >= 10) {
+        post_error.value = true
+        setTimeout(() => {
+            post_error.value = false
+        }, 1000)
+
+        // Calculate the remaining time until the user can comment again
+        const remaining_time = expiration - last_commented
+        const minutes = new Date(remaining_time).getMinutes()
+        $setToast({ title: 'Comment limit', text: `You can only submit 10 comments per hour. Try again in ${minutes} minutes.` })
+        return
+    }
+
     const comment_buffer = new_comment.value
     new_comment.value = ''
     const new_comment_data = { user: { id: user?.value?.uid, img: user?.value?.img || null, name: user.value.username }, text: comment_buffer, date: new Date() }
     const optimistic_comment = new_comment_data
     optimistic_comment.date = { seconds: optimistic_comment.date.getTime() / 1000, nanoseconds: 0 }
-    // new_comment_data.date = { seconds: new_comment_data.date.getTime() / 1000, nanoseconds: 0 }
     comments.value?.data?.splice(0, 0, new_comment_data)
     await addDoc(colRef, optimistic_comment);
+    const date_commented = new Date()
+    if (Date.now() - new Date(user.last_commented) > expiration) {
+        setDoc(docRef, { last_commented: date_commented }, { merge: true })
+        user.value.last_commented = date_commented
+    }
+
+    updateDoc(docRef, { comments_today: increment(1) }, { merge: true })
+    user.value.comments_today = user.value.comments_today + 1 || 1
 }
 
 

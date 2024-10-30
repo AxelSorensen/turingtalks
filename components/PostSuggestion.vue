@@ -94,7 +94,6 @@ const post = async () => {
         show_modal.value = true
         return
     }
-    const toast_data = useState('toast_data')
     const docRef = doc(db, 'users', user?.value?.uid)
     const last_suggested = new Date().getSeconds() - new Date(user.value.last_suggested).getSeconds()
     // Check if user has suggested in the last 7 days if date now is more than 7 days after last_suggested
@@ -106,7 +105,6 @@ const post = async () => {
         }, 1000)
         // Get days until 0 and format as X days X hours X minutes
         const days_until = 7 - Math.round(last_suggested / (60 * 60 * 24))
-        console.log(days_until)
         $setToast({ title: 'Suggestion limit', text: 'You can only suggest 1 topic per week. Try again in ' + days_until + ' days.' })
         return
 
