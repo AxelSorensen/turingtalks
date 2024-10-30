@@ -104,10 +104,10 @@ const postComment = async () => {
     }
     const docRef = doc(db, 'users', user?.value?.uid)
     const last_commented = new Date().getTime() - new Date(user.value.last_commented).getTime()
-
+    const comments_per_x = 5
     const expiration = 60 * 60 * 1000
     // Check if user has commented in the last 1 minute
-    if (last_commented < expiration && user.value.comments_today >= 10) {
+    if (last_commented < expiration && user.value.comments_today >= comments_per_x) {
         post_error.value = true
         setTimeout(() => {
             post_error.value = false
@@ -116,7 +116,7 @@ const postComment = async () => {
         // Calculate the remaining time until the user can comment again
         const remaining_time = expiration - last_commented
         const minutes = new Date(remaining_time).getMinutes()
-        $setToast({ title: 'Comment limit', text: `You can only submit 10 comments per hour. Try again in ${minutes} minutes.` })
+        $setToast({ title: 'Comment limit', text: `You can only submit ${comments_per_x} comments per hour. Try again in ${minutes} minutes.` })
         return
     }
 
@@ -128,7 +128,8 @@ const postComment = async () => {
     comments.value?.data?.splice(0, 0, new_comment_data)
     await addDoc(colRef, optimistic_comment);
     const date_commented = new Date()
-    if (Date.now() - new Date(user.last_commented) > expiration) {
+
+    if (!user.value.last_commented || (new Date(user.value.last_commented) > expiration)) {
         setDoc(docRef, { last_commented: date_commented }, { merge: true })
         user.value.last_commented = date_commented
     }
