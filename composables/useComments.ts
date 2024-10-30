@@ -7,7 +7,7 @@ export function useComments(ep_id: string, key: string) {
     const more_comments = ref(true)
 
     // Use useAsyncData to fetch and cache episodes
-    const { data: comments } = useAsyncData(key, async () => {
+    const { data: comments, status } = useAsyncData(key, async () => {
 
         const q = computed(() => { return query(collection(db, 'episodes', ep_id, 'comments'), limit(comment_limit.value), orderBy('date', 'desc')) })
 
@@ -41,5 +41,5 @@ export function useComments(ep_id: string, key: string) {
         watch: [comment_limit],
     })
 
-    return { comments, comment_limit, more_comments }
+    return { comments, comment_limit, more_comments, status }
 }

@@ -34,11 +34,16 @@
         <div ref="suggestions_ref" class="flex max-w-[800px] w-full mx-auto px-4 p-2 pb-8 justify-start  flex-col">
             <h2 class="pb-2 text-stone-900 text-xl">Suggested topics</h2>
             <Suggestions :items="suggestions?.data" />
-            <div
+            <div v-if="suggestions?.data?.length"
                 class="text-center w-fit mx-auto hover:text-stone-900 rounded-sm cursor-pointer mt-4 text-sm text-stone-700">
                 <NuxtLink to="/suggestions">
                     See all suggested topics
                 </NuxtLink>
+            </div>
+            <div class="flex flex-col mt-8 font-medium gap-2" v-else>
+                <p class="text-center text-sm text-stone-400">No suggestions yet
+                </p>
+
             </div>
 
 

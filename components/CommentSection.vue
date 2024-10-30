@@ -1,7 +1,7 @@
 <template>
     <div>
         <textarea :maxlength="ch_limit" v-model="new_comment"
-            class="bg-stone-200 rounded-md resize-none text-xs w-full p-2" rows="4"
+            class="bg-stone-200 outline-stone-700 rounded-md resize-none text-xs w-full p-2" rows="4"
             placeholder="Type a comment"></textarea>
         <div class="flex text-sm gap-2 justify-between">
             <div :class="{ 'text-red-500': new_comment.length == ch_limit }" class="text-xs">{{ new_comment.length }} /
@@ -26,7 +26,7 @@
             </div> -->
 
         <div v-else-if="comments?.data?.length > 0" class="flex flex-col gap-4 mt-4">
-            <div class="gap-4 flex items-center" v-for="comment in comments?.data">
+            <div class="gap-4 relative flex items-center" v-for="comment in comments?.data">
 
 
 
@@ -42,23 +42,26 @@
                                 comment?.user?.name?.[0] || '?' }}</div>
                         <div class="flex  flex-col gap-1">
                             <p class="whitespace-nowrap font-medium text-stone-900 ">Axel Sorensen</p>
-                            <p class="sm:text-xs text-stone-700 text-sm">{{ comment?.text }}</p>
+                            <p class="sm:text-xs text-stone-700 mt-1 text-sm">{{ comment?.text }}</p>
                         </div>
                     </div>
-                    <div class="text-xs whitespace-nowrap truncate text-stone-700">{{ useTimeAgo(comment.date.seconds *
-                        1000) }}
+                    <div class="text-xs absolute top-4 right-4 whitespace-nowrap text-stone-700">{{
+                        useTimeAgo(comment.date.seconds *
+                            1000) }}
                     </div>
 
 
                 </div>
             </div>
-
-            <button v-if="more_comments && comments?.data?.length >= 5"
-                class="text-stone-700 text-sm hover:text-stone-900" @click="viewMoreEpisodes">Show
-                more</button>
+            <div class="h-10 -mt-2 flex justify-center items-center">
+                <Spinner class="scale-[60%]" v-if="status == 'pending'" />
+                <button v-else-if="more_comments && comments?.data?.length >= 5"
+                    class="text-stone-700 text-sm hover:text-stone-900" @click="viewMoreEpisodes">Show
+                    more</button>
+            </div>
         </div>
-        <div class="flex flex-col mt-8 gap-2" v-else>
-            <p class="text-center mb-32 text-stone-700">No comments yet
+        <div class="flex flex-col mt-8 font-medium gap-2" v-else>
+            <p class="text-center text-sm mb-32 text-stone-400">No suggestions yet
             </p>
 
         </div>
@@ -84,15 +87,19 @@ const db = useFirestore()
 
 const colRef = collection(db, 'episodes', ep_id.value, 'comments')
 
-const { comments, comment_limit, more_comments } = useComments(ep_id.value, `comments-for-episode-${ep_id.value}`)
+const { comments, comment_limit, more_comments, status } = useComments(ep_id.value, `comments-for-episode-${ep_id.value}`)
 
 const viewMoreEpisodes = () => {
     comment_limit.value += 5
 }
 
-
+const show_modal = useState('show_modal')
 
 const postComment = async () => {
+    if (!user.value) {
+        show_modal.value = true
+        return
+    }
     const comment_buffer = new_comment.value
     new_comment.value = ''
     const new_comment_data = { user: { id: user?.value?.uid, img: user?.value?.img || null, name: user.value.username }, text: comment_buffer, date: new Date() }
