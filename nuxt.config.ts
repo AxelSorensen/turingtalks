@@ -7,8 +7,8 @@ export default defineNuxtConfig({
     '/': { isr: true },
     '/about': { isr: true },
     '/episodes': { isr: true },
-    // '/episodes/**': { isr: true },
-    // '/seasons/**': { isr: true },
+    '/episodes/**': { isr: true },
+    '/seasons/**': { isr: true },
   },
   postcss: {
     plugins: {

@@ -98,19 +98,19 @@ const post = async () => {
 
     const remaining_time = expiration - last_suggested
 
-    // // Check if user has suggested in the last 7 days if date now is more than 7 days after last_suggested
-    // if (user.value.last_suggested?.seconds && remaining_time > 0) {
-    //     post_error.value = true
-    //     setTimeout(() => {
+    // Check if user has suggested in the last 7 days if date now is more than 7 days after last_suggested
+    if (user.value.last_suggested?.seconds && remaining_time > 0) {
+        post_error.value = true
+        setTimeout(() => {
 
-    //         post_error.value = false
-    //     }, 1000)
-    //     // Get days until 0 and format as X days X hours X minutes
-    //     const days_until = 7 - Math.round(last_suggested / (60 * 60 * 24 * 1000))
-    //     $setToast({ title: 'Suggestion limit', text: 'You can only suggest 1 topic per week. Try again in ' + days_until + ' days.' })
-    //     return
+            post_error.value = false
+        }, 1000)
+        // Get days until 0 and format as X days X hours X minutes
+        const days_until = 7 - Math.round(last_suggested / (60 * 60 * 24 * 1000))
+        $setToast({ title: 'Suggestion limit', text: 'You can only suggest 1 topic per week. Try again in ' + days_until + ' days.' })
+        return
 
-    // }
+    }
     const date_suggested = new Date()
 
     user.value.last_suggested = { seconds: date_suggested.getTime() / 1000 }

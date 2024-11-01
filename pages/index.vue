@@ -31,7 +31,7 @@
 
         </div>
 
-        <div ref="suggestions_ref" class="flex max-w-[800px] w-full mx-auto px-4 p-2 pb-8 justify-start  flex-col">
+        <div ref="suggestions_ref" class="flex max-w-[800px] w-full mx-auto px-4 p-2 mt-4 pb-8 justify-start  flex-col">
             <h2 class="pb-2 text-stone-900 text-xl">Suggested topics</h2>
             <Suggestions :items="suggestions?.data" />
             <div v-if="suggestions?.data?.length"
