@@ -37,7 +37,7 @@ export async function useSuggestions(key: string, manual_limit: number | undefin
     // Use useAsyncData to fetch and cache episodes
     const { data: suggestions, status, refresh } = await useAsyncData(key, async () => {
         // Fetch season document to get the episode IDs
-        console.log('Fetching suggestions')
+
 
 
         const q = query(collection(db, 'suggestions'), limit(manual_limit || sug_limit.value), orderBy('votes', 'desc'))
@@ -66,7 +66,7 @@ export async function useSuggestions(key: string, manual_limit: number | undefin
             if (Date.now() - cachedData.fetchedAt > 1000 * 60) { // 1 minute cache
                 return
             }
-            console.log('returning cache')
+
             return cachedData
         },
         watch: [sug_limit],
