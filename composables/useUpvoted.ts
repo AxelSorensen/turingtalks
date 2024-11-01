@@ -1,4 +1,4 @@
-import { query, getDocs, updateDoc, arrayUnion, doc, getDoc, setDoc, addDoc, collection, limit, documentId, where, orderBy } from 'firebase/firestore' // adjust the imports based on your setup
+import { doc, getDoc } from 'firebase/firestore' // adjust the imports based on your setup
 
 export async function useUpvoted(key: string) {
     const db = useFirestore()
@@ -31,7 +31,7 @@ export async function useUpvoted(key: string) {
             if (Date.now() - cachedData.fetchedAt > 1000 * 60) { // 1 minute cache
                 return
             }
-            console.log('returning cache')
+            //console.log('returning cache')
             return cachedData
         },
     })

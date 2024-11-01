@@ -1,7 +1,17 @@
 <template>
   <div>
-    <div v-show="show_modal" class="bg-black flex justify-center bg-opacity-20 z-[200] fixed h-dvh w-full">
+    <div v-show="show_login_modal" class="bg-black flex justify-center bg-opacity-20 z-[200] fixed h-dvh w-full">
       <LoginModal ref="modal" />
+    </div>
+
+    <div v-if="show_subscribe_modal" class="bg-black flex justify-center bg-opacity-20 z-[200] fixed h-dvh w-full">
+      <SubscribeModal ref="subscribe_modal" />
+    </div>
+    <div v-if="show_unsubscribe_modal" class="bg-black flex justify-center bg-opacity-20 z-[200] fixed h-dvh w-full">
+      <UnsubscribeModal ref="unsubscribe_modal" />
+    </div>
+    <div v-if="show_delete_user_modal" class="bg-black flex justify-center bg-opacity-20 z-[200] fixed h-dvh w-full">
+      <DeleteUserModal ref="delete_user_modal" />
     </div>
     <div class="p-3  z-[20] fixed  w-full">
       <Transition name="toast">
@@ -30,11 +40,27 @@
 </template>
 <script setup>
 import { onClickOutside } from '@vueuse/core';
-const show_modal = useState('show_modal', () => false)
+
+import { onAuthStateChanged, getAuth } from 'firebase/auth';
+const show_login_modal = useState('show_login_modal', () => false)
+const show_subscribe_modal = useState('show_subscribe_modal', () => false)
+const show_unsubscribe_modal = useState('show_unsubscribe_modal', () => false)
+const show_delete_user_modal = useState('show_delete_user_modal', () => false)
 const modal = ref(null)
-onClickOutside(modal, event => show_modal.value = false);
-
-
+const subscribe_modal = ref(null)
+const unsubscribe_modal = ref(null)
+const delete_user_modal = ref(null)
+const user = useCookie('user')
+onClickOutside(modal, event => show_login_modal.value = false);
+onClickOutside(subscribe_modal, event => show_subscribe_modal.value = false);
+onClickOutside(unsubscribe_modal, event => show_unsubscribe_modal.value = false);
+onClickOutside(delete_user_modal, event => show_delete_user_modal.value = false);
+const auth = getAuth()
+const { refresh } = useMySuggestions('my_suggestions')
+onAuthStateChanged(auth, (user) => {
+  refresh()
+  refreshNuxtData('favorites')
+})
 </script>
 
 <style>

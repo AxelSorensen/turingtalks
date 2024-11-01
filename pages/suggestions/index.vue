@@ -20,18 +20,27 @@
 
         <div>
             <NuxtLayout name="custom">
-
                 <div class="flex py-4 pb-8 flex-col  items-center">
                     <h2 class="sm:text-3xl text-2xl pb-4 font-bold">What should we cover next?</h2>
-                    <PostSuggestion :items="suggestions?.data" :post-suggestion="postSuggestion" key="suggestions" />
+                    <PostSuggestion :items="suggestions?.data" :post-suggestion="postSuggestion"
+                        @posted="scrollToSuggestion" fetch_key="suggestions" />
                 </div>
-                <div class="flex justify-start pt-2 flex-col">
+                <div class="flex  justify-start pt-2 flex-col">
                     <h2 ref="suggestions_ref" class="pb-2 text-xl">Suggested topics</h2>
-                    <Suggestions :items="suggestions?.data" :more_sugs="more_sugs" :sug_limit="sug_limit" />
+                    <Suggestions v-if="suggestions?.data?.length" :items="suggestions?.data" :more_sugs="more_sugs"
+                        :sug_limit="sug_limit" />
+                    <div class="flex flex-col mt-8 gap-2" v-else>
+                        <p class="text-center text-sm text-stone-400">No suggestions yet
+                        </p>
+
+                    </div>
                     <button v-if="more_sugs && suggestions?.data?.length >= 10"
                         class="text-stone-700 hover:text-stone-900 text-sm mt-4" @click="viewMoreEpisodes">Show
                         more</button>
+
                 </div>
+
+
             </NuxtLayout>
         </div>
 
@@ -47,12 +56,12 @@ const viewMoreEpisodes = () => {
     sug_limit.value += 10
 }
 
-// const scrollToSuggestion = () => {
-//     setTimeout(() => {
-//         suggestions.value.scrollIntoView({ behavior: 'smooth', block: 'center' });
-//     }, 100);
+const scrollToSuggestion = () => {
 
-// }
+    suggestions_ref.value.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+
+}
 
 
 </script>

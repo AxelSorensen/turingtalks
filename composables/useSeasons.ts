@@ -1,5 +1,5 @@
 // composables/useEpisodes.js
-import { query, collection, getDocs, limit, orderBy } from 'firebase/firestore' // adjust the imports based on your setup
+import { query, collection, getDocs, limit } from 'firebase/firestore' // adjust the imports based on your setup
 
 
 export function useSeasons(ep_limit: number, order: 'asc' | 'desc', key: string) {

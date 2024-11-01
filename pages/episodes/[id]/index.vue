@@ -7,8 +7,9 @@
                     <h1 class="text-2xl  font-bold pb-2">{{ episode?.data?.title }}</h1>
 
                 </div>
-                <div class="h-[5.5rem] pt-2 overflow-hidden" v-if="!episode?.data?.description">
-                    <Spinner />
+                <div class="h-[5.5rem] pt-2 flex justify-center items-center overflow-hidden"
+                    v-if="!episode?.data?.description">
+                    <Spinner class="mx-auto" />
                 </div>
                 <div v-else @click="summary_open = !summary_open" :class="[summary_open ? 'h-full' : 'h-[5.5rem]']"
                     class="flex h-[5.5rem] flex-col">
@@ -120,11 +121,11 @@ if (!route.query.c) {
     color.value = getRandomColor()
 }
 
-const show_modal = useState('show_modal')
+const show_login_modal = useState('show_login_modal')
 
 const likeEpisode = async () => {
     if (!user.value) {
-        show_modal.value = true
+        show_login_modal.value = true
         return
     }
     if (isLiked.value.data) {

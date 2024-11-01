@@ -7,8 +7,11 @@
         <main class="mt-16">
             <slot name="main" />
         </main>
-        <footer class="mt-4">
+        <footer v-if="route.path != '/signup'" class="mt-4">
             <slot name="footer" />
         </footer>
     </div>
 </template>
+<script setup>
+const route = useRoute()
+</script>

@@ -2,7 +2,6 @@
     <div class="grid relative mx-auto grid-rows-[auto,auto,auto,] h-full grid-cols-1 justify-center items-center">
 
         <div class="flex pt-8  flex-col items-center p-4">
-
             <h1 class="sm:text-5xl text-4xl text-stone-900  font-bold">The Turing Talks</h1>
             <!-- <img class="size-28 text-red-50 absolute mt-[-30px] opacity-5" src="../assets/logo.png" alt=""> -->
             <h2 class="text-lg text-stone-900 ">The first AI-hosted podcast about AI</h2>
@@ -10,7 +9,8 @@
         </div>
         <div class="flex  px-4 pb-2 flex-col  items-center">
             <h2 class="sm:text-3xl text-2xl text-stone-900 mb-4 font-bold">What should we cover next?</h2>
-            <PostSuggestion :items="suggestions?.data" :post-suggestion="postSuggestion" key="suggestions-front-page" />
+            <PostSuggestion :items="suggestions?.data" :post-suggestion="postSuggestion" @posted="scrollToSuggestion"
+                fetch_key="suggestions-front-page" />
         </div>
         <div class="px-4 max-w-[800px] w-full mx-auto pt-2">
             <h2 class="pb-2 text-xl text-stone-900 ">Latest episodes</h2>
@@ -40,7 +40,7 @@
                     See all suggested topics
                 </NuxtLink>
             </div>
-            <div class="flex flex-col mt-8 font-medium gap-2" v-else>
+            <div class="flex flex-col mt-8 gap-2" v-else>
                 <p class="text-center text-sm text-stone-400">No suggestions yet
                 </p>
 
@@ -94,30 +94,25 @@ import { collection, } from 'firebase/firestore/lite';
 // const user = useCurrentUser() // only exists on client side
 const suggestions_ref = ref(null)
 const { suggestions, more_sugs, sug_limit, postSuggestion } = await useSuggestions('suggestions-front-page', 5)
-
+const user = useCookie('user')
 const randomEpisode = () => {
     // Fetch all episode ids
     const all_episodes = useCollection(collection(db, 'episodes'), { once: true })
     const random_id = Math.floor(Math.random() * all_episodes.value.length)
     navigateTo({ path: `/episodes/${all_episodes.value[random_id].id}`, query: { c: colors[Math.floor(Math.random() * colors.length)] } })
 }
-// const nuxtApp = useNuxtApp()
 
-// const { data: episodes } = useAsyncData('episodesKey', async () => {
-//     console.log('Fetching episodes')
+const scrollToSuggestion = () => {
+    setTimeout(() => {
+        suggestions_ref.value.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 100);
 
-//     // Firestore collection fetch logic
-//     return useCollection(collection(db, 'episodes'), { once: true }).value
-
-// })
+}
 
 
 
 const { episodes } = await useEpisodes('all', 4, 'desc', 'latest_episodes')
 
-
-// const topics = ref([{ name: 'About superposition', votes: 10 }])
-// come up with featured episodes 3 of them
 
 
 const featured_limit = ref(4)

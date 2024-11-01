@@ -13,7 +13,7 @@ export async function useEpisodeLiked(ep_id: string, key: string) {
         await updateDoc(docRef, {
             likes: arrayUnion(ep_id)
         }, { merge: true })
-        console.log('liking episode')
+        //console.log('liking episode')
     }
 
     const unlikeEpisode = async () => {
@@ -22,7 +22,7 @@ export async function useEpisodeLiked(ep_id: string, key: string) {
         await updateDoc(docRef, {
             likes: arrayRemove(ep_id)
         }, { merge: true })
-        console.log('unliking episode')
+        //console.log('unliking episode')
     }
 
     // }
@@ -60,13 +60,13 @@ export async function useEpisodeLiked(ep_id: string, key: string) {
             if (Date.now() - cachedData.fetchedAt > 1000 * 60) { // 1 minute cache
                 return
             }
-            console.log('returning cache')
+            //console.log('returning cache')
             return cachedData
         }
     })
 
     watch(user, (newVal, oldVal) => {
-        console.log('User cookie changed, refetching data')
+        //console.log('User cookie changed, refetching data')
         refresh()  // This will trigger the useAsyncData to refetch data
     }, { immediate: true })
 

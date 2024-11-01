@@ -1,8 +1,5 @@
 <template>
     <div class="flex-col w-full max-w-[500px] flex">
-
-
-
         <div class="flex relative flex-col gap-2 pb-2 ">
             <!-- <div class="text-center">A podcast about...</div> -->
 
@@ -59,7 +56,7 @@ import { doc, getDoc, setDoc } from 'firebase/firestore'
 const post_error = ref(false)
 const data = ref({
     title: '',
-    votes: 1,
+    votes: 0,
 })
 
 const error = ref({
@@ -69,62 +66,73 @@ const error = ref({
 const props = defineProps({
     items: Array,
     postSuggestion: Function,
-    key: String
+    fetch_key: String
 })
 
-const { items, key } = toRefs(props)
+const { items, postSuggestion, fetch_key } = toRefs(props)
 
-const new_source = ref('')
 
-const addSource = () => {
-    if (!new_source.value) {
-        error.value.source = "Please add a source"
-        return
-    }
-    error.value.source = null
-    data.value.sources.push(new_source.value)
-}
+// const addSource = () => {
+//     if (!new_source.value) {
+//         error.value.source = "Please add a source"
+//         return
+//     }
+//     error.value.source = null
+//     data.value.sources.push(new_source.value)
+// }
 
-const show_modal = useState('show_modal')
+const show_login_modal = useState('show_login_modal')
 const user = useCookie('user')
 const db = useFirestore()
+const emit = defineEmits(['posted'])
 const { $setToast } = useNuxtApp()
 const post = async () => {
     if (!user.value) {
-        show_modal.value = true
+        show_login_modal.value = true
         return
     }
     const docRef = doc(db, 'users', user?.value?.uid)
-    const last_suggested = new Date().getSeconds() - new Date(user.value.last_suggested).getSeconds()
-    // Check if user has suggested in the last 7 days if date now is more than 7 days after last_suggested
-    if (last_suggested < 60 * 60 * 24 * 7) {
-        post_error.value = true
-        setTimeout(() => {
 
-            post_error.value = false
-        }, 1000)
-        // Get days until 0 and format as X days X hours X minutes
-        const days_until = 7 - Math.round(last_suggested / (60 * 60 * 24))
-        $setToast({ title: 'Suggestion limit', text: 'You can only suggest 1 topic per week. Try again in ' + days_until + ' days.' })
-        return
+    const last_suggested = new Date().getTime() - new Date(user.value.last_suggested?.seconds * 1000).getTime()
+    const expiration = 60 * 60 * 24 * 7 * 1000
 
-    }
+    const remaining_time = expiration - last_suggested
+
+    // // Check if user has suggested in the last 7 days if date now is more than 7 days after last_suggested
+    // if (user.value.last_suggested?.seconds && remaining_time > 0) {
+    //     post_error.value = true
+    //     setTimeout(() => {
+
+    //         post_error.value = false
+    //     }, 1000)
+    //     // Get days until 0 and format as X days X hours X minutes
+    //     const days_until = 7 - Math.round(last_suggested / (60 * 60 * 24 * 1000))
+    //     $setToast({ title: 'Suggestion limit', text: 'You can only suggest 1 topic per week. Try again in ' + days_until + ' days.' })
+    //     return
+
+    // }
+    const date_suggested = new Date()
+
+    user.value.last_suggested = { seconds: date_suggested.getTime() / 1000 }
+    setDoc(docRef, { last_suggested: date_suggested }, { merge: true })
+
 
     const data_with_date = { ...data?.value, date: { seconds: new Date().getTime() } }
-    data.value = { title: '', votes: 1 }
-    items?.value?.splice(0, 0, { just_added: true, ...data_with_date })
+    const modified_data_with_date = { ...data_with_date, votes: 1 }
+    items?.value?.splice(0, 0, { just_added: true, ...modified_data_with_date })
+    data.value = { title: '', votes: 0 }
     await props.postSuggestion(data_with_date)
-    const date_suggested = new Date()
-    setDoc(docRef, { last_suggested: date_suggested }, { merge: true })
-    user.value.last_suggested = date_suggested
+    // emit posted 
+    emit('posted')
+    refreshNuxtData('my_suggestions')
     setTimeout(() => {
-        refreshNuxtData(key)
+        refreshNuxtData('suggestions')
+        refreshNuxtData('suggestions-front-page')
     }, 5000)
 }
 
-const removeSource = (id) => {
-    data.value.sources.splice(id, 1)
-}
+
+
 
 const sources = ref([])
 

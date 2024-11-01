@@ -50,46 +50,6 @@ const { episodes } = await useEpisodes('all', undefined, 'desc', 'all_episodes')
 
 const { seasons } = useSeasons(undefined, 'desc', 'all_seasons')
 
-
-// const seasonRef = collection(db, 'seasons')
-
-// const { data: seasons, refresh: refreshSeasons } = await useAsyncData('seasons', () => {
-//     return useCollection(seasonRef, { once: true })
-// }, {
-//     key: 'seasons',
-//     // Custom cache strategy
-//     transform: (data) => {
-//         return {
-//             data,
-//             fetchedAt: Date.now(),
-//         };
-//     },
-//     getCachedData: (key) => {
-//         const cachedData = nuxt.payload.data[key] || nuxt.static.data[key] || null
-//         if (!cachedData) {
-//             return
-//         }
-//         if (Date.now() - cachedData.fetchedAt > 1000 * 60) {
-//             return
-//         }
-//         return cachedData
-//     },
-//     immediate: false,  // Don't fetch immediately on first load (SSR) unless triggered on the client
-// });
-
-// onMounted(() => {
-//     if (!episodes.value) {
-//         refresh()
-//     }
-//     if (!seasons.value) {
-//         refreshSeasons()
-//     }
-
-// })
-
-// 5 fake episodes with name, description, and id and 10
-
-
 </script>
 
 

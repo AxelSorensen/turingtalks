@@ -8,7 +8,7 @@ export async function useEpisodes(ep_ids: 'all' | string[], ep_limit: number, or
 
         let q;
         // Fetch season document to get the episode IDs
-        console.log('Fetching episodes')
+        //console.log('Fetching episodes')
         if (ep_ids === 'all') {
             q = query(collection(db, 'episodes'), limit(ep_limit), orderBy('date', order))
         } else {
@@ -36,7 +36,7 @@ export async function useEpisodes(ep_ids: 'all' | string[], ep_limit: number, or
             if (Date.now() - cachedData.fetchedAt > 1000 * 60) { // 1 minute cache
                 return
             }
-            console.log('returning cache')
+            //console.log('returning cache')
             return cachedData
         }
     })

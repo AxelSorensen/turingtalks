@@ -1,4 +1,4 @@
-import { query, getDoc, doc, collection, limit, orderBy } from 'firebase/firestore' // adjust the imports based on your setup
+import { query, getDoc, doc, } from 'firebase/firestore' // adjust the imports based on your setup
 
 export async function useEpisode(ep_id: string, key: string) {
     const db = useFirestore()
@@ -7,12 +7,12 @@ export async function useEpisode(ep_id: string, key: string) {
     const { data: episode } = await useAsyncData(key, async () => {
 
         // Fetch season document to get the episode IDs
-        console.log('Fetching episodes')
+        //console.log('Fetching episodes')
         const docRef = doc(db, 'episodes', ep_id)
         // Query the episodes based on the episode IDs
         const ep = await getDoc(docRef)
         if (ep.exists()) {
-            console.log('returning episode')
+            //console.log('returning episode')
             return { id: ep.id, ...ep.data() }
         }
         // Return the episodes data
@@ -32,7 +32,7 @@ export async function useEpisode(ep_id: string, key: string) {
             if (Date.now() - cachedData.fetchedAt > 1000 * 60) { // 1 minute cache
                 return
             }
-            console.log('returning episode from cache')
+            //console.log('returning episode from cache')
             return cachedData
         }
     })

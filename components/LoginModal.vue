@@ -2,7 +2,7 @@
 
 
     <div class="relative max-w-[600px] h-fit mt-20 w-[80%] bg-white rounded-lg shadow">
-        <button type="button" @click="show_modal = false"
+        <button type="button" @click="show_login_modal = false"
             class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-stone-100 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center popup-close"><svg
                 aria-hidden="true" class="w-5 h-5" fill="#c6c7c7" viewBox="0 0 20 20"
                 xmlns="http://www.w3.org/2000/svg">
@@ -23,23 +23,26 @@
                 </p>
                 <p class="mt-2 text-sm w-[30ch] text-center leading-4 text-slate-600">
                     You must be logged in to like, comment and suggest topics
+
+
                 </p>
             </div>
 
             <div class="mt-7 flex flex-col gap-2">
 
-                <button
-                    class="inline-flex hover:bg-stone-100 h-10 w-full items-center justify-center gap-2 rounded border border-slate-300 bg-white p-2 text-sm font-medium text-black outline-none focus:ring-2 focus:ring-[#333] focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-60"><img
-                        src="https://www.svgrepo.com/show/512317/github-142.svg" alt="GitHub"
-                        class="h-[18px] w-[18px] ">
-                    Continue with GitHub
-                </button>
 
-                <button @click="signInGoogle"
+
+                <button @click="signIn('google')"
                     class="inline-flex hover:bg-stone-100 h-10 w-full items-center justify-center gap-2 rounded border border-slate-300 bg-white p-2 text-sm font-medium text-black outline-none focus:ring-2 focus:ring-[#333] focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-60"><img
                         src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google"
                         class="h-[18px] w-[18px] ">Continue with
                     Google
+                </button>
+                <button @click="signIn('github')"
+                    class="inline-flex hover:bg-stone-100 h-10 w-full items-center justify-center gap-2 rounded border border-slate-300 bg-white p-2 text-sm font-medium text-black outline-none focus:ring-2 focus:ring-[#333] focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-60"><img
+                        src="https://www.svgrepo.com/show/512317/github-142.svg" alt="GitHub"
+                        class="h-[18px] w-[18px] ">
+                    Continue with GitHub
                 </button>
 
 
@@ -58,29 +61,36 @@
             </div>
 
 
-            <form class="w-full">
+            <div class="w-full">
                 <label for="email" class="sr-only">Email address</label>
-                <input name="email" type="email" autocomplete="email" required=""
+                <input @focus="error_sign_in = null" v-model="sign_in_data.email" name="email" type="email"
+                    autocomplete="email" required=""
                     class="block w-full rounded-lg border border-gray-300 px-3 py-2 shadow-sm outline-none placeholder:text-gray-400 focus:ring-2 focus:ring-black focus:ring-offset-1"
-                    placeholder="Email Address" value="">
+                    placeholder="Email Address">
                 <label for="password" class="sr-only">Password</label>
-                <input name="password" type="password" autocomplete="current-password" required=""
+                <input @focus="error_sign_in = null" v-model="sign_in_data.password" name="password" type="password"
+                    autocomplete="current-password" required=""
                     class="mt-2 block w-full rounded-lg border border-gray-300 px-3 py-2 shadow-sm outline-none placeholder:text-gray-400 focus:ring-2 focus:ring-black focus:ring-offset-1"
-                    placeholder="Password" value="">
+                    placeholder="Password">
+                <p class="text-sm pt-2 text-red-500"> {{ error_sign_in }}</p>
+
                 <p class="mb-3 mt-2 text-sm text-gray-500">
                     <!-- <a href="/forgot-password" class="text-blue-800 hover:text-blue-600">Reset your
                         password?</a> -->
                 </p>
-                <button type="submit"
+                <button @click="signInEmail" type="submit"
                     class="inline-flex w-full items-center justify-center rounded-lg bg-black p-2 py-3 text-sm font-medium text-white outline-none focus:ring-2 focus:ring-black focus:ring-offset-1 disabled:bg-gray-400">
                     Continue
                 </button>
-            </form>
+            </div>
 
-            <!-- <div class="mt-6 text-center text-sm text-slate-600">
+
+            <div class="mt-6 text-center text-sm text-slate-600">
                 Don't have an account?
-                <a href="/signup" class="font-medium text-[#4285f4]">Sign up</a>
-            </div> -->
+                <div @click="show_login_modal = false">
+                    <NuxtLink to="/signup" class="font-medium cursor-pointer text-[#4285f4]">Sign up</NuxtLink>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -89,43 +99,114 @@
 </template>
 
 <script setup>
-import { signInWithPopup, getAuth, GoogleAuthProvider } from 'firebase/auth';
-import { setDoc, collection, doc } from 'firebase/firestore';
-const show_modal = useState('show_modal')
+import { signInWithPopup, getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, GithubAuthProvider, GoogleAuthProvider } from 'firebase/auth';
+import { setDoc, collection, doc, getDoc } from 'firebase/firestore';
+const show_login_modal = useState('show_login_modal')
 const auth = getAuth()// only exists on client side
 const db = useFirestore();
+
 const user = useCookie('user')
+const data = ref({
+    email: '',
+    password: '',
+    repeat_password: ''
+})
 
+const sign_in_data = ref({
+    email: '',
+    password: ''
+})
 
-function signInGoogle() {
-    show_modal.value = false;
-    signInWithPopup(auth, new GoogleAuthProvider())
-        .then(cred => {
+const error = ref({
+    email: null,
+    password: null
+})
 
-            const user_data = {
-                username: cred.user.displayName,
-                email: cred.user.email,
-                img: cred.user.photoURL,
-                likes: [],
-                upvoted: [],
-                uid: cred?.user?.uid,
-            }
-            user.value = user_data;
-            console.log(user.value)
+const error_sign_in = ref(null)
+
+const page = ref('login')
+
+function signIn(type) {
+    show_login_modal.value = false;
+    let provider
+    if (type === 'google') {
+        provider = new GoogleAuthProvider();
+    }
+    if (type === 'github') {
+        provider = new GithubAuthProvider();
+    }
+    signInWithPopup(auth, provider)
+        .then(async (cred) => {
+
             if (cred.user.metadata.creationTime === cred.user.metadata.lastSignInTime) {
+                //console.log("New user");
+                const user_data = {
+                    username: cred.user.displayName,
+                    email: cred.user.email,
+                    img: cred.user.photoURL,
+                    likes: [],
+                    upvoted: [],
+                    suggestions: [],
+                    uid: cred?.user?.uid,
+                    last_commented: null,
+                    last_suggested: null,
+                    comments_today: null,
+                    subscribed: false,
+                }
+                user.value = user_data;
                 return setDoc(doc(collection(db, 'users'), cred?.user?.uid), user_data);
+
             }
+            getDoc(doc(db, 'users', cred?.user?.uid)).then(doc => {
+                if (doc.exists()) {
 
-            console.log('refreshed')
-
-
+                    user.value = doc.data();
+                }
+            })
 
         })
         .catch(error => {
-            console.error("Error signing in: ", error);
+            console.log("Error signing in: ", error);
+            if (error.code === 'auth/account-exists-with-different-credential') {
+                const { $setToast } = useNuxtApp()
+                $setToast({ title: 'User warning', text: `Account already exists with same email but different provider  ` })
+            }
         });
 
+
 }
+
+const signInEmail = () => {
+    if (!sign_in_data.value.email || !sign_in_data.value.password) {
+        error_sign_in.value = "Please fill out empty fields"
+        return
+    }
+
+    signInWithEmailAndPassword(auth, sign_in_data.value.email, sign_in_data.value.password)
+        .then(async (cred) => {
+            show_login_modal.value = false;
+            // Signed in
+            getDoc(doc(db, 'users', cred?.user?.uid)).then(doc => {
+                if (doc.exists()) {
+
+                    user.value = doc.data();
+                }
+            })
+            sign_in_data.value = {
+                email: '',
+                password: ''
+            }
+
+
+
+            // ...
+        })
+        .catch((error) => {
+            error_sign_in.value = "User doesn't exist"
+        });
+}
+
+
 
 </script>
 

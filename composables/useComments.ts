@@ -5,19 +5,28 @@ export function useComments(ep_id: string, key: string) {
     const nuxt = useNuxtApp()
     const comment_limit = ref(5)
     const more_comments = ref(true)
-
+    const lastVisible = ref(null)
+    const allComments = ref([])
     // Use useAsyncData to fetch and cache episodes
-    const { data: comments, status } = useAsyncData(key, async () => {
+    const { data: comments, status, refresh } = useAsyncData(key, async () => {
 
-        const q = computed(() => { return query(collection(db, 'episodes', ep_id, 'comments'), limit(comment_limit.value), orderBy('date', 'desc')) })
+        let q;
+        if (lastVisible.value === null) {
+            q = query(collection(db, 'episodes', ep_id, 'comments'), orderBy('date', 'desc'), limit(comment_limit.value))
+        }
+        else {
+            q = query(collection(db, 'episodes', ep_id, 'comments'), orderBy('date', 'desc'), startAfter(lastVisible.value), limit(comment_limit.value))
+        }
+        const comments = await getDocs(q)
 
-        const comments = await getDocs(q.value)
+        allComments.value.push(...comments.docs)
+
+        lastVisible.value = comments.docs[comments.docs.length - 1]
+
         if (comments.docs.length < comment_limit.value) {
             more_comments.value = false
         }
-
-
-        return comments.docs.map(doc => ({ id: doc.id, ...doc.data() }))
+        return allComments.value.map(doc => ({ id: doc.id, ...doc.data() }))
 
     }, {// Fetch data immediately
 
@@ -27,19 +36,11 @@ export function useComments(ep_id: string, key: string) {
                 fetchedAt: Date.now(),
             }
         },
-        getCachedData: (key) => {
-            const cachedData = nuxt.payload.data[key] || nuxt.static.data[key]
-            if (!cachedData) {
-                return
-            }
-            if (Date.now() - cachedData.fetchedAt > 1000 * 60) { // 1 minute cache
-                return
-            }
-            console.log('returning cache')
-            return cachedData
-        },
-        watch: [comment_limit],
+
+
+
+
     })
 
-    return { comments, comment_limit, more_comments, status }
+    return { comments, comment_limit, more_comments, status, refresh }
 }

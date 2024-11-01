@@ -32,7 +32,7 @@ export function useEpisodesFromSeason(season_id: string, order: 'asc' | 'desc', 
             if (Date.now() - cachedData.fetchedAt > 1000 * 60) { // 1 minute cache
                 return
             }
-            console.log('returning cache')
+            //console.log('returning cache')
             return cachedData
         }
     })

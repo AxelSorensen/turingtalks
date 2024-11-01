@@ -1,4 +1,4 @@
-import { query, getDocs, updateDoc, arrayUnion, doc, getDoc, setDoc, addDoc, collection, limit, documentId, where, orderBy } from 'firebase/firestore' // adjust the imports based on your setup
+import { query, getDocs, updateDoc, arrayUnion, doc, getDoc, setDoc, addDoc, collection, limit, orderBy } from 'firebase/firestore' // adjust the imports based on your setup
 
 export async function useSuggestions(key: string, manual_limit: number | undefined = undefined) {
     const db = useFirestore()
@@ -7,21 +7,23 @@ export async function useSuggestions(key: string, manual_limit: number | undefin
     const more_sugs = ref(true)
     const user = useCookie('user')
 
-    const upvoted_by_user = computed(() => async (id: string) => {
-        const userRef = doc(db, "users", user?.value?.uid)
-        const userDoc = await getDoc(userRef);
-        const user_data = userDoc.data();
-        return user_data.suggestions.includes(id);
-    });
-
 
     const postSuggestion = async (data: Ref) => {
-        console.log('Posting suggestion')
-        await addDoc(collection(db, "suggestions"), data);
+        const userRef = doc(db, "users", user?.value?.uid)
+        const docRef = await addDoc(collection(db, "suggestions"), data);
+
+        user.value.suggestions.push(docRef.id)
+
+        addVote(docRef.id)
+
+        updateDoc(userRef, {
+            suggestions: arrayUnion(docRef.id)
+        }, { merge: true })
     }
 
     const addVote = async (id) => {
         const userRef = doc(db, "users", user?.value?.uid)
+
         updateDoc(userRef, {
             upvoted: arrayUnion(id)
         }, { merge: true })
@@ -70,5 +72,5 @@ export async function useSuggestions(key: string, manual_limit: number | undefin
         watch: [sug_limit],
     })
 
-    return { suggestions, sug_limit, more_sugs, addVote, postSuggestion, status, upvoted_by_user, refresh }
+    return { suggestions, sug_limit, more_sugs, addVote, postSuggestion, status, refresh }
 }

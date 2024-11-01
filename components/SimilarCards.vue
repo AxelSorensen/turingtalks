@@ -1,6 +1,5 @@
 <template>
     <div class="grid w-full grid-cols-3 sm:grid-cols-3 grid-rows-1 auto-rows-fr gap-2">
-        {{ limit }}
         <NuxtLink v-if="ordered_items?.length" v-for="(item, index) in ordered_items.slice(0, 3)" :key="item.id"
             :style="{ backgroundColor: other_colors[index % other_colors.length] }"
             class="hover:brightness-105 p-4 flex flex-col text-stone-900 justify-between h-28 relative rounded-md flex-grow"

@@ -1,10 +1,7 @@
 <template>
-
     <div class="h-full  w-full text-stone-900 mx-auto ">
-
         <h1 class="text-2xl text-stone-900 max-w-[800px] mx-auto font-bold p-4">{{ user ? user?.username + "'s Page"
             : 'Loading...' }}</h1>
-
         <div class="relative">
 
             <NuxtLayout name="custom">
@@ -12,29 +9,40 @@
 
                     <div class="flex gap-2 items-center mb-4">
                         <Heart class="text-xl" />
-                        <h2 class=" text-xl">Your Favorites</h2>
+                        <h2 class=" text-xl">My Favorites</h2>
 
 
                     </div>
                     <div class="flex gap-2 flex-col mb-8">
-                        <Cards :items="favorites?.data" :colors="colors" />
+                        <p v-if="!favorites?.data" class="text-center text-sm text-stone-400">No favorites yet
+                        </p>
+                        <Cards v-else :items="favorites?.data" :colors="colors" />
                     </div>
 
                 </div>
-                <div class="mb-4 flex gap-2 items-center">
-                    <LightBulb class="text-xl" />
-                    <h2 class=" text-xl">Your suggestions</h2>
-                </div>
-                <div class="flex gap-2 flex-col mb-8">
-                    <!-- <Cards :items="favorites?.data" :colors="colors" /> -->
-                </div>
+                <div>
+                    <div ref="favorite_ref" class="mb-4 flex gap-2 items-center">
+                        <LightBulb class="text-xl" />
+                        <h2 class=" text-xl">My suggestions</h2>
+                    </div>
+                    <div class="flex gap-2 flex-col mb-8">
 
-                <div class="mb-4 flex gap-2 items-center">
-                    <Comment class="text-xl" />
-                    <h2 class=" text-xl">Your comments</h2>
+                        <p v-if="!suggestions?.data" class="text-center text-sm text-stone-400">No suggestions
+                            yet
+                        </p>
+                        <Suggestions v-else :items="suggestions?.data" :colors="colors" />
+                    </div>
+                </div>
+                <hr class="mt-4">
+                <div class="flex mt-4 justify-end">
+                    <div @click="show_delete_user_modal = true"
+                        class="bg-red-100 w-fit p-2 rounded-md border hover:bg-red-200 cursor-pointer text-sm text-red-500 border-red-500">
+                        Delete my
+                        account</div>
                 </div>
 
             </NuxtLayout>
+
 
 
             <div ref="support" class="relative bg-[#EBD9C6] bg-opacity-50">
@@ -68,8 +76,8 @@
                 </div>
 
             </div>
-        </div>
 
+        </div>
 
     </div>
 </template>
@@ -78,10 +86,15 @@
 import Heart from '~icons/heroicons/heart-16-solid';
 import Comment from '~icons/heroicons/chat-bubble-oval-left-ellipsis-16-solid';
 import LightBulb from '~icons/heroicons/light-bulb-16-solid';
-
+const route = useRoute()
 const support = ref(null)
+
+
 import { colors } from '~/utils/colors'
 const user = useCookie('user')
 const { favorites } = useFavorites(`favorites`)
+const favorite_ref = ref(null)
+const show_delete_user_modal = useState('show_delete_user_modal')
 
+const { suggestions, refresh } = useMySuggestions('my_suggestions')
 </script>

@@ -1,25 +1,27 @@
-import { query, doc, getDoc, collection, getDocs, where, documentId } from 'firebase/firestore' // adjust the imports based on your setup
+import { query, collection, getDocs, where, documentId } from 'firebase/firestore' // adjust the imports based on your setup
 
-export function useFavorites(key: string) {
+export function useMySuggestions(key: string) {
     const db = useFirestore()
     const nuxt = useNuxtApp()
     const user = useCookie('user')
+
     if (!user.value) {
-        return { favorites: [], refresh: () => { } }
+        return { suggestions: [], refresh: () => { } }
     }
-    const docRef = doc(db, 'users', user?.value?.uid)
     // }
     // Use useAsyncData to fetch and cache episodes
-    const { data: favorites, refresh } = useAsyncData(key, async () => {
+    const { data: suggestions, refresh } = useAsyncData(key, async () => {
         // Fetch season document to get the episode IDs
         // Query the episodes based on the episode IDs
         //console.log('Fetching favorites')
-        const user_data = (await getDoc(docRef)).data()
-        const liked_episodes = user_data?.likes
-        const q = query(collection(db, 'episodes'), where(documentId(), 'in', liked_episodes))
+      
+        const q = query(collection(db, 'suggestions'), where(documentId(), 'in', user?.value?.suggestions))
         const episodes = await getDocs(q)
+ 
 
         return episodes.docs.map(doc => ({ id: doc.id, ...doc.data() }))
+
+
 
     }, {// Fetch data immediately
         transform: (data) => {
@@ -40,11 +42,12 @@ export function useFavorites(key: string) {
             return cachedData
         },
 
+
     })
     watch(user, (newVal, oldVal) => {
         //console.log('User cookie changed, refetching data')
         refresh()  // This will trigger the useAsyncData to refetch data
-    }, { immediate: true })
+    })
 
-    return { favorites, refresh }
+    return { suggestions, refresh }
 }

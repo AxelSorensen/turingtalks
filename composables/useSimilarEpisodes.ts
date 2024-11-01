@@ -6,7 +6,7 @@ export function useSimilarEpisodes(ep_limit: number, order: 'asc' | 'desc', key:
     // Use useAsyncData to fetch and cache episodes
     const { data: similar_episodes } = useAsyncData(key, async () => {
         // Fetch season document to get the episode IDs
-        console.log('Fetching episodes')
+        //console.log('Fetching episodes')
         // Query the episodes based on the episode IDs + 1 so we can filter out the current episode
         const eps = await getDocs(query(collection(db, 'episodes'), where('tags', 'array-contains-any', tags_array), limit(ep_limit + 1)))
 
@@ -29,7 +29,7 @@ export function useSimilarEpisodes(ep_limit: number, order: 'asc' | 'desc', key:
             if (Date.now() - cachedData.fetchedAt > 1000 * 60) { // 1 minute cache
                 return
             }
-            console.log('returning similar eps from cache')
+            //console.log('returning similar eps from cache')
             return cachedData
         },
 

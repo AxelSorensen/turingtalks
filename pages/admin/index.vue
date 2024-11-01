@@ -132,7 +132,7 @@ const submit = async () => {
         console.error(error)
     }
     pending.value = false
-    console.log('submitted')
+    //console.log('submitted')
 }
 
 </script>
