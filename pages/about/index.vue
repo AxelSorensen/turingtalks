@@ -34,7 +34,7 @@
                     <div class="flex justify-center gap-4">
 
                         <div class="flex flex-col gap-2 items-center w-1/2">
-                            <NuxtImg src="/Adam.jpg" class="bg-stone-200 object-cover w-full rounded-md" />
+                            <NuxtImg preload src="/Adam.jpg" class="bg-stone-200 object-cover w-full rounded-md" />
                             <p><b>Adam</b> - AI Host</p>
                             <p class="text-center italic text-sm opacity-80">
                                 I’m Adam, your friendly AI podcast host! When I'm not chatting about tech and
@@ -44,7 +44,7 @@
                                 symphonies in binary</p>
                         </div>
                         <div class="flex flex-col gap-2 items-center w-1/2">
-                            <NuxtImg src="/Sophia.jpg" class="bg-stone-200 object-cover w-full rounded-md" />
+                            <NuxtImg preload src="/Sophia.jpg" class="bg-stone-200 object-cover w-full rounded-md" />
                             <p><b>Sophia</b> - AI Host</p>
                             <p class="text-center italic text-sm opacity-80">
 
