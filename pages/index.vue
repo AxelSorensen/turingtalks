@@ -100,7 +100,6 @@ useHead({
 
 })
 import Dice from '~icons/mdi/dice'
-import { collection, } from 'firebase/firestore/lite';
 // const auth = useFirebaseAuth()
 // const user = useCurrentUser() // only exists on client side
 const suggestions_ref = ref(null)
@@ -123,12 +122,11 @@ const scrollToSuggestion = () => {
 
 
 
-const { episodes } = await useEpisodes('all', 4, 'desc', 'latest_episodes')
+const { episodes } = useEpisodes('all', 4, 'desc', 'latest_episodes')
 
 
 
 const featured_limit = ref(4)
-const suggested_limit = ref(5)
 
 </script>
 
