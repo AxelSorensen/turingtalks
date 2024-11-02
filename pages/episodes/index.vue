@@ -59,7 +59,7 @@ useHead({
 import { colors } from '~/utils/colors'
 
 
-const { episodes } = useEpisodes('all', undefined, 'desc', 'all_episodes')
+const { episodes } = await useEpisodes('all', undefined, 'desc', 'all_episodes')
 const { popular_episodes } = await usePopularEpisodes(4, 'desc', 'popular_episodes')
 const { seasons } = useSeasons(undefined, 'desc', 'all_seasons')
 

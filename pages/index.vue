@@ -122,7 +122,7 @@ const scrollToSuggestion = () => {
 
 
 
-const { episodes } = useEpisodes('all', 4, 'desc', 'latest_episodes')
+const { episodes } = await useEpisodes('all', 4, 'desc', 'latest_episodes')
 
 
 

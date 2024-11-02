@@ -3,12 +3,12 @@
 import Icons from 'unplugin-icons/vite'
 
 export default defineNuxtConfig({
-  routeRules: {
-    '/': { isr: true },
-    '/about': { isr: true },
-    '/suggestions': { isr: true },
-    '/episodes': { isr: true },
-  },
+  // routeRules: {
+  //   '/': { isr: true },
+  //   '/about': { isr: true },
+  //   '/suggestions': { isr: true },
+  //   '/episodes': { isr: true },
+  // },
   postcss: {
     plugins: {
       tailwindcss: {},

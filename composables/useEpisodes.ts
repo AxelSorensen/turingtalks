@@ -1,10 +1,10 @@
 import { query, getDocs, collection, limit, documentId, where, orderBy } from 'firebase/firestore' // adjust the imports based on your setup
 
-export function useEpisodes(ep_ids: 'all' | string[], ep_limit: number, order: 'asc' | 'desc', key: string) {
+export async function useEpisodes(ep_ids: 'all' | string[], ep_limit: number, order: 'asc' | 'desc', key: string) {
     const db = useFirestore()
     const nuxt = useNuxtApp()
     // Use useAsyncData to fetch and cache episodes
-    const { data: episodes, refresh } = useAsyncData(key, async () => {
+    const { data: episodes, refresh } = await useAsyncData(key, async () => {
 
         let q;
         // Fetch season document to get the episode IDs
