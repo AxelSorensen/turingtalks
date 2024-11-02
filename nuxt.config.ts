@@ -30,7 +30,10 @@ export default defineNuxtConfig({
           "data-y_margin": "18",
         }
       ],
+      charset: 'utf-8',
+      viewport: 'width=device-width, initial-scale=1',
     }
+
   },
   router: {
     options: {

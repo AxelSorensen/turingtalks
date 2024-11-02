@@ -3,7 +3,7 @@ import { query, getDocs, doc, collection, startAfter, limit, orderBy } from 'fir
 export function useComments(ep_id: string, key: string) {
     const db = useFirestore()
     const nuxt = useNuxtApp()
-    const comment_limit = ref(5)
+    const comment_limit = ref(1)
     const more_comments = ref(true)
     const lastVisible = ref(null)
     const allComments = ref([])
@@ -36,6 +36,17 @@ export function useComments(ep_id: string, key: string) {
                 fetchedAt: Date.now(),
             }
         },
+        getCachedData: (key) => {
+            const cachedData = nuxt.payload.data[key] || nuxt.static.data[key]
+            if (!cachedData) {
+                return
+            }
+            if (Date.now() - cachedData.fetchedAt > 1000 * 60) { // 1 minute cache
+                return
+            }
+            //console.log('returning cache')
+            return cachedData
+        }
         // Find out why doesn't work with cache. It just refetches the data when show more is clicked first time
 
     })
