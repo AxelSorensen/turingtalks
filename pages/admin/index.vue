@@ -60,7 +60,7 @@ const episode = ref({
     sources: [],
     description: '',
     audio_url: '',
-    duration: ''
+    duration: '',
 })
 
 const season = ref({
@@ -101,12 +101,12 @@ const seasonToAdd = ref(null)
 
 const addEpisodeToSeason = () => {
     updateDoc(doc(db, 'seasons', seasonToAdd.value), {
-        episodes: episodesToAdd.value
+        episodes: arrayUnion(...episodesToAdd.value)
     }, { merge: true })
 }
 
 
-import { addDoc, getDoc, collection, updateDoc, doc } from 'firebase/firestore';
+import { addDoc, getDoc, collection, updateDoc, doc, arrayUnion } from 'firebase/firestore';
 
 
 
@@ -130,7 +130,8 @@ const submit = async () => {
             duration: episode.value.duration,
             date: new Date(),
             likes: 0,
-            random_id: num_episodes + 1
+            random_id: num_episodes + 1,
+            tags: []
         })
     } catch (error) {
         console.error(error)

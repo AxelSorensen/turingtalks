@@ -9,23 +9,45 @@
             <p class="absolute peer-focus:flex hidden right-2 text-stone-900 opacity-40 text-xs top-3">{{
                 data.title.length }}/50
             </p>
+            <div v-if="paper_open && data.title" class="flex gap-4 items-center">
+                <input
+                    class="w-full peer outline-stone-700 p-2 mx-auto text-stone-900 placeholder-stone-400 rounded-md bg-stone-200"
+                    type="text" placeholder="Add source URL" v-model="data.source">
+                <XMark @click="paper_open = false; data.source = null"
+                    class="text-red-500 hover:text-red-600 cursor-pointer text-lg absolute right-2" />
+            </div>
         </div>
+        <div v-if="data.title" class="flex flex-col">
 
-        <button v-if="data.title"
-            :class="[data.title.length < 50 ? 'bg-stone-900 text-white' : 'text-red-500 border-2 border-red-500 pointer-events-none', post_error ? 'animate-shake' : '']"
-            class="p-2 hover:bg-stone-700 rounded-md " @click="post">{{ data.title.length < 50 ? 'Post suggestion'
-                : 'Keep it short, max 50 characters' }}</button>
+            <button
+                :class="[data.title.length < 50 ? 'bg-stone-900 text-white' : 'text-red-500 border-2 border-red-500 pointer-events-none', post_error ? 'animate-shake' : '']"
+                class="p-2 hover:bg-stone-700 rounded-md " @click="post">{{
+                    data.title.length < 50 ? 'Post suggestion' : 'Keep it short, max 50 characters' }}</button>
+                    <div v-if="!paper_open" @click="addPaper"
+                        class="flex justify-center hover:text-stone-900 cursor-pointer text-stone-500 pt-4 items-center gap-1">
+                        <Plus class="text-sm" />
+                        <button class="text-sm">Add relevant paper</button>
+                    </div>
+        </div>
     </div>
 </template>
 
 <script setup>
 import { useTimeAgo } from '@vueuse/core';
+import Plus from '~icons/heroicons/plus-16-solid';
+import XMark from '~icons/heroicons/x-mark-16-solid';
 import { doc, getDoc, setDoc } from 'firebase/firestore'
 const post_error = ref(false)
 const data = ref({
     title: '',
     votes: 0,
+    source: null
 })
+const paper_open = ref(false)
+
+const addPaper = () => {
+    paper_open.value = true
+}
 
 const error = ref({
     source: null
@@ -50,6 +72,7 @@ const { items, postSuggestion, fetch_key } = toRefs(props)
 // }
 
 const show_login_modal = useState('show_login_modal')
+
 const user = useCookie('user')
 const db = useFirestore()
 const emit = defineEmits(['posted'])

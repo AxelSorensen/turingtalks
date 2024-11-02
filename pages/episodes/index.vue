@@ -17,7 +17,7 @@
         </div>
         <NuxtLayout name="custom">
 
-            <div class="h-full w-full relative">
+            <div class="h-full w-full relative mb-10">
 
                 <div class="w-full grid grid-rows-[1fr,auto] gap-4">
                     <div class="">

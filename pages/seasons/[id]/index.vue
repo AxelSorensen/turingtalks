@@ -7,7 +7,7 @@
             }}</h1>
         <NuxtLayout name="custom">
 
-            <div class="h-full w-full relative">
+            <div class="h-full w-full relative mb-10">
 
                 <div class="">
                     <h2 class="text-xl pb-2 text-stone-900">Episodes</h2>

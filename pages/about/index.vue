@@ -137,7 +137,8 @@
                         <p>Claims made by the hosts
                             are based on curated material (available in the sources section of each episode). The
                             podcast is produced
-                            using Notebook LM and may be subject to unexpected audio artifacts. We strive to
+                            using Notebook LM and may be subject to unexpected audio artifacts or mispronounciations. We
+                            strive to
                             keep the content as accurate and engaging as possible.
                         </p>
                     </div>
