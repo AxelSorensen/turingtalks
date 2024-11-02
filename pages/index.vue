@@ -57,21 +57,23 @@
             <div class="p-4 py-8">
                 <h2 class=" pb-4 text-2xl text-stone-900 font-bold text-center">Feeling lucky?</h2>
                 <button
-                    class="p-2 max-w-[500px] mx-auto w-full flex justify-center gap-2 items-center bg-stone-900 text-white hover:bg-opacity-90 rounded-md"
+                    class="p-2 max-w-[500px] h-10 mx-auto w-full flex justify-center gap-2 items-center bg-stone-900 text-white hover:bg-opacity-90 rounded-md"
                     @click="randomEpisode">
-
-                    <p>
-                        Listen
-                        to a Random Episode
-                    </p>
-                    <Dice class="text-white text-lg" />
+                    <Spinner class="scale-50" v-if="random_pending" />
+                    <div class="flex gap-2" v-else>
+                        <p>
+                            Listen
+                            to a Random Episode
+                        </p>
+                        <Dice class="text-white text-lg" />
+                    </div>
                 </button>
                 <div></div>
             </div>
 
 
         </div>
-        <div class="flex p-8 gap-2 flex-col justify-center items-center">
+        <div class="flex pt-8 pb-4 gap-2 flex-col justify-center items-center">
             <h2 class="text-xl">Support the show 🙏</h2>
             <Support class="" />
             <NuxtLink :to="{ path: '/about', query: { section: 'support' } }"
@@ -95,11 +97,12 @@ import { collection, } from 'firebase/firestore/lite';
 const suggestions_ref = ref(null)
 const { suggestions, more_sugs, sug_limit, postSuggestion } = await useSuggestions('suggestions-front-page', 5)
 const user = useCookie('user')
-const randomEpisode = () => {
+const random_pending = ref(false)
+const randomEpisode = async () => {
     // Fetch all episode ids
-    const all_episodes = useCollection(collection(db, 'episodes'), { once: true })
-    const random_id = Math.floor(Math.random() * all_episodes.value.length)
-    navigateTo({ path: `/episodes/${all_episodes.value[random_id].id}`, query: { c: colors[Math.floor(Math.random() * colors.length)] } })
+    random_pending.value = true
+    const ep_id = await useRandomEpisode('random-episode')
+    await navigateTo({ path: `/episodes/${ep_id}` })
 }
 
 const scrollToSuggestion = () => {

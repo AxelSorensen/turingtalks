@@ -36,5 +36,12 @@ export function timeUntil(target) {
         h = Math.floor((diff / (1000 * 60 * 60)) % 24),
         m = Math.floor((diff / (1000 * 60)) % 60),
         s = Math.floor((diff / 1000) % 60);
-    return `${String(d).padStart(2, '0')}:${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+
+    // Add leading zero if the number is less than 10
+    d = d < 10 ? '0' + d : d;
+    h = h < 10 ? '0' + h : h;
+    m = m < 10 ? '0' + m : m;
+    s = s < 10 ? '0' + s : s;
+
+    return [d, h, m, s]
 }

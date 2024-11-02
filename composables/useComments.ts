@@ -36,9 +36,7 @@ export function useComments(ep_id: string, key: string) {
                 fetchedAt: Date.now(),
             }
         },
-
-
-
+        // Find out why doesn't work with cache. It just refetches the data when show more is clicked first time
 
     })
 

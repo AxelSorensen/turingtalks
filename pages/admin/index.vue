@@ -48,7 +48,7 @@
                     season</button>
 
             </div>
-            {{ episodesToAdd }}
+
 
         </NuxtLayout>
     </div>
@@ -106,7 +106,7 @@ const addEpisodeToSeason = () => {
 }
 
 
-import { addDoc, collection, updateDoc, doc } from 'firebase/firestore';
+import { addDoc, getDoc, collection, updateDoc, doc } from 'firebase/firestore';
 
 
 
@@ -117,7 +117,9 @@ const colRef = collection(db, 'episodes')
 const pending = ref(false)
 const episodes = useCollection(collection(db, 'episodes'), { once: true })
 const seasons = useCollection(collection(db, 'seasons'), { once: true })
+
 const submit = async () => {
+    const num_episodes = (await getDoc(doc(db, 'misc', 'episodes')))?.data()?.num_episodes
     try {
         pending.value = true
         await addDoc(colRef, {
@@ -126,7 +128,9 @@ const submit = async () => {
             description: episode.value.description,
             audio_url: episode.value.audio_url,
             duration: episode.value.duration,
-            date: new Date()
+            date: new Date(),
+            likes: 0,
+            random_id: num_episodes + 1
         })
     } catch (error) {
         console.error(error)

@@ -26,34 +26,9 @@
                 </p>
             </div>
 
-            <div v-if="!user" class="mt-7 flex flex-col gap-2">
 
-                <button
-                    class="inline-flex hover:bg-stone-100 h-10 w-full items-center justify-center gap-2 rounded border border-slate-300 bg-white p-2 text-sm font-medium text-black outline-none focus:ring-2 focus:ring-[#333] focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-60"><img
-                        src="https://www.svgrepo.com/show/512317/github-142.svg" alt="GitHub"
-                        class="h-[18px] w-[18px] ">
-                    Continue with GitHub
-                </button>
-
-                <button @click="signInGoogle"
-                    class="inline-flex hover:bg-stone-100 h-10 w-full items-center justify-center gap-2 rounded border border-slate-300 bg-white p-2 text-sm font-medium text-black outline-none focus:ring-2 focus:ring-[#333] focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-60"><img
-                        src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google"
-                        class="h-[18px] w-[18px] ">Continue with
-                    Google
-                </button>
-
-
-                <!-- <button
-                    class="inline-flex hover:bg-stone-100 h-10 w-full items-center justify-center gap-2 rounded border border-slate-300 bg-white p-2 text-sm font-medium text-black outline-none focus:ring-2 focus:ring-[#333] focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-60"><img
-                        src="https://www.svgrepo.com/show/448234/linkedin.svg" alt="Google"
-                        class="h-[18px] w-[18px] ">Continue with
-                    LinkedIn
-                </button> -->
+            <div class="flex flex-col items-center mt-4 justify-center">
             </div>
-            <div v-else class="flex flex-col items-center mt-4 justify-center">
-            </div>
-
-
 
             <div class="flex flex-col">
                 <label class="sr-only">Password</label>

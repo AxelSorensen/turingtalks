@@ -10,38 +10,6 @@
                 data.title.length }}/50
             </p>
         </div>
-        <!-- <div class="relative flex items-center pt-4 pb-2">
-            <div class="flex-grow border-t border-gray-400"></div>
-            <span class="flex-shrink mx-4 text-gray-400 text-xs">Optional</span>
-            <div class="flex-grow border-t border-gray-400"></div>
-        </div> -->
-        <!-- <div class="flex flex-col gap-2 pb-8">
-            <div class="flex flex-col">
-                <label>Description</label>
-
-                <textarea class="w-full resize-none" type="text" placeholder="Desribe the topic proposal"
-                    v-model="data.description"></textarea>
-            </div>
-            <div class="flex flex-col">
-                <div class="flex justify-between">
-                    <label>Sources</label>
-                </div>
-                <div v-if="data.sources.length" class="flex flex-col pb-4">
-                    <div class="flex items-center" v-for="source, id in data.sources">
-                        <p type="text" class="w-full" placeholder="Add link to source">{{ source }}</p>
-                        <button class="whitespace-nowrap" @click="removeSource(id)">- Remove</button>
-                    </div>
-                </div>
-                <div class="flex items-center justify-between gap-4">
-                    <div class="w-full">
-                        <input :class="{ 'ring-1': error.source }" type="text" class="w-full ring-red-500"
-                            placeholder="Add link to source" v-model="new_source">
-                        <p class="text-red-500 absolute text-xs">{{ error.source }}</p>
-                    </div>
-                    <button class="whitespace-nowrap" @click="addSource">+ Add source</button>
-                </div>
-            </div>
-        </div> -->
 
         <button v-if="data.title"
             :class="[data.title.length < 50 ? 'bg-stone-900 text-white' : 'text-red-500 border-2 border-red-500 pointer-events-none', post_error ? 'animate-shake' : '']"

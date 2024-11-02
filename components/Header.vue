@@ -114,7 +114,7 @@
 <script setup>
 import { ref } from 'vue';
 import Bell from '~icons/heroicons/bell-16-solid';
-import { signInWithPopup, getAuth, GoogleAuthProvider, browserLocalPersistence, signOut, setPersistence, onAuthStateChanged } from 'firebase/auth';
+import { getAuth, signOut } from 'firebase/auth';
 import Profile from '~icons/heroicons/user-16-solid';
 import Menu from '~icons/heroicons/bars-3-bottom-right-16-solid';
 import XMark from '~icons/heroicons/x-mark-16-solid';
@@ -162,7 +162,7 @@ function signUserOut() {
     showProfileModal.value = false;
     nav_open.value = false;
     user.value = null
-    console.log(route.path)
+
     signOut(auth).then(() => {
 
         //if route is /profile then navigate to /

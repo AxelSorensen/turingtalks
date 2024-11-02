@@ -1,24 +1,43 @@
 <template>
     <div class="">
         <h1 class="text-xl text-center">New Episode Drops In</h1>
-        <div v-if="!countdown" class="text-center animate-pulse font-bold text-4xl">
+        <div v-if="!countdown" class="text-center mt-4 mb-4 animate-pulse font-bold text-4xl">
             Loading...
         </div>
-        <div v-else class="text-center font-bold text-4xl"> {{ countdown }}</div>
+        <div v-else class="text-center m-4 mb-4 font-bold text-4xl">
+
+            <div class="flex justify-center gap-10">
+                <div class="flex flex-col" v-for="(num, id) in countdown">
+                    <div class="">{{ num }}</div>
+                    <div class="text-sm text-stone-500">{{ label[id] }}</div>
+                </div>
+
+            </div>
+        </div>
     </div>
 </template>
 
 <script setup>
+
 const countdown = ref(null)
+const label = ['Days', 'Hours', 'Minutes', 'Seconds']
 
-onMounted(() => {
-    let now = new Date();
-    now.setHours(now.getHours() + 1);
-    setInterval(() => {
+onMounted(async () => {
 
-        countdown.value = timeUntil(now);
-    }, 1000)
-})
+    const episode_date = await useCountdown('next-episode');
+
+    countdown.value = timeUntil(episode_date.seconds * 1000);
+
+    // Store the interval ID in a variable
+    const intervalId = setInterval(() => {
+        countdown.value = timeUntil(episode_date.seconds * 1000);
+    }, 1000);
+
+    // Clear interval when component is unmounted
+    onUnmounted(() => {
+        clearInterval(intervalId);
+    });
+});
 
 
 </script>

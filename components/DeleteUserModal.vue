@@ -44,6 +44,13 @@
                         deleted</span>
                     <CheckMark />
                 </div>
+                <div class="items-center w-full py-3 gap-2 justify-center  flex text-green-700 p-2 rounded-md bg-green-100"
+                    v-else-if="status == 'error'">
+                    <span>Your
+                        account has been
+                        deleted</span>
+                    <CheckMark />
+                </div>
 
                 <button v-else @click="deleteAccount"
                     class="flex w-full hover:bg-red-200 items-center justify-center rounded-lg bg-red-100 border border-red-500 text-red-500 p-2 py-3 font-medium  outline-none disabled:bg-gray-400">
@@ -74,6 +81,7 @@ const auth = getAuth()// only exists on client side
 const db = useFirestore();
 const user = useCookie('user')
 const status = ref('idle')
+const error = ref(null)
 
 const deleteAccount = async () => {
     navigateTo('/')
@@ -81,6 +89,19 @@ const deleteAccount = async () => {
     const user_firebase = auth.currentUser;
     //console.log(user)
     status.value = 'pending'
+    deleteUser(user_firebase).then(async () => {
+        // User deleted.
+        status.value = 'success'
+        setTimeout(() => {
+            show_delete_user_modal.value = false;
+        }, 1000)
+    }).catch((error) => {
+        //console.log(error)
+        status.value = 'error'
+        error.value = 'Deleting account requires a recent login. Please login again and try deleting your account.'
+        console.log(error)
+        return
+    });
     if (!user) {
         status.value = 'success'
         return
@@ -90,16 +111,7 @@ const deleteAccount = async () => {
     const subscribers_ref = doc(db, 'subscribers', user?.value?.uid)
     await deleteDoc(subscribers_ref)
     user.value = null;
-    deleteUser(user_firebase).then(async () => {
-        // User deleted.
-        status.value = 'success'
-        setTimeout(() => {
-            show_delete_user_modal.value = false;
-        }, 1000)
-    }).catch((error) => {
-        //console.log(error)
-        console.log(error)
-    });
+
 
 }
 

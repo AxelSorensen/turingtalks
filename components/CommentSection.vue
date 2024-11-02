@@ -1,6 +1,6 @@
 <template>
     <div>
-
+        <div class="mb-2 text-sm font-medium">Join the discussion</div>
         <textarea :maxlength="ch_limit" v-model="new_comment"
             class="bg-stone-200 outline-stone-700 rounded-md resize-none text-xs w-full p-2" rows="4"
             placeholder="Type a comment"></textarea>
@@ -13,6 +13,7 @@
         </div>
 
     </div>
+    <div class="mt-4 font-medium">Comments</div>
     <div class="flex h-full flex-col gap-4 text-xs">
         <Spinner class="mx-auto" v-if="!comments" />
         <!-- <div class="w-8 h-8 aspect-square bg-stone-200 text-white justify-center items-center flex rounded-full">
@@ -25,7 +26,7 @@
                 </div>
             </div> -->
 
-        <div v-else-if="comments?.data?.length > 0" class="flex flex-col gap-4 mt-4">
+        <div v-else-if="comments?.data?.length > 0" class="flex flex-col gap-4 mt-2">
             <div class="gap-4 relative flex items-center" v-for="comment in comments?.data">
 
 
@@ -61,7 +62,7 @@
             </div>
         </div>
         <div class="flex flex-col mt-8  gap-2" v-else>
-            <p class="text-center text-sm mb-32 text-stone-400">No comments yet
+            <p class="text-center text-sm mb-12 text-stone-400">No comments yet
             </p>
 
         </div>

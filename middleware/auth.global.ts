@@ -7,4 +7,10 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     if ((!user.value) && to.path == '/profile') {
         return navigateTo('/')
     }
+
+    if (user?.value?.email != 'axelsorensenwork@gmail.com' && to.path == '/admin') {
+        return navigateTo('/')
+    }
+
+
 })

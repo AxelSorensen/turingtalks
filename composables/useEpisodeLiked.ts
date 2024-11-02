@@ -1,4 +1,4 @@
-import { arrayUnion, arrayRemove, updateDoc, doc, getDoc } from 'firebase/firestore' // adjust the imports based on your setup
+import { arrayUnion, arrayRemove, updateDoc, doc, getDoc, increment } from 'firebase/firestore' // adjust the imports based on your setup
 
 export async function useEpisodeLiked(ep_id: string, key: string) {
     const db = useFirestore()
@@ -9,18 +9,29 @@ export async function useEpisodeLiked(ep_id: string, key: string) {
 
     const likeEpisode = async () => {
 
-        const docRef = doc(db, 'users', user?.value?.uid)
-        await updateDoc(docRef, {
+
+        const user_ref = doc(db, 'users', user?.value?.uid)
+        const docRef = doc(db, 'episodes', ep_id)
+        await updateDoc(user_ref, {
             likes: arrayUnion(ep_id)
+        }, { merge: true })
+
+        await updateDoc(docRef, {
+            likes: increment(1)
         }, { merge: true })
         //console.log('liking episode')
     }
 
     const unlikeEpisode = async () => {
 
-        const docRef = doc(db, 'users', user?.value?.uid)
-        await updateDoc(docRef, {
+        const user_ref = doc(db, 'users', user?.value?.uid)
+        const docRef = doc(db, 'episodes', ep_id)
+        await updateDoc(user_ref, {
             likes: arrayRemove(ep_id)
+        }, { merge: true })
+
+        await updateDoc(docRef, {
+            likes: increment(-1)
         }, { merge: true })
         //console.log('unliking episode')
     }

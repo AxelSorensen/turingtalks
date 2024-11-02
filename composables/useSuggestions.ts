@@ -14,9 +14,9 @@ export async function useSuggestions(key: string, manual_limit: number | undefin
 
         user.value.suggestions.push(docRef.id)
 
-        addVote(docRef.id)
+        await addVote(docRef.id)
 
-        updateDoc(userRef, {
+        await updateDoc(userRef, {
             suggestions: arrayUnion(docRef.id)
         }, { merge: true })
     }

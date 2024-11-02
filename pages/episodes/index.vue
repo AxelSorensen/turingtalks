@@ -1,4 +1,5 @@
 <template>
+
     <div>
         <h1 class="text-2xl text-stone-900 max-w-[800px] mx-auto font-bold p-4">Episodes</h1>
         <div class="pattern-dots z-[-1] h-[250px] w-full absolute pattern-stone-300 pattern-bg-transparent
@@ -21,9 +22,9 @@
                 <div class="w-full grid grid-rows-[1fr,auto] gap-4">
                     <div class="">
                         <h2 class="text-xl pb-2 text-stone-900">Popular</h2>
-                        <Cards :items="episodes?.data" :title="true" :colors="colors" />
+                        <Cards :items="popular_episodes?.data" :title="true" :colors="colors" />
                     </div>
-                    <div class="mb-24">
+                    <div class="">
                         <h2 class="text-xl text-stone-900 pb-2">Seasons</h2>
                         <Cards path="/seasons" :items="seasons?.data" :title="true" :colors="colors" />
                     </div>
@@ -31,6 +32,10 @@
                         <h2 class="text-xl text-stone-900 pb-2">All episodes</h2>
                         <Cards :items="episodes?.data" :colors="colors" />
                     </div> -->
+                    <div class="">
+                        <h2 class="text-xl text-stone-900 pb-2">All Episodes</h2>
+                        <Cards :items="episodes?.data" :title="true" :colors="colors" />
+                    </div>
                 </div>
             </div>
 
@@ -47,7 +52,7 @@ import { colors } from '~/utils/colors'
 
 
 const { episodes } = await useEpisodes('all', undefined, 'desc', 'all_episodes')
-
+const { popular_episodes } = await usePopularEpisodes(4, 'desc', 'popular_episodes')
 const { seasons } = useSeasons(undefined, 'desc', 'all_seasons')
 
 </script>
