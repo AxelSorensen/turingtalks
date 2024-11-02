@@ -46,7 +46,15 @@
 
 
 <script setup>
+useHead({
+    title: 'Episodes | The Turing Talks',
+    meta: [
+        {
+            name: 'description', content: "Our catalogue of exciting episodes is at your fingertips. From simple introductions to deep dives in the field of AI. We've got something for everyone."
+        }
+    ],
 
+})
 
 import { colors } from '~/utils/colors'
 

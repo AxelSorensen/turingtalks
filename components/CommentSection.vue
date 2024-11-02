@@ -42,7 +42,7 @@
                             {{
                                 comment?.user?.name?.[0] || '?' }}</div>
                         <div class="flex  flex-col gap-1">
-                            <p class="whitespace-nowrap font-medium text-stone-900 ">{{ user?.username }}</p>
+                            <p class="whitespace-nowrap font-medium text-stone-900 ">{{ comment?.user.name }}</p>
                             <p class="sm:text-xs text-stone-700 mt-1 text-sm">{{ comment?.text }}</p>
                         </div>
                     </div>

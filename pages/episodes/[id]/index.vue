@@ -109,6 +109,7 @@
 </template>
 
 <script setup>
+
 definePageMeta({
     scrollToTop: true
 })
@@ -163,7 +164,12 @@ const { refresh: refreshFavorites } = useFavorites(`favorites`)
 const { isLiked, likeEpisode: addLikeToDatabase, unlikeEpisode: removeLikeFromDatabase } = await useEpisodeLiked(route.params.id, `liked-episode-${route.params.id}`)
 // Set the ref values to the data retrieved in onMounted
 
+useHead({
+    titleTemplate: () => {
+        return `${episode.value.data.title} | The Turing Talks`
+    },
 
+})
 
 
 

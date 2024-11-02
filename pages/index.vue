@@ -90,6 +90,15 @@
 </template>
 
 <script setup>
+useHead({
+    title: 'Home | The Turing Talks',
+    meta: [
+        {
+            name: 'description', content: 'The Turing Talks is the first AI-hosted podcast about AI. Every week we dive into a new topic. Striving to make AI research fun, engaging and accessible to all.'
+        }
+    ],
+
+})
 import Dice from '~icons/mdi/dice'
 import { collection, } from 'firebase/firestore/lite';
 // const auth = useFirebaseAuth()

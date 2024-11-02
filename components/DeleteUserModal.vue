@@ -91,6 +91,7 @@ const deleteAccount = async () => {
     status.value = 'pending'
     deleteUser(user_firebase).then(async () => {
         // User deleted.
+        user.value = null
         status.value = 'success'
         setTimeout(() => {
             show_delete_user_modal.value = false;

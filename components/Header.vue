@@ -47,7 +47,7 @@
                     <div class="sm:text-sm sm:font-medium text-stone-900">
                         <p class="truncate max-w-fit">{{
                             user?.username?.split(' ').slice(0, 2).join(' ')
-                            }}</p>
+                        }}</p>
                     </div>
                 </div>
 
@@ -164,11 +164,12 @@ function signUserOut() {
     user.value = null
 
     signOut(auth).then(() => {
-
+        user.value = null
         //if route is /profile then navigate to /
         if (route.path === '/profile') {
             navigateTo('/')
         }
+
 
         // navigateTo('/')
         // Sign-out successful.

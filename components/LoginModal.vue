@@ -137,11 +137,10 @@ function signIn(type) {
     }
     signInWithPopup(auth, provider)
         .then(async (cred) => {
-
             if (cred.user.metadata.creationTime === cred.user.metadata.lastSignInTime) {
                 //console.log("New user");
                 const user_data = {
-                    username: cred.user.displayName,
+                    username: cred.user.displayName || cred.user.reloadUserInfo.screenName,
                     email: cred.user.email,
                     img: cred.user.photoURL,
                     likes: [],

@@ -39,6 +39,17 @@
 
 </template>
 <script setup>
+
+useHead({
+  title: 'The Turing Talks',
+  meta: [
+    {
+      name: 'description', content: 'The Turing Talks is the first AI-hosted podcast about AI. Every week we dive into a new topic. Striving to make AI research fun, engaging and accessible to all.'
+    }
+  ],
+
+})
+
 import { onClickOutside } from '@vueuse/core';
 
 import { onAuthStateChanged, getAuth } from 'firebase/auth';

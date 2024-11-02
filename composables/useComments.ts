@@ -3,7 +3,7 @@ import { query, getDocs, doc, collection, startAfter, limit, orderBy } from 'fir
 export function useComments(ep_id: string, key: string) {
     const db = useFirestore()
     const nuxt = useNuxtApp()
-    const comment_limit = ref(1)
+    const comment_limit = ref(5)
     const more_comments = ref(true)
     const lastVisible = ref(null)
     const allComments = ref([])

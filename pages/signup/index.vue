@@ -71,6 +71,17 @@
 
 
 <script setup>
+
+useHead({
+    title: 'Signup | The Turing Talks',
+    meta: [
+        {
+            name: 'description', content: "Sign up to comment, like and post suggestions for the next episode"
+        }
+    ],
+
+})
+
 import { createUserWithEmailAndPassword, getAuth, GoogleAuthProvider, GithubAuthProvider, signInWithPopup } from 'firebase/auth';
 import { doc, setDoc, collection, getDoc } from 'firebase/firestore';
 const user = useCookie('user')

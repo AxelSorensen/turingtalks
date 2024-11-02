@@ -206,7 +206,11 @@ const route = useRoute()
 const support = ref(null)
 import LinkedIn from '~icons/mdi/linkedin'
 import Github from '~icons/mdi/github'
+useHead({
+    title: 'About | The Turing Talks',
 
+
+})
 
 onMounted(() => {
     if (route.query.section === 'support') {

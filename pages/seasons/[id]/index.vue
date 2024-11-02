@@ -33,11 +33,19 @@
 
 <script setup>
 
+
 const route = useRoute()
 
 const { episodes } = useEpisodesFromSeason(route.params.id, 'desc', `all_episodes-from-season-${route.params.id}`)
 // You can use onMounted if you want to perform any actions specific to the client
 const { season } = useSeason(route.params.id, `season-${route.params.id}`)
+
+useHead({
+    titleTemplate: () => {
+        return `${season.value.data.title} | The Turing Talks`
+    },
+
+})
 </script>
 
 
