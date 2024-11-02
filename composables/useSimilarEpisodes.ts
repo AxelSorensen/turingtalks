@@ -9,18 +9,18 @@ export function useSimilarEpisodes(ep_limit: number, order: 'asc' | 'desc', key:
         //console.log('Fetching episodes')
         // Query the episodes based on the episode IDs + 1 so we can filter out the current episode
         const eps = await getDocs(query(collection(db, 'episodes'), where('tags', 'array-contains-any', tags_array), limit(ep_limit + 1)))
-
+        let other_eps = [];
         let episodes = eps.docs
             .map(doc => ({ id: doc.id, ...doc.data() }))
             .filter(ep => ep.id !== ep_id)
-        console.log(episodes)
-        // If no episodes are found, fetch 3 random episodes
-        if (episodes.length === 0) {
-            const randomEps = await getDocs(query(collection(db, 'episodes'), limit(3)))
-            episodes = randomEps.docs.map(doc => ({ id: doc.id, ...doc.data() }))
-        }
 
-        return episodes
+        // If no episodes are found, fetch 3 random episodes
+        if (episodes.length < 3) {
+            const randomEps = await getDocs(query(collection(db, 'episodes'), limit(3 - episodes.length)))
+            other_eps = randomEps.docs.map(doc => ({ id: doc.id, ...doc.data() }))
+        }
+        // Combine episodes and other_eps
+        return [...episodes, ...other_eps]
 
     }, {// Fetch data immediately
         transform: (data) => {

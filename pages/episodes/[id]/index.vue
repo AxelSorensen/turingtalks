@@ -42,8 +42,15 @@
                         </div>
                         <ChevronLeft :class="[sources_open ? 'rotate-180' : null]" class="text-lg mt-[2px]" />
                     </div>
+
                     <div class="flex gap-4 items-center ">
 
+                        <!-- <div class="flex whitespace-nowrap overflow-hidden gap-2 flex-wrap">
+                            <div v-for="tag in episode?.data?.tags" :key="tag"
+                                class="bg-blue-100 text-blue-500 text-sm w-fit p-1 px-2 rounded-md">
+                                # {{ tag }}
+                            </div>
+                        </div> -->
                         <div v-if="copied" class="text-sm flex gap-2  rounded-full  text-stone-700">
                             <ClipBoard />
                             <p>
@@ -69,7 +76,9 @@
 
 
 
+
                 </div>
+
                 <div class="pt-4" v-if="sources_open">
                     <a :href="source.url" v-for=" source in episode?.data?.sources" class="">
                         <div class="bg-stone-200 hover:bg-stone-300 my-2 p-2 rounded-md">
@@ -113,6 +122,7 @@ import Link from '~icons/heroicons/link-16-solid'
 import ClipBoard from '~icons/heroicons/clipboard-document-16-solid'
 import SimilarCards from '~/components/SimilarCards.vue';
 import { colors } from '~/utils/colors'
+import { data } from 'autoprefixer';
 const sources_open = ref(false)
 const summary_open = ref(false)
 const color = ref('')
