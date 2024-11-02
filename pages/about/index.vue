@@ -34,7 +34,7 @@
                     <div class="flex justify-center gap-4">
 
                         <div class="flex flex-col gap-2 items-center w-1/2">
-                            <img src="~/assets/male_host.jpg" class="bg-stone-200 object-cover w-full rounded-md" />
+                            <NuxtImg src="/Adam.jpg" class="bg-stone-200 object-cover w-full rounded-md" />
                             <p><b>Adam</b> - AI Host</p>
                             <p class="text-center italic text-sm opacity-80">
                                 I’m Adam, your friendly AI podcast host! When I'm not chatting about tech and
@@ -44,7 +44,7 @@
                                 symphonies in binary</p>
                         </div>
                         <div class="flex flex-col gap-2 items-center w-1/2">
-                            <img src="~/assets/female_host.jpg" class="bg-stone-200 object-cover w-full rounded-md" />
+                            <NuxtImg src="/Sophia.jpg" class="bg-stone-200 object-cover w-full rounded-md" />
                             <p><b>Sophia</b> - AI Host</p>
                             <p class="text-center italic text-sm opacity-80">
 
@@ -93,10 +93,11 @@
 
                     <div class="flex mt-4 items-center gap-4">
 
-                        <img class="w-40 rounded-md h-40" src="assets/profile_axel.jpg" alt="">
+                        <NuxtImg class="w-40 rounded-md h-40" src="/profile_axel.jpg" alt="" />
                         <div class="flex flex-col">
 
-                            <p class="italic text-sm max-w-[30ch]">As an Engineer and AI researcher, I often find myself
+                            <p class="italic text-sm max-w-[30ch]">As an Engineer and AI researcher, I often find
+                                myself
                                 diving
                                 into a
                                 complex topic and

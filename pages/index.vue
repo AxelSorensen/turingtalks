@@ -5,7 +5,7 @@
             <h1 class="sm:text-5xl text-4xl text-stone-900  font-bold">The Turing Talks</h1>
             <!-- <img class="size-28 text-red-50 absolute mt-[-30px] opacity-5" src="../assets/logo.png" alt=""> -->
             <h2 class="text-lg text-stone-900 ">The first AI-hosted podcast about AI</h2>
-            <img class="size-16 mt-4 mb-2" src="~/assets/logo.png" alt="">
+            <NuxtImg class="size-16 mt-4 mb-2" src="/logo.png" alt="" />
         </div>
         <div class="flex  px-4 pb-2 flex-col  items-center">
             <h2 class="sm:text-3xl text-2xl text-stone-900 mb-4 font-bold">What should we cover next?</h2>

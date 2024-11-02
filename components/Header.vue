@@ -4,7 +4,7 @@
         :class="{ 'pb-4': nav_open }">
         <div @focusout="nav_open = false" class="flex justify-between items-center p-4">
             <NuxtLink class="flex items-center gap-2" to="/">
-                <img class="size-6" src="~/assets/logo.png" alt="">
+                <NuxtImg class="size-6" src="/logo.png" alt="" />
                 <header class="font-medium text-lg sm:text-base">The Turing Talks</header>
             </NuxtLink>
             <div class="flex items-center gap-4">
@@ -39,15 +39,16 @@
                 ref="profileModal"
                 class="relative rounded-md overflow-hidden  cursor-pointer flex h-8 -my-2 w-full justify-between px-2 items-center gap-2 mr-2">
                 <div @click="showProfileModal = !showProfileModal" class="flex gap-2 items-center">
-                    <img v-if="user.img" :src="user.img" class="rounded-full w-7 h-7" alt="">
+                    <NuxtImg v-if="user.img" :src="user.img" class="rounded-full w-7 h-7" alt="" />
                     <div v-else
-                        class="rounded-full w-7 h-7 bg-black flex justify-center items-center text-white font-light">{{
+                        class="rounded-full w-7 h-7 bg-black flex justify-center items-center text-white font-light">
+                        {{
                             user?.username?.[0] }}
                     </div>
                     <div class="sm:text-sm sm:font-medium text-stone-900">
                         <p class="truncate max-w-fit">{{
                             user?.username?.split(' ').slice(0, 2).join(' ')
-                        }}</p>
+                            }}</p>
                     </div>
                 </div>
 

@@ -35,7 +35,7 @@
                 <div v-if="comment?.user"
                     class="bg-stone-200 p-4 w-full items-center flex justify-between rounded-md gap-16">
                     <div class="flex gap-2">
-                        <img :src="comment.user.img" v-if="comment.user?.img" class="w-8 h-8  rounded-full" />
+                        <NuxtImg :src="comment.user.img" v-if="comment.user?.img" class="w-8 h-8  rounded-full" />
 
                         <div v-else
                             class="w-8 h-8 aspect-square bg-stone-900 text-white justify-center items-center flex rounded-full">

@@ -48,7 +48,17 @@
 
 </template>
 
+
 <script setup>
+useHead({
+    title: 'Suggestions | The Turing Talks',
+    meta: [
+        {
+            name: 'description', content: "Every week we dive into a new topic. Help us make the show better by suggesting topics you'd like covered. We're all ears!"
+        }
+    ],
+
+})
 const suggestions_ref = ref(null)
 const { suggestions, more_sugs, sug_limit, postSuggestion } = await useSuggestions('suggestions')
 

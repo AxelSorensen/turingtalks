@@ -82,6 +82,6 @@ export default defineNuxtConfig({
       enabled: true,
     },
   },
-  modules: ['nuxt-vuefire'],
+  modules: ['nuxt-vuefire', "@nuxt/image"],
 
 })
