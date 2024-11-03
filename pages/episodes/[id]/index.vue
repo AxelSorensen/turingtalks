@@ -80,7 +80,7 @@
                 </div>
 
                 <div class="pt-4" v-if="sources_open">
-                    <a :href="source.url" v-for=" source in episode?.data?.sources" class="">
+                    <a :href="source.url" target="_blank" v-for=" source in episode?.data?.sources" class="">
                         <div class="bg-stone-200 hover:bg-stone-300 my-2 p-2 rounded-md">
                             <h3 class="text-sm font-medium">{{ source.title }}</h3>
                             <p class=" text-blue-900 truncate text-sm">{{
