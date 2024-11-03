@@ -17,6 +17,12 @@ export default defineNuxtConfig({
   },
   app: {
     head: {
+      meta: [
+        {
+          name: "google-site-verification",
+          content: `zc8kCUB74Q5lDurotw0XrP-MfvQogM1NvHi0bKQlmIc`,
+        },
+      ],
       script: [
         {
           defer: true,
