@@ -17,7 +17,7 @@
                     class="text-red-500 hover:text-red-600 cursor-pointer text-lg absolute right-2" />
             </div>
         </div>
-        <div v-if="data.title" class="flex -mt-8 flex-col">
+        <div v-if="data.title" class="flex -mt-8 mb-8 flex-col">
 
             <button
                 :class="[data.title.length < 50 ? 'bg-stone-900 text-white' : 'text-red-500 border-2 border-red-500 pointer-events-none', post_error ? 'animate-shake' : '']"
