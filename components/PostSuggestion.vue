@@ -4,7 +4,7 @@
             <!-- <div class="text-center">A podcast about...</div> -->
 
             <input maxlength="50"
-                class="w-full peer outline-stone-700 p-2 mx-auto text-stone-900 placeholder-stone-400 rounded-md bg-stone-200"
+                class="w-full peer outline-stone-700 p-2 mx-auto text-stone-900 placeholder-stone-400 rounded-md m-8 bg-stone-200"
                 type="text" placeholder="Write your suggestion (max. 50 characters)" v-model="data.title">
             <p class="absolute peer-focus:flex hidden right-2 text-stone-900 opacity-40 text-xs top-3">{{
                 data.title.length }}/50
@@ -17,7 +17,7 @@
                     class="text-red-500 hover:text-red-600 cursor-pointer text-lg absolute right-2" />
             </div>
         </div>
-        <div v-if="data.title" class="flex flex-col">
+        <div v-if="data.title" class="flex -mt-8 flex-col">
 
             <button
                 :class="[data.title.length < 50 ? 'bg-stone-900 text-white' : 'text-red-500 border-2 border-red-500 pointer-events-none', post_error ? 'animate-shake' : '']"
@@ -33,7 +33,6 @@
 </template>
 
 <script setup>
-import { useTimeAgo } from '@vueuse/core';
 import Plus from '~icons/heroicons/plus-16-solid';
 import XMark from '~icons/heroicons/x-mark-16-solid';
 import { doc, getDoc, setDoc } from 'firebase/firestore'

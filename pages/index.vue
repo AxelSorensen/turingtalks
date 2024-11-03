@@ -12,7 +12,7 @@
             <PostSuggestion :items="suggestions?.data" :post-suggestion="postSuggestion" @posted="scrollToSuggestion"
                 fetch_key="suggestions-front-page" />
         </div>
-        <div class="px-4 max-w-[800px] w-full mx-auto pt-2">
+        <div class="px-4 max-w-[800px] -mt-8 w-full mx-auto pt-2">
             <h2 class="pb-2 text-xl text-stone-900 ">Latest episodes</h2>
 
             <SimpleCards :title="true" :items="episodes?.data" :colors="colors" :limit="featured_limit" />
