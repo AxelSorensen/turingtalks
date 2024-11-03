@@ -93,7 +93,7 @@
 
                     <div class="flex mt-4 items-center gap-4">
 
-                        <NuxtImg class="w-40 rounded-md h-40" src="/profile_axel.jpg" alt="" />
+                        <NuxtImg preload class="w-40 rounded-md h-40" src="/profile_axel.jpg" alt="" />
                         <div class="flex flex-col">
 
                             <p class="italic text-sm max-w-[30ch]">As an Engineer and AI researcher, I often find
