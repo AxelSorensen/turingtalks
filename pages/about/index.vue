@@ -161,7 +161,7 @@
                         what keeps us
                         going!
                     </p>
-                    <div class="flex">
+                    <div class="flex ">
                         <Support class="my-4" />
                     </div>
                     <p class="font-semibold">What am I supporting?</p>

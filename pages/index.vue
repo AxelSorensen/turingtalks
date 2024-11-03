@@ -75,7 +75,7 @@
         </div>
         <div class="flex pt-8 pb-4 gap-2 flex-col justify-center items-center">
             <h2 class="text-xl">Support the show 🙏</h2>
-            <Support class="" />
+            <Support />
             <NuxtLink :to="{ path: '/about', query: { section: 'support' } }"
                 class="text-stone-400 transition-all text-sm cursor-pointer hover:text-stone-900">What
                 am
