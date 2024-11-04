@@ -22,6 +22,11 @@ export default defineNuxtConfig({
           name: "google-site-verification",
           content: `zc8kCUB74Q5lDurotw0XrP-MfvQogM1NvHi0bKQlmIc`,
         },
+        {
+          property: "og:image",
+          content: "/og_preview.png",
+        }
+
       ],
       script: [
         {
