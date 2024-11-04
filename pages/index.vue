@@ -8,9 +8,9 @@
             <NuxtImg class="size-16 mt-4 mb-2" src="/logo.png" alt="" />
         </div>
         <div class="flex  px-4 pb-2 flex-col  items-center">
-            <h2 class="sm:text-3xl text-2xl text-stone-900 mb-4 font-bold">What should we cover next?</h2>
-            <PostSuggestion :items="suggestions?.data" :post-suggestion="postSuggestion" @posted="scrollToSuggestion"
-                fetch_key="suggestions-front-page" />
+            <h2 class="sm:text-3xl text-2xl text-stone-900 font-bold">What should we cover next?</h2>
+            <PostSuggestion class="-mt-4" :items="suggestions?.data" :post-suggestion="postSuggestion"
+                @posted="scrollToSuggestion" fetch_key="suggestions-front-page" />
         </div>
         <div class="px-4 max-w-[800px] -mt-8 w-full mx-auto pt-2">
             <h2 class="pb-2 text-xl text-stone-900 ">Latest episodes</h2>

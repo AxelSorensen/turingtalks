@@ -20,9 +20,9 @@
 
         <div>
             <NuxtLayout name="custom">
-                <div class="flex py-4 pb-8 flex-col  items-center">
-                    <h2 class="sm:text-3xl text-2xl pb-4 font-bold">What should we cover next?</h2>
-                    <PostSuggestion :items="suggestions?.data" :post-suggestion="postSuggestion"
+                <div class="flex pt-4 -mb-4 flex-col  items-center">
+                    <h2 class="sm:text-3xl text-2xl font-bold">What should we cover next?</h2>
+                    <PostSuggestion class="-mt-4" :items="suggestions?.data" :post-suggestion="postSuggestion"
                         @posted="scrollToSuggestion" fetch_key="suggestions" />
                 </div>
                 <div class="flex  justify-start pt-2 flex-col">

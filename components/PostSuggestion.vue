@@ -9,7 +9,7 @@
             <p class="absolute peer-focus:flex hidden right-2 text-stone-900 opacity-40 text-xs top-3">{{
                 data.title.length }}/50
             </p>
-            <div v-if="paper_open && data.title" class="flex gap-4 items-center">
+            <div v-if="paper_open && data.title" class="flex gap-4 -mt-8 mb-8 items-center">
                 <input
                     class="w-full peer outline-stone-700 p-2 mx-auto text-stone-900 placeholder-stone-400 rounded-md bg-stone-200"
                     type="text" placeholder="Add source URL" v-model="data.source">
@@ -21,7 +21,7 @@
 
             <button
                 :class="[data.title.length < 50 ? 'bg-stone-900 text-white' : 'text-red-500 border-2 border-red-500 pointer-events-none', post_error ? 'animate-shake' : '']"
-                class="p-2 hover:bg-stone-700 rounded-md " @click="post">{{
+                class="p-2 hover:bg-stone-700 z-[10] rounded-md " @click="post">{{
                     data.title.length < 50 ? 'Post suggestion' : 'Keep it short, max 50 characters' }}</button>
                     <div v-if="!paper_open" @click="addPaper"
                         class="flex justify-center hover:text-stone-900 cursor-pointer text-stone-500 pt-4 items-center gap-1">
