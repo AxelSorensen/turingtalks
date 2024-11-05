@@ -6,7 +6,7 @@
             <input maxlength="50"
                 class="w-full peer outline-stone-700 p-2 mx-auto text-stone-900 placeholder-stone-400 rounded-md m-8 bg-stone-200"
                 type="text" placeholder="Write your suggestion (max. 50 characters)" v-model="data.title">
-            <p class="absolute peer-focus:flex hidden right-2 text-stone-900 opacity-40 text-xs top-3">{{
+            <p class="absolute peer-focus:flex hidden mt-11 right-2 text-stone-900 opacity-40 text-xs">{{
                 data.title.length }}/50
             </p>
             <div v-if="paper_open && data.title" class="flex gap-4 -mt-8 mb-8 items-center">
@@ -18,7 +18,6 @@
             </div>
         </div>
         <div v-if="data.title" class="flex -mt-8 mb-8 flex-col">
-
             <button
                 :class="[data.title.length < 50 ? 'bg-stone-900 text-white' : 'text-red-500 border-2 border-red-500 pointer-events-none', post_error ? 'animate-shake' : '']"
                 class="p-2 hover:bg-stone-700 z-[10] rounded-md " @click="post">{{

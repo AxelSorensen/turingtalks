@@ -25,6 +25,10 @@ export default defineNuxtConfig({
         {
           property: "og:image",
           content: "/og_preview.png",
+        },
+        {
+          property: "og:url",
+          content: "https://www.theturingtalks.com/",
         }
 
       ],
