@@ -1,3 +1,4 @@
+import { Timestamp } from 'firebase/firestore';
 import { query, getDocs, getDoc, doc, collection, where, limit } from 'firebase/firestore' // adjust the imports based on your setup
 
 export async function useRandomEpisode(key: string) {
@@ -7,7 +8,7 @@ export async function useRandomEpisode(key: string) {
 
     const random_index = Math.floor(Math.random() * num_episodes) + 1;
 
-    const docRef = query(collection(db, 'episodes'), where('random_id', '==', random_index), limit(1))
+    const docRef = query(collection(db, 'episodes'), where('random_id', '==', random_index), where('date', '<=', Timestamp.fromDate(new Date())), limit(1))
 
     // console.log(docRef)
     // // Query the episodes based on the episode IDs

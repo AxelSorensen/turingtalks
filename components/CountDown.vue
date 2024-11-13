@@ -1,9 +1,14 @@
 <template>
     <div class="">
+
         <h1 class="text-xl text-center">New Episode Drops In</h1>
         <div v-if="!countdown" class="text-center mt-4 mb-4 animate-pulse font-bold text-4xl">
             Loading...
         </div>
+        <div v-else-if="countdown == '00:00:00:00'">
+            <div class="text-2xl text-center my-4 font-bold">To Be Announced</div>
+        </div>
+
         <div v-else class="text-center m-4 mb-4 font-bold text-4xl">
 
             <div class="flex justify-center gap-10">

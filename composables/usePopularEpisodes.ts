@@ -1,4 +1,4 @@
-import { query, getDocs, collection, limit, documentId, where, orderBy } from 'firebase/firestore' // adjust the imports based on your setup
+import { query, getDocs, collection, limit, documentId, where, orderBy, Timestamp } from 'firebase/firestore' // adjust the imports based on your setup
 
 export async function usePopularEpisodes(ep_limit: number, order: 'asc' | 'desc', key: string) {
     const db = useFirestore()
@@ -15,7 +15,8 @@ export async function usePopularEpisodes(ep_limit: number, order: 'asc' | 'desc'
 
         // Return the episodes data
 
-        return eps.docs.map(doc => ({ id: doc.id, ...doc.data() }))
+        return eps.docs.map(doc => ({ id: doc.id, ...doc.data() })).filter(ep =>
+            new Date(ep.date.seconds * 1000) <= new Date())
 
     }, {// Fetch data immediately
         transform: (data) => {

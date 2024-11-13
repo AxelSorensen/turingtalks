@@ -1,4 +1,4 @@
-import { query, doc, getDoc, getDocs, collection, where, documentId, orderBy } from 'firebase/firestore' // adjust the imports based on your setup
+import { query, doc, getDoc, getDocs, collection, Timestamp, where, documentId, orderBy } from 'firebase/firestore' // adjust the imports based on your setup
 
 export function useEpisodesFromSeason(season_id: string, order: 'asc' | 'desc', key: string) {
     const db = useFirestore()
@@ -11,7 +11,7 @@ export function useEpisodesFromSeason(season_id: string, order: 'asc' | 'desc', 
         const ep_ids = await getDoc(epDocRef)
         const ep_ids_ = ep_ids.data()?.episodes
         // Query the episodes based on the episode IDs
-        const eps = await getDocs(query(collection(db, 'episodes'), where(documentId(), 'in', ep_ids_), orderBy('date', order)))
+        const eps = await getDocs(query(collection(db, 'episodes'), where(documentId(), 'in', ep_ids_)))
 
         // Return the episodes data
 

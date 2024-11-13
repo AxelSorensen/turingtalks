@@ -1,4 +1,4 @@
-import { query, getDocs, collection, limit, documentId, where, orderBy } from 'firebase/firestore' // adjust the imports based on your setup
+import { query, getDocs, collection, limit, documentId, where, orderBy, Timestamp } from 'firebase/firestore' // adjust the imports based on your setup
 
 export async function useEpisodes(ep_ids: 'all' | string[], ep_limit: number, order: 'asc' | 'desc', key: string) {
     const db = useFirestore()
@@ -10,9 +10,9 @@ export async function useEpisodes(ep_ids: 'all' | string[], ep_limit: number, or
         // Fetch season document to get the episode IDs
         //console.log('Fetching episodes')
         if (ep_ids === 'all') {
-            q = query(collection(db, 'episodes'), limit(ep_limit), orderBy('date', order))
+            q = query(collection(db, 'episodes'), limit(ep_limit), where('date', '<=', Timestamp.fromDate(new Date())), orderBy('date', order))
         } else {
-            q = query(collection(db, 'episodes'), where(documentId(), 'in', ep_ids), limit(ep_limit), orderBy('date', order))
+            q = query(collection(db, 'episodes'), where('uid', 'in', ep_ids), where('date', '<=', Timestamp.fromDate(new Date())), limit(ep_limit))
         }
         // Query the episodes based on the episode IDs
         const eps = await getDocs(q)

@@ -12,7 +12,7 @@ export function useSimilarEpisodes(ep_limit: number, order: 'asc' | 'desc', key:
         let other_eps = [];
         let episodes = eps.docs
             .map(doc => ({ id: doc.id, ...doc.data() }))
-            .filter(ep => ep.id !== ep_id)
+            .filter(ep => ep.id !== ep_id && new Date(ep.date) <= new Date())
 
         // If no episodes are found, fetch 3 random episodes
         if (episodes.length < 3) {

@@ -11,7 +11,7 @@
 
                 <div class="">
                     <h2 class="text-xl pb-2 text-stone-900">Episodes</h2>
-                    <Cards :title="true" :items="episodes?.data" :colors="colors" />
+                    <Cards :title="true" :items="filtered_episodes" :colors="colors" />
 
                 </div>
                 <!-- <div class="">
@@ -39,10 +39,12 @@ const route = useRoute()
 const { episodes } = useEpisodesFromSeason(route.params.id, 'desc', `all_episodes-from-season-${route.params.id}`)
 // You can use onMounted if you want to perform any actions specific to the client
 const { season } = useSeason(route.params.id, `season-${route.params.id}`)
-
+const filtered_episodes = computed(() => {
+    return episodes.value?.data?.filter(episode => episode.date.seconds < Date.now() / 1000)
+})
 useHead({
     titleTemplate: () => {
-        return `${season.value.data.title} | The Turing Talks`
+        return `${season?.value?.data?.title} | The Turing Talks`
     },
 
 })

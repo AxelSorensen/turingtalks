@@ -60,7 +60,8 @@ import { colors } from '~/utils/colors'
 
 
 const { episodes } = await useEpisodes('all', undefined, 'desc', 'all_episodes')
-const { popular_episodes } = await usePopularEpisodes(4, 'desc', 'popular_episodes')
+// We fetch 5 popular episodes because one might be removed if its not published yet
+const { popular_episodes } = await usePopularEpisodes(5, 'desc', 'popular_episodes')
 const { seasons } = useSeasons(undefined, 'desc', 'all_seasons')
 
 </script>
