@@ -2,7 +2,6 @@
 
     <div class="h-full  w-full text-stone-900 mx-auto ">
 
-
         <h1 class="text-2xl text-stone-900 max-w-[800px] mx-auto font-bold p-4">About</h1>
         <div class="pattern-dots z-[-1] h-[250px] w-full absolute pattern-stone-300 pattern-bg-transparent
   pattern-size-2 pattern-opacity-100">
@@ -212,6 +211,7 @@ useHead({
 
 
 })
+
 
 onMounted(() => {
     if (route.query.section === 'support') {

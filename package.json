@@ -18,6 +18,7 @@
     "firebase": "^10.14.1",
     "firebase-admin": "^12.6.0",
     "firebase-functions": "^5.1.1",
+    "nodemailer": "^6.9.16",
     "nuxt": "^3.13.2",
     "nuxt-vuefire": "^1.0.4",
     "unplugin-icons": "^0.19.3",
