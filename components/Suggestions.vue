@@ -1,7 +1,7 @@
 <template>
     <div class="flex overflow-y-scroll relative w-full gap-4 flex-col">
 
-        <TransitionGroup tag="div" name="fade" class="flex flex-col w-full gap-4">
+        <TransitionGroup tag="div" name="fade" class="flex flex-col gap-4 w-full">
             <div v-for="topic, id in ordered_topics" :key="topic?.id" :ref="topic?.id">
                 <div :class="{ 'border-2 border-amber-500': topic.just_added }" class="bg-[#ebd9c6] flex text-stone-900 transition-all
                     rounded-md gap-4  p-2 justify-between">
@@ -38,6 +38,7 @@ const voteUp = async (idx, id) => {
         return
     }
     ordered_topics.value[idx].votes += 1;
+
     upvoted.value.data.push(id)
     //console.log(id)
     await addVote(id)
@@ -60,7 +61,7 @@ const ordered_topics = computed(() => {
     if (!items?.value) {
         return []
     }
-    return Object.values(items?.value)?.sort((a, b) => {
+    return Object.values(items?.value)?.filter(item => !item.expired)?.sort((a, b) => {
         if (b.just_added) {
             return 1
         } else if (a.just_added) {

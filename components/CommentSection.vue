@@ -113,6 +113,10 @@ const postComment = async () => {
     }
     const last_commented = new Date().getTime() - new Date(user.value.last_commented.seconds * 1000).getTime()
     const remaining_time = expiration - last_commented
+    if (remaining_time <= 0) {
+        setDoc(docRef, { comments_today: 1 }, { merge: true })
+        user.value.comments_today = 1
+    }
     //console.log(remaining_time)
     // Check if user has commented in the last 1 minute
     if (remaining_time > 0 && user.value.comments_today >= comments_per_x) {
@@ -127,7 +131,6 @@ const postComment = async () => {
         $setToast({ title: 'Comment limit', text: `You can only submit ${comments_per_x} comments per hour. Try again in ${minutes} minutes.` })
         return
     }
-
     const comment_buffer = new_comment.value
     new_comment.value = ''
     const new_comment_data = { user: { id: user?.value?.uid, img: user?.value?.img || null, name: user?.value?.username }, text: comment_buffer, date: new Date() }
