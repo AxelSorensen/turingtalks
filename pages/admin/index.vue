@@ -133,6 +133,9 @@ const submit = async () => {
             random_id: num_episodes + 1,
             tags: []
         })
+        await updateDoc(doc(db, 'misc', 'episodes'), {
+            num_episodes: num_episodes + 1
+        })
     } catch (error) {
         console.error(error)
     }

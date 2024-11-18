@@ -22,7 +22,7 @@
                 <div class="w-full grid grid-rows-[1fr,auto] gap-4">
                     <div class="">
                         <h2 class="text-xl pb-2 text-stone-900">Popular</h2>
-                        <Cards :items="popular_episodes?.data" :title="true" :colors="colors" />
+                        <Cards :items="popular_episodes?.data" :title="true" :colors="colors" :limit="4" />
                     </div>
                     <div class="">
                         <h2 class="text-xl text-stone-900 pb-2">Seasons</h2>
