@@ -5,13 +5,12 @@ export function useEpisodesFromSeason(season_id: string, order: 'asc' | 'desc', 
     const nuxt = useNuxtApp()
     // Use useAsyncData to fetch and cache episodes
     const { data: episodes } = useAsyncData(`episodes-from-season-${season_id}`, async () => {
-
         // Fetch season document to get the episode IDs
         const epDocRef = doc(db, 'seasons', season_id)
         const ep_ids = await getDoc(epDocRef)
         const ep_ids_ = ep_ids.data()?.episodes
         // Query the episodes based on the episode IDs
-        const eps = await getDocs(query(collection(db, 'episodes'), where(documentId(), 'in', ep_ids_)))
+        const eps = await getDocs(query(collection(db, 'episodes'), where(documentId(), 'in', ep_ids_), orderBy('date', 'desc')))
 
         // Return the episodes data
 
