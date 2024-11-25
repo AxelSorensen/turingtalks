@@ -1,6 +1,6 @@
 <template>
     <div class="grid w-full grid-cols-3 sm:grid-cols-3 grid-rows-1 auto-rows-fr gap-2">
-        <NuxtLink v-if="items?.length" v-for="(item, index) in items.slice(0, 3)" :key="item.id"
+        <NuxtLink v-if="formatted_items?.length" v-for="(item, index) in formatted_items.slice(0, 3)" :key="item.id"
             :style="{ backgroundColor: other_colors[index % other_colors.length] }"
             class="hover:brightness-105 p-4 flex flex-col text-stone-900 justify-between h-28 relative rounded-md flex-grow"
             :to="{ path: `/episodes/${item.id}`, query: { c: other_colors[index] } }">
@@ -40,6 +40,12 @@ const route = useRoute()
 const other_colors = computed(() => {
     return colors.value.filter(color => color !== route.query.c)
 })
+
+// only return the items that don't had id same as query params
+const formatted_items = computed(() => {
+    return items.value?.filter(item => item.id !== route.params.id)
+})
+
 
 
 </script>

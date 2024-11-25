@@ -16,7 +16,7 @@ export function useSimilarEpisodes(ep_limit: number, order: 'asc' | 'desc', key:
 
         // If no episodes are found, fetch 3 random episodes
         if (episodes.length < 3) {
-            const randomEps = await getDocs(query(collection(db, 'episodes'), limit(3 - episodes.length)))
+            const randomEps = await getDocs(query(collection(db, 'episodes'), limit(3 - episodes.length + 1)))
             other_eps = randomEps.docs.map(doc => ({ id: doc.id, ...doc.data() }))
         }
         // Combine episodes and other_eps
