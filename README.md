@@ -1,75 +1,41 @@
-# Nuxt 3 Minimal Starter
+# 🎙️ The Turing Talks
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+Website for "The Turing Talks" — billed as the first AI-hosted podcast about AI — with episode listings, admin tools, and listener suggestions.
 
-## Setup
+## Features
 
-Make sure to install the dependencies:
+- 🎧 **Episode listing & detail pages** — browse episodes at `/episodes` and view individual episodes at `/episodes/[id]`
+- 📝 **Listener suggestions** — a suggestion form on the homepage (`PostSuggestion`) lets visitors propose topics
+- 🛠️ **Admin panel** — an `/admin` area for creating episodes: title, sources, description, audio URL, and duration
+- 👤 **Profile & signup** — `/profile` and `/signup` pages, gated by `middleware/`
+- ✉️ **Email support** — an `/email` route plus `nodemailer` dependency for sending mail
+- 🔥 **Firebase-backed** — Firestore/Auth via `firebase` and `firebase-admin`, deployed with `firebase-functions`
+
+## Installation
 
 ```bash
-# npm
+git clone <this repo>
+cd turingtalks
 npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
 ```
 
-## Development Server
+You'll need Firebase credentials configured (the app expects a service account and client config for Firestore/Auth/Functions).
 
-Start the development server on `http://localhost:3000`:
+## Usage
 
 ```bash
-# npm
 npm run dev
-
-# pnpm
-pnpm run dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
 ```
 
-## Production
+Then open the local dev server URL printed in the terminal.
 
-Build the application for production:
+## Built with
 
-```bash
-# npm
-npm run build
+- [Nuxt 3](https://nuxt.com/) / Vue 3
+- Pinia
+- Firebase, Firebase Admin, Firebase Functions
+- Tailwind CSS
 
-# pnpm
-pnpm run build
+## Status
 
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm run preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+🚧 Active-looking content site with real admin/CRUD flows for episodes — note that a `service-account.json` file is checked into the repo, which should be rotated and removed from git history before this repo is made public or shared further.
