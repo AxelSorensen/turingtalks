@@ -22,7 +22,7 @@ cd turingtalks
 npm install
 ```
 
-You'll need Firebase credentials configured (the app expects a service account and client config for Firestore/Auth/Functions).
+You'll need Firebase credentials configured (the app expects a service account and client config for Firestore/Auth/Functions) — see [Environment variables](#environment-variables) below.
 
 ## Usage
 
@@ -31,6 +31,20 @@ npm run dev
 ```
 
 Then open the local dev server URL printed in the terminal.
+
+## Environment variables
+
+Unlike most Nuxt apps, this project doesn't read Firebase config from `.env` — the client-side Firebase config is hardcoded directly in `nuxt.config.ts` under `vuefire.config`, and the server-side Firebase **Admin** SDK (used by `nuxt-vuefire`'s SSR auth plugin) needs a **service account JSON file**, not env vars.
+
+To run this with your own Firebase project:
+
+1. In the Firebase console, go to Project settings > Service accounts > Generate new private key. This downloads a JSON file.
+2. Save that file as `service-account.json` in the repo root (this is the exact filename `nuxt-vuefire` looks for by default — the file currently checked into the repo is a placeholder/non-working one and should be treated as such, not as a real credential).
+3. Update the `vuefire.config` block in `nuxt.config.ts` with your own project's client config (`apiKey`, `authDomain`, `projectId`, etc.) from Project settings > General > Your apps.
+
+Without a valid `service-account.json`, every server-rendered route will 500 with "The default Firebase app does not exist" (see the screenshot above) — this is expected, not a bug.
+
+**Security note:** a `service-account.json` is a private credential and should never be committed to a public repo. Rotate the one currently checked in and add `service-account.json` to `.gitignore` going forward.
 
 ## Built with
 
