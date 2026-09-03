@@ -38,4 +38,4 @@ Then open the local dev server URL printed in the terminal.
 
 ## Status
 
-🚧 Active-looking content site with real admin/CRUD flows for episodes — note that a `service-account.json` file is checked into the repo, which should be rotated and removed from git history before this repo is made public or shared further.
+⚠️ Runs, but requires real Firebase Admin credentials to serve pages — `npm install && npm run dev` starts cleanly as of 2026-09-03, but every route 500s with "The default Firebase app does not exist" because `nuxt-vuefire`'s server-side auth plugin needs a valid service account (the checked-in `service-account.json` is not a working one). Active-looking content site with real admin/CRUD flows for episodes — note that a `service-account.json` file is checked into the repo, which should be rotated and removed from git history before this repo is made public or shared further.
