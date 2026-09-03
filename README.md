@@ -2,6 +2,9 @@
 
 Website for "The Turing Talks" — billed as the first AI-hosted podcast about AI — with episode listings, admin tools, and listener suggestions.
 
+![The Turing Talks screenshot](docs/screenshot.png)
+*This is the 500 error page you get **without valid Firebase Admin credentials** — expected, not a bug. `nuxt-vuefire`'s server-side auth plugin needs a real service account to initialize the Firebase Admin app; every route 500s until one is provided (see [Environment variables](#environment-variables) below). With valid credentials this renders the actual site.*
+
 ## Features
 
 - 🎧 **Episode listing & detail pages** — browse episodes at `/episodes` and view individual episodes at `/episodes/[id]`
